@@ -6,27 +6,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>250</width>
-    <height>217</height>
+    <width>775</width>
+    <height>288</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>OstrannaTerminal</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="1">
-     <widget class="QPushButton" name="pushButton">
+    <item row="6" column="1">
+     <widget class="QLabel" name="LblStatusInfo">
       <property name="text">
-       <string>ReScan</string>
+       <string>Not Connected</string>
       </property>
      </widget>
     </item>
-    <item row="4" column="1">
-     <widget class="QComboBox" name="comboBox"/>
-    </item>
     <item row="8" column="1">
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QPushButton" name="BtnDisconnect">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -35,8 +32,46 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="1">
-     <widget class="QComboBox" name="comboBox_2">
+    <item row="0" column="0">
+     <widget class="QLabel" name="LblAvailable">
+      <property name="text">
+       <string>COMs Available:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="5">
+     <widget class="QPushButton" name="BtnClear">
+      <property name="text">
+       <string>Clear</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QPushButton" name="BtnReScan">
+      <property name="text">
+       <string>ReScan</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="2">
+     <widget class="QComboBox" name="CBPorts">
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>0</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QCheckBox" name="CBSTM">
+      <property name="text">
+       <string>STM devices only</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1">
+     <widget class="QComboBox" name="CBBaudrate">
       <item>
        <property name="text">
         <string>9600</string>
@@ -52,43 +87,37 @@
         <string>256000</string>
        </property>
       </item>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>COMs Available:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Status:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Not Connected</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>Baudrate</string>
-      </property>
+      <item>
+       <property name="text">
+        <string>Custom</string>
+       </property>
+      </item>
      </widget>
     </item>
     <item row="8" column="0">
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="BtnConnect">
       <property name="enabled">
        <bool>false</bool>
       </property>
       <property name="text">
        <string>Connect</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="LblStatus">
+      <property name="text">
+       <string>Status:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3" rowspan="11" colspan="2">
+     <widget class="QTextBrowser" name="TxtBuffer"/>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="LblBaudrate">
+      <property name="text">
+       <string>Baudrate:</string>
       </property>
      </widget>
     </item>
@@ -99,7 +128,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>250</width>
+     <width>775</width>
      <height>26</height>
     </rect>
    </property>
