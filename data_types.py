@@ -1,6 +1,21 @@
 from dataclasses import dataclass
 from enum import Enum
 
+error_codes = {0: 'No error',
+               1: 'Device not found',
+               2: 'Permission error',
+               3: 'Cannot open',
+               4: 'Parity error',
+               5: 'Framing error',
+               6: 'Break condition error',
+               7: 'Write error',
+               8: 'Read error',
+               9: 'Resource error',
+               10: 'Unsupported operation error',
+               11: 'Unknown error',
+               12: 'Timeout error',
+               13: 'Not open error'}
+
 
 class Parity(Enum):
     NONE = 0

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>775</width>
-    <height>288</height>
+    <width>825</width>
+    <height>310</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,62 +15,54 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="6" column="1">
-     <widget class="QLabel" name="LblStatusInfo">
-      <property name="text">
-       <string>Not Connected</string>
-      </property>
-     </widget>
+    <item row="1" column="3" rowspan="11" colspan="5">
+     <widget class="QTextBrowser" name="TxtBuffer"/>
     </item>
-    <item row="8" column="1">
-     <widget class="QPushButton" name="BtnDisconnect">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>Disconnect</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="LblAvailable">
-      <property name="text">
-       <string>COMs Available:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="9" column="5">
+    <item row="0" column="7">
      <widget class="QPushButton" name="BtnClear">
       <property name="text">
        <string>Clear</string>
       </property>
      </widget>
     </item>
-    <item row="4" column="0">
-     <widget class="QPushButton" name="BtnReScan">
+    <item row="12" column="1" alignment="Qt::AlignRight">
+     <widget class="QLabel" name="LblTransmit">
       <property name="text">
-       <string>ReScan</string>
+       <string>Transmit:</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="0" colspan="2">
-     <widget class="QComboBox" name="CBPorts">
-      <property name="minimumSize">
+    <item row="12" column="7">
+     <widget class="QPushButton" name="BtnSend">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Send</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <widget class="QLabel" name="LblCounter">
+      <property name="maximumSize">
        <size>
-        <width>300</width>
-        <height>0</height>
+        <width>55</width>
+        <height>16777215</height>
        </size>
       </property>
+      <property name="text">
+       <string>Counter:</string>
+      </property>
      </widget>
     </item>
-    <item row="4" column="1">
+    <item row="5" column="1">
      <widget class="QCheckBox" name="CBSTM">
       <property name="text">
        <string>STM devices only</string>
       </property>
      </widget>
     </item>
-    <item row="7" column="1">
+    <item row="8" column="1">
      <widget class="QComboBox" name="CBBaudrate">
       <item>
        <property name="text">
@@ -94,7 +86,45 @@
       </item>
      </widget>
     </item>
-    <item row="8" column="0">
+    <item row="7" column="1">
+     <widget class="QLabel" name="LblStatusInfo">
+      <property name="text">
+       <string>Not Connected</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QPushButton" name="BtnReScan">
+      <property name="text">
+       <string>ReScan</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="LblAvailable">
+      <property name="text">
+       <string>COMs Available:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="LblStatus">
+      <property name="text">
+       <string>Status:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="2">
+     <widget class="QComboBox" name="CBPorts">
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>0</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0">
      <widget class="QPushButton" name="BtnConnect">
       <property name="enabled">
        <bool>false</bool>
@@ -104,20 +134,50 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="LblStatus">
+    <item row="9" column="1">
+     <widget class="QPushButton" name="BtnDisconnect">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
-       <string>Status:</string>
+       <string>Disconnect</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="3" rowspan="11" colspan="2">
-     <widget class="QTextBrowser" name="TxtBuffer"/>
-    </item>
-    <item row="7" column="0">
+    <item row="8" column="0">
      <widget class="QLabel" name="LblBaudrate">
       <property name="text">
        <string>Baudrate:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="3" colspan="4">
+     <widget class="QLineEdit" name="TxtTransmit"/>
+    </item>
+    <item row="0" column="5">
+     <widget class="QPushButton" name="BtnCounter">
+      <property name="text">
+       <string>Clear Counter</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="6">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="0" column="4">
+     <widget class="QLabel" name="LblCounterData">
+      <property name="text">
+       <string>0</string>
       </property>
      </widget>
     </item>
@@ -128,7 +188,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>775</width>
+     <width>825</width>
      <height>26</height>
     </rect>
    </property>
