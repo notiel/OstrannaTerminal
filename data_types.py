@@ -33,6 +33,7 @@ class Handshaking(Enum):
 @dataclass
 class ComSettings:
     name: str = ""
+    last_name: str = ""
     baudrate: int = 115200
     databits: int = 8
     parity: Parity = Parity.NONE
