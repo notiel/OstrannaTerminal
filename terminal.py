@@ -14,8 +14,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.serial_port = QtSerialPort.QSerialPort()
-        self.scan_ports()
         self.port_settings = ComSettings()
+        self.scan_ports()
         self.counter = 0
         self.CBBaudrate.setCurrentText('115200')
         self.serial_port.readyRead.connect(self.read_data)
@@ -45,6 +45,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                 self.CBPorts.addItem("%s: (%s)" % (port.portName(), (port.description())))
         if self.CBPorts.count() > 0:
             self.BtnConnect.setEnabled(True)
+        if self.port_settings.last_name:
+            for i in range(self.CBPorts.count()):
+                if self.CBPorts.itemText(i).startswith(self.port_settings.last_name):
+                    self.CBPorts.setCurrentIndex(i)
 
     def connect(self):
         name: str = self.CBPorts.currentText().split(':')[0]
@@ -58,6 +62,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.BtnDisconnect.setEnabled(True)
             self.BtnConnect.setEnabled(False)
             self.port_settings.name = name
+            self.port_settings.last_name = name
             self.BtnSend.setEnabled(True)
 
     def disconnect(self):
