@@ -91,10 +91,16 @@ class Ui_MainWindow(object):
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 809, 26))
         self.menubar.setObjectName("menubar")
+        self.menuSettings = QtWidgets.QMenu(self.menubar)
+        self.menuSettings.setObjectName("menuSettings")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.actionSettings = QtWidgets.QAction(MainWindow)
+        self.actionSettings.setObjectName("actionSettings")
+        self.menuSettings.addAction(self.actionSettings)
+        self.menubar.addAction(self.menuSettings.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -127,4 +133,6 @@ class Ui_MainWindow(object):
         self.BtnClear.setText(_translate("MainWindow", "Clear"))
         self.CBClear.setText(_translate("MainWindow", "Clear after sending"))
         self.BtnSave.setText(_translate("MainWindow", "Save to log"))
+        self.menuSettings.setTitle(_translate("MainWindow", "Settings"))
+        self.actionSettings.setText(_translate("MainWindow", "Settings"))
 

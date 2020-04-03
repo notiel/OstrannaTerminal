@@ -2,8 +2,9 @@ from PyQt5 import QtWidgets, QtCore, QtSerialPort, QtGui
 import sys
 from loguru import logger
 import terminal_design
-from data_types import *
+import data_types
 import common_functions
+import settings
 
 logger.start("logfile.log", rotation="1 week", format="{time} {level} {message}", level="DEBUG", enqueue=True)
 
@@ -14,9 +15,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.serial_port = QtSerialPort.QSerialPort()
-        self.port_settings = ComSettings()
+        self.port_settings = data_types.ComSettings()
         self.scan_ports()
         self.counter = 0
+        self.settings_form = None
         self.CBBaudrate.setCurrentText('115200')
         self.serial_port.readyRead.connect(self.read_data)
         self.serial_port.errorOccurred.connect(self.serial_error)
@@ -29,6 +31,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnCounter.clicked.connect(self.clear_counter)
         self.BtnSave.clicked.connect(self.save_to_file)
         self.TxtTransmit.returnPressed.connect(self.write_data)
+        self.actionSettings.setShortcut('Ctrl+S')
+        self.actionSettings.triggered.connect(self.settings_pressed)
         plain_font = QtGui.QFont("Consolas", 10)
         self.TxtBuffer.setFont(plain_font)
         self.TxtBuffer.setTextColor(QtGui.QColor(0, 0, 0))
@@ -55,6 +59,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.serial_port.setPortName(name)
         # noinspection PyArgumentList
         self.serial_port.setBaudRate(self.port_settings.baudrate)
+        self.serial_port.setDataBits(self.port_settings.databits)
+        self.serial_port.setParity(Parity.NONE)
         if not self.serial_port.open(QtCore.QIODevice.ReadWrite):
             common_functions.error_message("Unable to open port %s" % name)
         else:
@@ -96,7 +102,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
 
     def write_data(self):
         text: str = self.TxtTransmit.text()
-        command: bytes = bytes(text+'\r\n', encoding='utf-8')
+        command: bytes = bytes(text+'\r\n', encoding='utf-8') if self.port_settings.CRLF else \
+            bytes(text, encoding='utf-8')
         res = self.serial_port.write(command)
         if res != len(command):
             common_functions.error_message('Data was not sent correctly')
@@ -112,7 +119,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
     def serial_error(self):
         code = self.serial_port.error()
         if code and self.port_settings.name:
-            common_functions.error_message(error_codes[code])
+            common_functions.error_message(data_types.error_codes[code])
             self.serial_port.clearError()
             
     def clear_counter(self):
@@ -125,6 +132,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         if new_filename:
             with open(new_filename, "w") as f:
                 f.write(self.TxtBuffer.toPlainText())
+
+    def settings_pressed(self):
+        self.settings_form = settings.Settings(self.port_settings)
+        self.settings_form.show()
 
 
 def initiate_exception_logging():
