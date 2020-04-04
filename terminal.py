@@ -59,8 +59,9 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.serial_port.setPortName(name)
         # noinspection PyArgumentList
         self.serial_port.setBaudRate(self.port_settings.baudrate)
-        self.serial_port.setDataBits(self.port_settings.databits)
-        self.serial_port.setParity(Parity.NONE)
+        self.serial_port.setDataBits(data_types.databits_dict[self.port_settings.databits])
+        self.serial_port.setParity(data_types.parity_dict[self.port_settings.parity])
+        self.serial_port.setStopBits(data_types.stopbits_dict[self.port_settings.stopbits])
         if not self.serial_port.open(QtCore.QIODevice.ReadWrite):
             common_functions.error_message("Unable to open port %s" % name)
         else:
