@@ -17,6 +17,8 @@ error_codes = {0: 'No error',
                12: 'Timeout error',
                13: 'Not open error'}
 
+max_macros = 20
+
 
 databits_dict = {5: QtSerialPort.QSerialPort.Data5, 6: QtSerialPort.QSerialPort.Data6,
                  7: QtSerialPort.QSerialPort.Data5, 8: QtSerialPort.QSerialPort.Data6}
@@ -57,3 +59,8 @@ class ComSettings:
     stopbits: float = 1
     handshaking: Handshaking = Handshaking.NONE
     CRLF: bool = True
+
+@dataclass
+class Macros:
+    name: str
+    command: str

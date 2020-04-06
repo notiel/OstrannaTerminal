@@ -150,6 +150,9 @@
     </item>
     <item row="15" column="9">
      <widget class="QPushButton" name="BtnMacros7">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M7</string>
       </property>
@@ -157,6 +160,9 @@
     </item>
     <item row="18" column="9">
      <widget class="QPushButton" name="BtnMacros10">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M10</string>
       </property>
@@ -164,6 +170,9 @@
     </item>
     <item row="17" column="9">
      <widget class="QPushButton" name="BtnMacros9">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M9</string>
       </property>
@@ -171,6 +180,9 @@
     </item>
     <item row="16" column="9">
      <widget class="QPushButton" name="BtnMacros8">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M8</string>
       </property>
@@ -178,6 +190,9 @@
     </item>
     <item row="0" column="10">
      <widget class="QPushButton" name="BtnMacros11">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M11</string>
       </property>
@@ -192,6 +207,9 @@
     </item>
     <item row="6" column="10">
      <widget class="QPushButton" name="BtnMacros12">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M12</string>
       </property>
@@ -199,6 +217,9 @@
     </item>
     <item row="7" column="10">
      <widget class="QPushButton" name="BtnMacros13">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M13</string>
       </property>
@@ -206,6 +227,9 @@
     </item>
     <item row="13" column="10">
      <widget class="QPushButton" name="BtnMacros15">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M15</string>
       </property>
@@ -213,6 +237,9 @@
     </item>
     <item row="12" column="10">
      <widget class="QPushButton" name="BtnMacros14">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M14</string>
       </property>
@@ -220,13 +247,30 @@
     </item>
     <item row="14" column="9">
      <widget class="QPushButton" name="BtnMacros6">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M6</string>
       </property>
      </widget>
     </item>
+    <item row="13" column="0" rowspan="8" colspan="9">
+     <widget class="QTextBrowser" name="TxtBuffer">
+      <property name="html">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
     <item row="16" column="10">
      <widget class="QPushButton" name="BtnMacros18">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M18</string>
       </property>
@@ -234,6 +278,9 @@
     </item>
     <item row="14" column="10">
      <widget class="QPushButton" name="BtnMacros16">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M16</string>
       </property>
@@ -241,6 +288,9 @@
     </item>
     <item row="17" column="10">
      <widget class="QPushButton" name="BtnMacros19">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M19</string>
       </property>
@@ -248,6 +298,9 @@
     </item>
     <item row="15" column="10">
      <widget class="QPushButton" name="BtnMacros17">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M17</string>
       </property>
@@ -255,6 +308,9 @@
     </item>
     <item row="6" column="9">
      <widget class="QPushButton" name="BtnMacros1_2">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M2</string>
       </property>
@@ -262,6 +318,9 @@
     </item>
     <item row="12" column="9">
      <widget class="QPushButton" name="BtnMacros4">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M4</string>
       </property>
@@ -272,6 +331,9 @@
     </item>
     <item row="13" column="9">
      <widget class="QPushButton" name="BtnMacros5">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M5</string>
       </property>
@@ -289,6 +351,9 @@
     </item>
     <item row="7" column="9">
      <widget class="QPushButton" name="BtnMacros3">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M3</string>
       </property>
@@ -303,6 +368,9 @@
     </item>
     <item row="18" column="10">
      <widget class="QPushButton" name="BtnMacros20">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>M20</string>
       </property>
@@ -311,17 +379,10 @@
     <item row="21" column="1" colspan="3">
      <widget class="QLineEdit" name="TxtTransmit"/>
     </item>
-    <item row="0" column="9">
-     <widget class="QPushButton" name="BtnMacros1">
+    <item row="21" column="7">
+     <widget class="QPushButton" name="BtnClear">
       <property name="text">
-       <string>M1</string>
-      </property>
-     </widget>
-    </item>
-    <item row="19" column="9" colspan="2">
-     <widget class="QLabel" name="LblMacrosAvailable">
-      <property name="text">
-       <string>Доступные наборы макросов</string>
+       <string>Clear</string>
       </property>
      </widget>
     </item>
@@ -335,21 +396,20 @@
       </property>
      </widget>
     </item>
-    <item row="21" column="7">
-     <widget class="QPushButton" name="BtnClear">
+    <item row="0" column="9">
+     <widget class="QPushButton" name="BtnMacros1">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="text">
-       <string>Clear</string>
+       <string>M1</string>
       </property>
      </widget>
     </item>
-    <item row="13" column="0" rowspan="8" colspan="9">
-     <widget class="QTextBrowser" name="TxtBuffer">
-      <property name="html">
-       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <item row="19" column="9" colspan="2">
+     <widget class="QLabel" name="LblMacrosAvailable">
+      <property name="text">
+       <string>Доступные наборы макросов</string>
       </property>
      </widget>
     </item>
