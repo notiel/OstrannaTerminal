@@ -1,5 +1,5 @@
 import settings_design
-from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt5 import QtWidgets
 import data_types
 
 
@@ -89,15 +89,3 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
 
     def end_string_changed(self):
         self.settings.CRLF = self.CBEndLine.isChecked()
-
-
-
-
-
-
-
-
-
-
-
-

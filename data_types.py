@@ -49,6 +49,7 @@ class Handshaking(Enum):
 
 hs_dict = {Handshaking.NONE: QtSerialPort.QSerialPort}
 
+
 @dataclass
 class ComSettings:
     name: str = ""
@@ -60,7 +61,14 @@ class ComSettings:
     handshaking: Handshaking = Handshaking.NONE
     CRLF: bool = True
 
+
 @dataclass
-class Macros:
+class Macro:
     name: str
     command: str
+
+
+@dataclass
+class MacroSet:
+    name: str
+    macros: List[Macro]
