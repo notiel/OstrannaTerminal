@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 from PyQt5 import QtSerialPort
+from typing import List
 
 error_codes = {0: 'No error',
                1: 'Device not found',

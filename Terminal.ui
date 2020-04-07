@@ -395,13 +395,6 @@
       </property>
      </widget>
     </item>
-    <item row="22" column="9">
-     <widget class="QPushButton" name="pushButton">
-      <property name="text">
-       <string>Create Macros</string>
-      </property>
-     </widget>
-    </item>
     <item row="13" column="0" rowspan="9" colspan="9">
      <widget class="QTextBrowser" name="TxtBuffer">
       <property name="html">
@@ -417,6 +410,13 @@ p, li { white-space: pre-wrap; }
      <widget class="QLabel" name="label">
       <property name="text">
        <string>Macros not selected</string>
+      </property>
+     </widget>
+    </item>
+    <item row="22" column="9" colspan="2">
+     <widget class="QPushButton" name="BtnCreateMacros">
+      <property name="text">
+       <string>Create Set</string>
       </property>
      </widget>
     </item>

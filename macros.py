@@ -5,7 +5,7 @@ from typing import List, Optional
 import common_functions
 
 
-class Settings(QtWidgets.QWidget, macros_design.Ui_Form):
+class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
 
     def __init__(self, current_macros: data_types.MacroSet, all_macros: List[data_types.MacroSet]):
         super().__init__()
@@ -18,18 +18,21 @@ class Settings(QtWidgets.QWidget, macros_design.Ui_Form):
 
         self.macros_command_list = [self.LineCommand1, self.LineCommand2, self.LineCommand3, self.LineCommand4,
                                     self.LineCommand5, self.LineCommand6, self.LineCommand7, self.LineCommand8,
-                                    self.LineCommand, self.LineCommand10, self.LineCommand11, self.LineCommand12,
+                                    self.LineCommand9, self.LineCommand10, self.LineCommand11, self.LineCommand12,
                                     self.LineCommand13, self.LineCommand14, self.LineCommand15, self.LineCommand16,
                                     self.LineCommand17, self.LineCommand18, self.LineCommand19, self.LineCommand20]
         self.macros_dict = {i: (self.macros_names_list[i], self.macros_command_list[i])
                             for i in range(data_types.max_macros)}
         self.all_macros = all_macros
         self.current_macros = current_macros
+        self.BtnSave.clicked.connect(self.save_pressed)
+        self.BtnApply.clicked.connect(self.apply_pressed)
+        self.BtnAll.clicked.connect(self.all_pressed)
 
     def create_macros_set(self) -> Optional[data_types.MacroSet]:
         """
-
-        :return:
+        create new macros from data from fields and add it to all macroses
+        :return: new macros
         """
         name = self.LineNameSet.text()
         if not name:
@@ -42,9 +45,32 @@ class Settings(QtWidgets.QWidget, macros_design.Ui_Form):
         for key in self.macros_dict.keys():
             macros_set.macros.append(data_types.Macro(
                 name=self.macros_dict[key][0].text(), command=self.macros_dict[key][1].text()))
+        self.all_macros.append(macros_set)
         return macros_set
 
     def apply_pressed(self):
+        """
+        add macros as current
+        :return:
+        """
         new_macros_set = self.create_macros_set()
         if new_macros_set:
             self.current_macros = new_macros_set
+
+    def save_pressed(self):
+        """
+        save macros to file and not add to current
+        :return:
+        """
+        new_macros_set = self.create_macros_set()
+        if new_macros_set:
+            with open("macros.json", "w") as f:
+                f.write(str({'Macros': self.all_macros}))
+
+    def all_pressed(self):
+        new_macros_set = self.create_macros_set()
+        if new_macros_set:
+            self.current_macros = new_macros_set
+            with open("macros.json", "w") as f:
+                f.write(str({'Macros': self.all_macros}))
+

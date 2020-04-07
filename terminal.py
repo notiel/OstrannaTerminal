@@ -5,6 +5,7 @@ import terminal_design
 import data_types
 import common_functions
 import settings
+import macros
 
 logger.start("logfile.log", rotation="1 week", format="{time} {level} {message}", level="DEBUG", enqueue=True)
 
@@ -19,6 +20,9 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.scan_ports()
         self.counter = 0
         self.settings_form = None
+        self.current_macros = data_types.MacroSet(name="",macros=list())
+        self.all_macros = list()
+        self.macros_form = None
         self.CBBaudrate.setCurrentText('115200')
         self.serial_port.readyRead.connect(self.read_data)
         self.serial_port.errorOccurred.connect(self.serial_error)
@@ -30,6 +34,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnSend.clicked.connect(self.write_data)
         self.BtnCounter.clicked.connect(self.clear_counter)
         self.BtnSave.clicked.connect(self.save_to_file)
+        self.BtnCreateMacros.clicked.connect(self.macros_pressed)
         self.TxtTransmit.returnPressed.connect(self.write_data)
         self.actionSettings.setShortcut('Ctrl+S')
         self.actionSettings.triggered.connect(self.settings_pressed)
@@ -137,6 +142,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
     def settings_pressed(self):
         self.settings_form = settings.Settings(self.port_settings)
         self.settings_form.show()
+
+    def macros_pressed(self):
+        self.macros_form = macros.Macros(self.current_macros, self.all_macros)
+        self.macros_form.show()
 
 
 def initiate_exception_logging():

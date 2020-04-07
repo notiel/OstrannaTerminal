@@ -170,15 +170,15 @@ class Ui_MainWindow(object):
         self.LblMacrosAvailable = QtWidgets.QLabel(self.centralwidget)
         self.LblMacrosAvailable.setObjectName("LblMacrosAvailable")
         self.gridLayout.addWidget(self.LblMacrosAvailable, 19, 9, 1, 2)
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setObjectName("pushButton")
-        self.gridLayout.addWidget(self.pushButton, 22, 9, 1, 1)
         self.TxtBuffer = QtWidgets.QTextBrowser(self.centralwidget)
         self.TxtBuffer.setObjectName("TxtBuffer")
         self.gridLayout.addWidget(self.TxtBuffer, 13, 0, 9, 9)
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setObjectName("label")
         self.gridLayout.addWidget(self.label, 21, 9, 1, 2)
+        self.BtnCreateMacros = QtWidgets.QPushButton(self.centralwidget)
+        self.BtnCreateMacros.setObjectName("BtnCreateMacros")
+        self.gridLayout.addWidget(self.BtnCreateMacros, 22, 9, 1, 2)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1032, 26))
@@ -241,13 +241,13 @@ class Ui_MainWindow(object):
         self.CBClear.setText(_translate("MainWindow", "Clear after sending"))
         self.BtnMacros1.setText(_translate("MainWindow", "M1"))
         self.LblMacrosAvailable.setText(_translate("MainWindow", "Macros sets available"))
-        self.pushButton.setText(_translate("MainWindow", "Create Macros"))
         self.TxtBuffer.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.label.setText(_translate("MainWindow", "Macros not selected"))
+        self.BtnCreateMacros.setText(_translate("MainWindow", "Create Set"))
         self.menuSettings.setTitle(_translate("MainWindow", "Settings"))
         self.actionSettings.setText(_translate("MainWindow", "Settings"))
 
