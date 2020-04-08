@@ -169,6 +169,23 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>RBDatabits5</tabstop>
+  <tabstop>RBDatabits6</tabstop>
+  <tabstop>RBDatabits7</tabstop>
+  <tabstop>RBDatabits8</tabstop>
+  <tabstop>RBParityNone</tabstop>
+  <tabstop>RBParityOdd</tabstop>
+  <tabstop>RBParityEven</tabstop>
+  <tabstop>RBParityMark</tabstop>
+  <tabstop>RBParitySpace</tabstop>
+  <tabstop>RBStopbits1</tabstop>
+  <tabstop>RBStopbits15</tabstop>
+  <tabstop>RBStopbits2</tabstop>
+  <tabstop>RBHandNone</tabstop>
+  <tabstop>RBHandRts</tabstop>
+  <tabstop>CBEndLine</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

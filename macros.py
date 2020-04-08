@@ -3,7 +3,8 @@ from PyQt5 import QtWidgets
 import data_types
 from typing import List, Optional
 import common_functions
-
+from dataclasses import asdict
+import json
 
 class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
 
@@ -65,12 +66,15 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         new_macros_set = self.create_macros_set()
         if new_macros_set:
             with open("macros.json", "w") as f:
-                f.write(str({'Macros': self.all_macros}))
+                dump = {'Macros': [asdict(macros) for macros in self.all_macros]}
+                with open("macros.json", "w") as f:
+                    json.dump(dump, f)
 
     def all_pressed(self):
         new_macros_set = self.create_macros_set()
         if new_macros_set:
             self.current_macros = new_macros_set
+            dump = {'Macros': [asdict(macros) for macros in self.all_macros]}
             with open("macros.json", "w") as f:
-                f.write(str({'Macros': self.all_macros}))
+                json.dump(dump, f)
 

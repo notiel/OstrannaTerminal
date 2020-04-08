@@ -446,6 +446,43 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>CBSTM</tabstop>
+  <tabstop>BtnReScan</tabstop>
+  <tabstop>CBPorts</tabstop>
+  <tabstop>CBBaudrate</tabstop>
+  <tabstop>BtnConnect</tabstop>
+  <tabstop>BtnDisconnect</tabstop>
+  <tabstop>BtnCounter</tabstop>
+  <tabstop>BtnSave</tabstop>
+  <tabstop>TxtTransmit</tabstop>
+  <tabstop>BtnSend</tabstop>
+  <tabstop>CBClear</tabstop>
+  <tabstop>BtnClear</tabstop>
+  <tabstop>BtnMacros1</tabstop>
+  <tabstop>BtnMacros11</tabstop>
+  <tabstop>BtnMacros1_2</tabstop>
+  <tabstop>BtnMacros12</tabstop>
+  <tabstop>BtnMacros3</tabstop>
+  <tabstop>BtnMacros13</tabstop>
+  <tabstop>BtnMacros4</tabstop>
+  <tabstop>BtnMacros14</tabstop>
+  <tabstop>BtnMacros5</tabstop>
+  <tabstop>BtnMacros15</tabstop>
+  <tabstop>BtnMacros6</tabstop>
+  <tabstop>BtnMacros16</tabstop>
+  <tabstop>BtnMacros7</tabstop>
+  <tabstop>BtnMacros17</tabstop>
+  <tabstop>BtnMacros8</tabstop>
+  <tabstop>BtnMacros18</tabstop>
+  <tabstop>BtnMacros9</tabstop>
+  <tabstop>BtnMacros19</tabstop>
+  <tabstop>BtnMacros10</tabstop>
+  <tabstop>BtnMacros20</tabstop>
+  <tabstop>CBMacros</tabstop>
+  <tabstop>BtnCreateMacros</tabstop>
+  <tabstop>TxtBuffer</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

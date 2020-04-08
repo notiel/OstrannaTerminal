@@ -481,6 +481,52 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>LineNameSet</tabstop>
+  <tabstop>LineName1</tabstop>
+  <tabstop>LineCommand1</tabstop>
+  <tabstop>LineName2</tabstop>
+  <tabstop>LineCommand2</tabstop>
+  <tabstop>LineName3</tabstop>
+  <tabstop>LineCommand3</tabstop>
+  <tabstop>LineName4</tabstop>
+  <tabstop>LineCommand4</tabstop>
+  <tabstop>LineName5</tabstop>
+  <tabstop>LineCommand5</tabstop>
+  <tabstop>LineName6</tabstop>
+  <tabstop>LineCommand6</tabstop>
+  <tabstop>LineName7</tabstop>
+  <tabstop>LineCommand7</tabstop>
+  <tabstop>LineName8</tabstop>
+  <tabstop>LineCommand8</tabstop>
+  <tabstop>LineName9</tabstop>
+  <tabstop>LineCommand9</tabstop>
+  <tabstop>LineName10</tabstop>
+  <tabstop>LineCommand10</tabstop>
+  <tabstop>LineName11</tabstop>
+  <tabstop>LineCommand11</tabstop>
+  <tabstop>LineName12</tabstop>
+  <tabstop>LineCommand12</tabstop>
+  <tabstop>LineName13</tabstop>
+  <tabstop>LineCommand13</tabstop>
+  <tabstop>LineName14</tabstop>
+  <tabstop>LineCommand14</tabstop>
+  <tabstop>LineName15</tabstop>
+  <tabstop>LineCommand15</tabstop>
+  <tabstop>LineName16</tabstop>
+  <tabstop>LineCommand16</tabstop>
+  <tabstop>LineName17</tabstop>
+  <tabstop>LineCommand17</tabstop>
+  <tabstop>LineName18</tabstop>
+  <tabstop>LineCommand18</tabstop>
+  <tabstop>LineName19</tabstop>
+  <tabstop>LineCommand19</tabstop>
+  <tabstop>LineName20</tabstop>
+  <tabstop>LineCommand20</tabstop>
+  <tabstop>BtnSave</tabstop>
+  <tabstop>BtnApply</tabstop>
+  <tabstop>BtnAll</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
