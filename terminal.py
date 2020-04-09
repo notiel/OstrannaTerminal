@@ -43,6 +43,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.TxtBuffer.setTextColor(QtGui.QColor(0, 0, 0))
 
     def scan_ports(self):
+        """
+        scans ports, sets disconnected state UI, selects last port name if any
+        :return:
+        """
         self.serial_port.close()
         self.CBPorts.clear()
         self.LblStatusInfo.setText('Disconnected')
@@ -60,6 +64,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                     self.CBPorts.setCurrentIndex(i)
 
     def connect(self):
+        """
+        connects to selected port with selected settings, sets connected UI state if success
+        :return:
+        """
         name: str = self.CBPorts.currentText().split(':')[0]
         self.serial_port.setPortName(name)
         # noinspection PyArgumentList
@@ -78,6 +86,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.BtnSend.setEnabled(True)
 
     def disconnect(self):
+        """
+        disconnects and sets disconnected ui
+        :return:
+        """
         self.serial_port.close()
         self.LblStatusInfo.setText('Disconnected')
         self.port_settings.name = ""
@@ -86,13 +98,26 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.counter = 0
 
     def clear_pressed(self):
+        """
+        clears log
+        :return:
+        """
         self.TxtBuffer.clear()
+        self.LblCounterData.setText("0")
 
     def baudrate_changed(self):
+        """
+        change baudrate in settings
+        :return:
+        """
         if self.CBBaudrate.currentText() != 'Custom':
             self.port_settings.baudrate = int(self.CBBaudrate.currentText())
 
     def read_data(self):
+        """
+        reads data from comport
+        :return:
+        """
         read = ""
         try:
             read += self.serial_port.readAll().data().decode('utf-8')
@@ -107,6 +132,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.LblCounterData.setText(str(self.counter))
 
     def write_data(self):
+        """
+        writes data to comport
+        :return:
+        """
         text: str = self.TxtTransmit.text()
         command: bytes = bytes(text+'\r\n', encoding='utf-8') if self.port_settings.CRLF else \
             bytes(text, encoding='utf-8')
@@ -116,23 +145,32 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         else:
             if self.CBClear.isChecked():
                 self.TxtTransmit.clear()
-            # current: str = self.TxtBuffer.toHtml()
-            # current += (template_p_start_coloured + (text + '\r\n') + template_p_end + template_end)
-            # self.TxtBuffer.setHtml(current)
             self.TxtBuffer.setTextColor(QtGui.QColor(0, 255, 0))
             self.TxtBuffer.insertPlainText(text + '\r\n')
 
     def serial_error(self):
+        """
+        process error
+        :return:
+        """
         code = self.serial_port.error()
         if code and self.port_settings.name:
             common_functions.error_message(data_types.error_codes[code])
             self.serial_port.clearError()
             
     def clear_counter(self):
+        """
+        clear counter
+        :return:
+        """
         self.LblCounterData.setText('0')
         self.counter = 0
 
     def save_to_file(self):
+        """
+        saves log to file
+        :return:
+        """
         # noinspection PyArgumentList,PyCallByClass
         new_filename = QtWidgets.QFileDialog.getSaveFileName(self, 'Save to file...', "")[0]
         if new_filename:
@@ -140,12 +178,44 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                 f.write(self.TxtBuffer.toPlainText())
 
     def settings_pressed(self):
+        """
+        opens settings form
+        :return:
+        """
         self.settings_form = settings.Settings(self.port_settings)
         self.settings_form.show()
 
     def macros_pressed(self):
+        """
+        opens macros form
+        :return:
+        """
         self.macros_form = macros.Macros(self.current_macros, self.all_macros)
         self.macros_form.show()
+        self.macros_form.edited_signal.connect(self.macros_edited)
+        self.macros_form.applied_signal[str].connect(self.macros_applied)
+
+    def macros_edited(self):
+        """
+        reloads macros list
+        :return:
+        """
+        self.CBMacros.clear()
+        self.CBMacros.addItems([macrosset.name for macrosset in self.all_macros])
+        if self.current_macros.name:
+            self.CBMacros.setCurrentText(self.current_macros.name)
+
+    def macros_applied(self, macros_name: str):
+        """
+        applies new macros
+        :return:
+        """
+        selected_macros: data_types.MacroSet = \
+            [macrosset for macrosset in self.all_macros if macrosset.name == macros_name][0]
+        self.current_macros = selected_macros
+        self.macros_edited()
+
+
 
 
 def initiate_exception_logging():

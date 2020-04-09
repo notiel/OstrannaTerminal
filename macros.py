@@ -1,17 +1,20 @@
 import macros_design
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 import data_types
 from typing import List, Optional
 import common_functions
 from dataclasses import asdict
 import json
 
+
 class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
+
+    applied_signal = QtCore.pyqtSignal(str)
+    edited_signal = QtCore.pyqtSignal()
 
     def __init__(self, current_macros: data_types.MacroSet, all_macros: List[data_types.MacroSet]):
         super().__init__()
         self.setupUi(self)
-
         self.macros_names_list = [self.LineName1, self.LineName2, self.LineName3, self.LineName4, self.LineName5,
                                   self.LineName6, self.LineName7, self.LineName8, self.LineName9, self.LineName10,
                                   self.LineName11, self.LineName12, self.LineName13, self.LineName14, self.LineName15,
@@ -26,9 +29,22 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
                             for i in range(data_types.max_macros)}
         self.all_macros = all_macros
         self.current_macros = current_macros
+        self.load_current_set()
         self.BtnSave.clicked.connect(self.save_pressed)
         self.BtnApply.clicked.connect(self.apply_pressed)
         self.BtnAll.clicked.connect(self.all_pressed)
+
+    def load_current_set(self):
+        """
+        loads current macros to ui
+        :return:
+        """
+        if self.current_macros.macros:
+            self.LineNameSet.setText(self.current_macros.name)
+            for (index, macro) in enumerate(self.current_macros.macros):
+                self.macros_dict[index][0] = macro.name
+                self.macros_dict[index][1] = macro.command
+
 
     def create_macros_set(self) -> Optional[data_types.MacroSet]:
         """
@@ -57,6 +73,7 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         new_macros_set = self.create_macros_set()
         if new_macros_set:
             self.current_macros = new_macros_set
+        self.applied_signal.emit(new_macros_set.name)
 
     def save_pressed(self):
         """
@@ -69,6 +86,7 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
                 dump = {'Macros': [asdict(macros) for macros in self.all_macros]}
                 with open("macros.json", "w") as f:
                     json.dump(dump, f)
+            self.edited_signal.emit()
 
     def all_pressed(self):
         new_macros_set = self.create_macros_set()
@@ -77,4 +95,6 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
             dump = {'Macros': [asdict(macros) for macros in self.all_macros]}
             with open("macros.json", "w") as f:
                 json.dump(dump, f)
+            self.applied_signal.emit(new_macros_set.name)
+
 
