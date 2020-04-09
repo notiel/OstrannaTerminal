@@ -20,7 +20,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.scan_ports()
         self.counter = 0
         self.settings_form = None
-        self.current_macros = data_types.MacroSet(name="",macros=list())
+        self.current_macros = data_types.MacroSet(name="", macros=list())
         self.all_macros = list()
         self.macros_form = None
         self.CBBaudrate.setCurrentText('115200')
@@ -214,8 +214,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             [macrosset for macrosset in self.all_macros if macrosset.name == macros_name][0]
         self.current_macros = selected_macros
         self.macros_edited()
-
-
 
 
 def initiate_exception_logging():

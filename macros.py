@@ -42,11 +42,10 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         if self.current_macros.macros:
             self.LineNameSet.setText(self.current_macros.name)
             for (index, macro) in enumerate(self.current_macros.macros):
-                self.macros_dict[index][0] = macro.name
-                self.macros_dict[index][1] = macro.command
+                self.macros_dict[index][0].setText(macro.name)
+                self.macros_dict[index][1].setText(macro.command)
 
-
-    def create_macros_set(self) -> Optional[data_types.MacroSet]:
+    def create_macros_set(self, unique: bool) -> Optional[data_types.MacroSet]:
         """
         create new macros from data from fields and add it to all macroses
         :return: new macros
@@ -55,7 +54,7 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         if not name:
             common_functions.error_message("Macros Set Name is empty")
             return None
-        if name in [macro.name for macro in self.all_macros]:
+        if unique and name in [macro.name for macro in self.all_macros]:
             common_functions.error_message("Macros Name already used")
             return None
         macros_set = data_types.MacroSet(name=name, macros=list())
@@ -70,31 +69,31 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         add macros as current
         :return:
         """
-        new_macros_set = self.create_macros_set()
+        new_macros_set = self.create_macros_set(False)
         if new_macros_set:
             self.current_macros = new_macros_set
-        self.applied_signal.emit(new_macros_set.name)
+            self.applied_signal.emit(new_macros_set.name)
+            self.LblStatus.setText("Macros set applied")
 
     def save_pressed(self):
         """
         save macros to file and not add to current
         :return:
         """
-        new_macros_set = self.create_macros_set()
+        new_macros_set = self.create_macros_set(True)
         if new_macros_set:
             with open("macros.json", "w") as f:
                 dump = {'Macros': [asdict(macros) for macros in self.all_macros]}
-                with open("macros.json", "w") as f:
-                    json.dump(dump, f)
+                json.dump(dump, f)
+            self.LblStatus.setText("Macros set saved")
             self.edited_signal.emit()
 
     def all_pressed(self):
-        new_macros_set = self.create_macros_set()
+        new_macros_set = self.create_macros_set(True)
         if new_macros_set:
             self.current_macros = new_macros_set
             dump = {'Macros': [asdict(macros) for macros in self.all_macros]}
             with open("macros.json", "w") as f:
                 json.dump(dump, f)
+            self.LblStatus.setText("Macros set saved and applied")
             self.applied_signal.emit(new_macros_set.name)
-
-
