@@ -85,7 +85,7 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         if new_macros_set:
             with open("macros.json", "w") as f:
                 dump = {'Macros': [asdict(macros) for macros in self.all_macros]}
-                json.dump(dump, f)
+                json.dump(dump, f, indent=4)
             self.LblStatus.setText("Macros set saved")
             self.edited_signal.emit()
 
@@ -95,6 +95,6 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
             self.current_macros = new_macros_set
             dump = {'Macros': [asdict(macros) for macros in self.all_macros]}
             with open("macros.json", "w") as f:
-                json.dump(dump, f)
+                json.dump(dump, f, indent=4)
             self.LblStatus.setText("Macros set saved and applied")
             self.applied_signal.emit(new_macros_set.name)

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 from PyQt5 import QtSerialPort
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
 error_codes = {0: 'No error',
                1: 'Device not found',
@@ -79,7 +79,7 @@ def get_macros_by_name(name: str, macros_sets: List[MacroSet]) -> Optional[Macro
     """
     searches macros in macros list with selected name set
     :param name: macros set name
-    :param mascros_sets: list of macros sets
+    :param macros_sets: list of macros sets
     :return: found macroset
     """
     fit = [macros_set for macros_set in macros_sets if macros_set.name == name]
@@ -87,3 +87,23 @@ def get_macros_by_name(name: str, macros_sets: List[MacroSet]) -> Optional[Macro
         return fit[0]
     else:
         return None
+
+
+def create_macroses_from_list(data: List[Dict[str, Any]]) -> List[MacroSet]:
+    """
+    creates list of macroses from dict
+    :param data: list of dicts from json
+    :return: list of macroset
+    """
+    result: List[MacroSet] = list()
+    warning = ""
+    for macroset in data:
+        macros: List[Macro] = list()
+        try:
+            for macro in macroset['macros']:
+                macros.append(Macro(name=macro['name'], command=macro['command']))
+        except KeyError:
+            warning = "Some macros data is incorrect"
+        result.append(MacroSet(name=macroset['name'], macros=macros))
+    return result
+
