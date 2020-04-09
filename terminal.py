@@ -35,6 +35,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnCounter.clicked.connect(self.clear_counter)
         self.BtnSave.clicked.connect(self.save_to_file)
         self.BtnCreateMacros.clicked.connect(self.macros_pressed)
+        self.CBMacros.currentTextChanged.connect(self.macros_selected)
         self.TxtTransmit.returnPressed.connect(self.write_data)
         self.actionSettings.setShortcut('Ctrl+S')
         self.actionSettings.triggered.connect(self.settings_pressed)
@@ -214,6 +215,15 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             [macrosset for macrosset in self.all_macros if macrosset.name == macros_name][0]
         self.current_macros = selected_macros
         self.macros_edited()
+
+    def macros_selected(self):
+        """
+        selects new macros
+        :return:
+        """
+        selected_macros = data_types.get_macros_by_name(self.CBMacros.currentText(), self.all_macros)
+        if selected_macros:
+            self.current_macros = selected_macros
 
 
 def initiate_exception_logging():

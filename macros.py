@@ -61,7 +61,8 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         for key in self.macros_dict.keys():
             macros_set.macros.append(data_types.Macro(
                 name=self.macros_dict[key][0].text(), command=self.macros_dict[key][1].text()))
-        self.all_macros.append(macros_set)
+        if name not in [macro.name for macro in self.all_macros]:
+            self.all_macros.append(macros_set)
         return macros_set
 
     def apply_pressed(self):

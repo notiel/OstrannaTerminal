@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 from PyQt5 import QtSerialPort
-from typing import List
+from typing import List, Optional
 
 error_codes = {0: 'No error',
                1: 'Device not found',
@@ -73,3 +73,17 @@ class Macro:
 class MacroSet:
     name: str
     macros: List[Macro]
+
+
+def get_macros_by_name(name: str, macros_sets: List[MacroSet]) -> Optional[MacroSet]:
+    """
+    searches macros in macros list with selected name set
+    :param name: macros set name
+    :param mascros_sets: list of macros sets
+    :return: found macroset
+    """
+    fit = [macros_set for macros_set in macros_sets if macros_set.name == name]
+    if fit:
+        return fit[0]
+    else:
+        return None
