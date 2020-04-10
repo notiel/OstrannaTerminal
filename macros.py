@@ -33,17 +33,39 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         self.BtnSave.clicked.connect(self.save_pressed)
         self.BtnApply.clicked.connect(self.apply_pressed)
         self.BtnAll.clicked.connect(self.all_pressed)
+        self.CBMacros.currentTextChanged.connect(self.selected_changed)
 
     def load_current_set(self):
         """
         loads current macros to ui
         :return:
         """
+        self.CBMacros.addItem('None')
+        self.CBMacros.addItems([macrosset.name for macrosset in self.all_macros])
         if self.current_macros.macros:
-            self.LineNameSet.setText(self.current_macros.name)
-            for (index, macro) in enumerate(self.current_macros.macros):
-                self.macros_dict[index][0].setText(macro.name)
-                self.macros_dict[index][1].setText(macro.command)
+            self.load_macros(self.current_macros)
+
+    def load_macros(self, macros: data_types.MacroSet):
+        """
+        loads macroset to controls
+        :param macros: macros to load
+        :return:
+        """
+        self.LineNameSet.setText(macros.name)
+        self.CBMacros.setCurrentText(macros.name)
+        for (index, macro) in enumerate(macros.macros):
+            self.macros_dict[index][0].setText(macro.name)
+            self.macros_dict[index][1].setText(macro.command)
+
+    def selected_changed(self):
+        """
+        loads data of selected macros
+        :return:
+        """
+        macros = data_types.get_macros_by_name(self.CBMacros.currentText(), self.all_macros)
+        if macros:
+            self.load_macros(macros)
+
 
     def create_macros_set(self, unique: bool) -> Optional[data_types.MacroSet]:
         """

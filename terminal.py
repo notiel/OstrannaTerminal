@@ -265,7 +265,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         else:
             self.LblMacrosSelected.setText("Macros set selected: None")
             for (index, btn) in enumerate(self.macros_btns_list):
-                btn.setText('M%i' % index+1)
+                btn.setText('M%i' % (index+1))
                 btn.setEnabled(False)
 
     def macro_btn_pressed(self):
@@ -275,6 +275,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         btn = self.sender()
         self.TxtTransmit.setText(self.current_macros.macros[self.macros_btns_list.index(btn)].command)
+
 
 def initiate_exception_logging():
     # generating our hook
