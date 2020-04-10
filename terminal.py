@@ -26,10 +26,12 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.counter = 0
         self.settings_form = None
         self.macros_form = None
+
         self.CBBaudrate.setCurrentText('115200')
         self.serial_port.readyRead.connect(self.read_data)
         self.serial_port.errorOccurred.connect(self.serial_error)
         self.CBBaudrate.currentTextChanged.connect(self.baudrate_changed)
+
         self.BtnReScan.clicked.connect(self.scan_ports)
         self.BtnConnect.clicked.connect(self.connect)
         self.BtnDisconnect.clicked.connect(self.disconnect)
@@ -42,9 +44,16 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.TxtTransmit.returnPressed.connect(self.write_data)
         self.actionSettings.setShortcut('Ctrl+S')
         self.actionSettings.triggered.connect(self.settings_pressed)
+
         plain_font = QtGui.QFont("Consolas", 10)
         self.TxtBuffer.setFont(plain_font)
         self.TxtBuffer.setTextColor(QtGui.QColor(0, 0, 0))
+
+        self.macros_btns_list = [self.BtnMacros1, self.BtnMacros2, self.BtnMacros3, self.BtnMacros4, self.BtnMacros5,
+                                 self.BtnMacros6, self.BtnMacros7, self.BtnMacros8, self.BtnMacros9, self.BtnMacros10,
+                                 self.BtnMacros11, self.BtnMacros12, self.BtnMacros13, self.BtnMacros14,
+                                 self.BtnMacros15, self.BtnMacros16, self.BtnMacros17, self.BtnMacros18,
+                                 self.BtnMacros19, self.BtnMacros20]
 
     def scan_ports(self):
         """
@@ -246,8 +255,19 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         if selected_macros:
             self.current_macros = selected_macros
             self.LblMacrosSelected.setText("Macros set selected: %s" % selected_macros.name)
+            for (index, btn) in enumerate(self.macros_btns_list):
+                caption = self.current_macros.macros[index].name if self.current_macros.macros[
+                    index].name else '<Not used>'
+                btn.setText(caption)
+                btn.setEnabled(caption != '<Not used>')
+
         else:
             self.LblMacrosSelected.setText("Macros set selected: None")
+            for (index, btn) in enumerate(self.macros_btns_list):
+                btn.setText('M%i' % index+1)
+                btn.setEnabled(False)
+
+
 
 
 def initiate_exception_logging():

@@ -296,7 +296,7 @@
      </widget>
     </item>
     <item row="6" column="9">
-     <widget class="QPushButton" name="BtnMacros1_2">
+     <widget class="QPushButton" name="BtnMacros2">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -461,7 +461,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>BtnClear</tabstop>
   <tabstop>BtnMacros1</tabstop>
   <tabstop>BtnMacros11</tabstop>
-  <tabstop>BtnMacros1_2</tabstop>
+  <tabstop>BtnMacros2</tabstop>
   <tabstop>BtnMacros12</tabstop>
   <tabstop>BtnMacros3</tabstop>
   <tabstop>BtnMacros13</tabstop>
