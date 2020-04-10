@@ -1,11 +1,13 @@
 from PyQt5 import QtWidgets, QtCore, QtSerialPort, QtGui
 import sys
+import os
 from loguru import logger
 import terminal_design
 import data_types
 import common_functions
 import settings
 import macros
+import json
 
 logger.start("logfile.log", rotation="1 week", format="{time} {level} {message}", level="DEBUG", enqueue=True)
 
@@ -18,10 +20,11 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.serial_port = QtSerialPort.QSerialPort()
         self.port_settings = data_types.ComSettings()
         self.scan_ports()
+        self.all_macros = list()
+        self.current_macros = data_types.MacroSet(name="", macros=list())
+        self.load_macros()
         self.counter = 0
         self.settings_form = None
-        self.current_macros = data_types.MacroSet(name="", macros=list())
-        self.all_macros = list()
         self.macros_form = None
         self.CBBaudrate.setCurrentText('115200')
         self.serial_port.readyRead.connect(self.read_data)
@@ -54,7 +57,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnDisconnect.setEnabled(False)
         # noinspection PyArgumentList
         for port in QtSerialPort.QSerialPortInfo.availablePorts():
-            print(port.manufacturer())
             if not self.CBSTM.isChecked() or port.manufacturer().startswith('STMicroelectronics'):
                 self.CBPorts.addItem("%s: (%s)" % (port.portName(), (port.description())))
         if self.CBPorts.count() > 0:
@@ -63,6 +65,22 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             for i in range(self.CBPorts.count()):
                 if self.CBPorts.itemText(i).startswith(self.port_settings.last_name):
                     self.CBPorts.setCurrentIndex(i)
+
+    def load_macros(self):
+        """
+        loads macros sets from "macros.json"
+        :return:
+        """
+        if os.path.exists("macros.json"):
+            with open("macros.json") as f:
+                macros_data = json.load(f)
+                self.all_macros, warning = data_types.create_macros_from_list(macros_data['Macros'])
+                if warning:
+                    self.LblStatus.setText(warning)
+                self.CBMacros.addItem('None')
+                self.CBMacros.addItems([macrosset.name for macrosset in self.all_macros])
+
+
 
     def connect(self):
         """
@@ -202,9 +220,12 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         :return:
         """
         self.CBMacros.clear()
+        self.CBMacros.addItem('None')
         self.CBMacros.addItems([macrosset.name for macrosset in self.all_macros])
         if self.current_macros.name:
             self.CBMacros.setCurrentText(self.current_macros.name)
+        else:
+            self.CBMacros.setCurrentText('None')
 
     def macros_applied(self, macros_name: str):
         """
@@ -224,6 +245,9 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         selected_macros = data_types.get_macros_by_name(self.CBMacros.currentText(), self.all_macros)
         if selected_macros:
             self.current_macros = selected_macros
+            self.LblMacrosSelected.setText("Macros set selected: %s" % selected_macros.name)
+        else:
+            self.LblMacrosSelected.setText("Macros set selected: None")
 
 
 def initiate_exception_logging():

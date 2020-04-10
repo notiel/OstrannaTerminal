@@ -407,9 +407,9 @@ p, li { white-space: pre-wrap; }
      </widget>
     </item>
     <item row="21" column="9" colspan="2">
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="LblMacrosSelected">
       <property name="text">
-       <string>Macros not selected</string>
+       <string>Macros set selected: None</string>
       </property>
      </widget>
     </item>

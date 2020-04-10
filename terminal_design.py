@@ -173,9 +173,9 @@ class Ui_MainWindow(object):
         self.TxtBuffer = QtWidgets.QTextBrowser(self.centralwidget)
         self.TxtBuffer.setObjectName("TxtBuffer")
         self.gridLayout.addWidget(self.TxtBuffer, 13, 0, 9, 9)
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 21, 9, 1, 2)
+        self.LblMacrosSelected = QtWidgets.QLabel(self.centralwidget)
+        self.LblMacrosSelected.setObjectName("LblMacrosSelected")
+        self.gridLayout.addWidget(self.LblMacrosSelected, 21, 9, 1, 2)
         self.BtnCreateMacros = QtWidgets.QPushButton(self.centralwidget)
         self.BtnCreateMacros.setObjectName("BtnCreateMacros")
         self.gridLayout.addWidget(self.BtnCreateMacros, 22, 9, 1, 2)
@@ -280,7 +280,7 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.label.setText(_translate("MainWindow", "Macros not selected"))
+        self.LblMacrosSelected.setText(_translate("MainWindow", "Macros set selected: None"))
         self.BtnCreateMacros.setText(_translate("MainWindow", "Create Set"))
         self.menuSettings.setTitle(_translate("MainWindow", "Settings"))
         self.actionSettings.setText(_translate("MainWindow", "Settings"))
