@@ -54,6 +54,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                                  self.BtnMacros11, self.BtnMacros12, self.BtnMacros13, self.BtnMacros14,
                                  self.BtnMacros15, self.BtnMacros16, self.BtnMacros17, self.BtnMacros18,
                                  self.BtnMacros19, self.BtnMacros20]
+        for btn in self.macros_btns_list:
+            btn.clicked.connect(self.macro_btn_pressed)
 
     def scan_ports(self):
         """
@@ -260,15 +262,19 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                     index].name else '<Not used>'
                 btn.setText(caption)
                 btn.setEnabled(caption != '<Not used>')
-
         else:
             self.LblMacrosSelected.setText("Macros set selected: None")
             for (index, btn) in enumerate(self.macros_btns_list):
                 btn.setText('M%i' % index+1)
                 btn.setEnabled(False)
 
-
-
+    def macro_btn_pressed(self):
+        """
+        command to send when macro pressed
+        :return:
+        """
+        btn = self.sender()
+        self.TxtTransmit.setText(self.current_macros.macros[self.macros_btns_list.index(btn)].command)
 
 def initiate_exception_logging():
     # generating our hook
