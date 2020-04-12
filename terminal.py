@@ -8,6 +8,7 @@ import common_functions
 import settings
 import macros
 import json
+from typing import List, Dict, Tuple, Optional
 
 logger.start("logfile.log", rotation="1 week", format="{time} {level} {message}", level="DEBUG", enqueue=True)
 
@@ -18,15 +19,16 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.serial_port = QtSerialPort.QSerialPort()
-        self.port_settings = data_types.ComSettings()
+        self.port_settings: data_types.ComSettings = data_types.ComSettings()
         self.scan_ports()
-        self.all_macros = list()
-        self.current_macros = data_types.MacroSet(name="", macros=list())
+        self.all_macros: List[data_types.MacroSet] = list()
+        self.current_macros: data_types.MacroSet = data_types.MacroSet(name="", macros=list())
         self.load_macros()
-        self.counter = 0
-        self.settings_form = None
-        self.macros_form = None
-        self.colors = {'background-color': (255, 255, 255), 'font-transmit': (00, 102, 51), 'font-receive': (0, 0, 0)}
+        self.counter: int = 0
+        self.settings_form: Optional[settings.Settings] = None
+        self.macros_form: Optional[macros.Macros] = None
+        self.colors: Dict[str, Tuple[int, int, int]] = \
+            {'background-color': (255, 255, 255), 'font-transmit': (00, 102, 51), 'font-receive': (0, 0, 0)}
         self.CBBaudrate.setCurrentText('115200')
         self.serial_port.readyRead.connect(self.read_data)
         self.serial_port.errorOccurred.connect(self.serial_error)
@@ -124,10 +126,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.serial_port.close()
         self.LblStatusInfo.setText('Disconnected')
         self.port_settings.name = ""
+        self.counter = 0
         self.scan_ports()
         self.BtnSend.setEnabled(False)
         self.BtnBuffer.setEnabled(False)
-        self.counter = 0
 
     def clear_pressed(self):
         """
@@ -136,6 +138,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         self.TxtBuffer.clear()
         self.LblCounterData.setText("0")
+        self.counter = 0
 
     def baudrate_changed(self):
         """
@@ -150,7 +153,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         reads data from comport
         :return:
         """
-        read = ""
+        read: str = ""
         try:
             read += self.serial_port.readAll().data().decode('utf-8')
             self.statusbar.clearMessage()
@@ -176,6 +179,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         command: bytes = bytes(text+'\r\n', encoding='utf-8') if self.port_settings.CRLF else \
             bytes(text, encoding='utf-8')
         res = self.serial_port.write(command)
+        self.serial_port.flush()
         if res != len(command):
             common_functions.error_message('Data was not sent correctly')
         else:
@@ -223,6 +227,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         self.settings_form = settings.Settings(self.port_settings, self.colors)
         self.settings_form.show()
+        self.settings_form.color_signal.connect(self.back_color_changed)
 
     def macros_pressed(self):
         """
@@ -262,7 +267,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         selects new macros
         :return:
         """
-        selected_macros = data_types.get_macros_by_name(self.CBMacros.currentText(), self.all_macros)
+        selected_macros: Optional[data_types.MacroSet] = \
+            data_types.get_macros_by_name(self.CBMacros.currentText(), self.all_macros)
         if selected_macros:
             self.current_macros = selected_macros
             self.LblMacrosSelected.setText("Macros set selected: %s" % selected_macros.name)
@@ -285,6 +291,13 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         btn = self.sender()
         self.TxtTransmit.setText(self.current_macros.macros[self.macros_btns_list.index(btn)].command)
 
+    def back_color_changed(self):
+        """
+        changes TxtBuffer background color
+        :return:
+        """
+        self.TxtBuffer.setStyleSheet("background-color:rgb%s" % str(self.colors['background-color']))
+
 
 def initiate_exception_logging():
     # generating our hook
@@ -295,6 +308,7 @@ def initiate_exception_logging():
         # Print the error and traceback
         logger.exception(f"{exctype}, {value}, {traceback}")
         # Call the normal Exception hook after
+        # noinspection PyProtectedMember
         sys._excepthook(exctype, value, traceback)
         # sys.exit(1)
 

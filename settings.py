@@ -1,10 +1,12 @@
 import settings_design
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 import data_types
 from typing import Dict, Tuple
 
 
 class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
+
+    color_signal = QtCore.pyqtSignal()
 
     def __init__(self, port_settings: data_types.ComSettings, color_settings: Dict[str, Tuple[int, int, int]]):
         super().__init__()
@@ -114,3 +116,7 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
             self.LblBackgroundColor.setStyleSheet(style_back)
             self.LblReceivedColor.setStyleSheet(style_back + '; color:rgb%s' % str(self.colors['font-receive']))
             self.LblSentColor.setStyleSheet(style_back + '; color:rgb%s' % str(self.colors['font-transmit']))
+
+    def closeEvent(self, event):
+        self.color_signal.emit()
+        event.accept()
