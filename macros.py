@@ -33,6 +33,7 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         self.BtnSave.clicked.connect(self.save_pressed)
         self.BtnApply.clicked.connect(self.apply_pressed)
         self.BtnAll.clicked.connect(self.all_pressed)
+        self.BtnDelete.clicked.connect(self.delete_pressed)
         self.CBMacros.currentTextChanged.connect(self.selected_changed)
 
     def load_current_set(self):
@@ -62,12 +63,14 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         loads data of selected macros
         :return:
         """
-        macros = data_types.get_macros_by_name(self.CBMacros.currentText(), self.all_macros)
-        if macros:
-            self.load_macros(macros)
+        if self.CBMacros.currentText() == 'None':
+            self.clear()
+        else:
+            macros = data_types.get_macros_by_name(self.CBMacros.currentText(), self.all_macros)
+            if macros:
+                self.load_macros(macros)
 
-
-    def create_macros_set(self, unique: bool) -> Optional[data_types.MacroSet]:
+    def create_macros_set(self) -> Optional[data_types.MacroSet]:
         """
         create new macros from data from fields and add it to all macroses
         :return: new macros
@@ -76,23 +79,58 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         if not name:
             common_functions.error_message("Macros Set Name is empty")
             return None
-        if unique and name in [macro.name for macro in self.all_macros]:
-            common_functions.error_message("Macros Name already used")
-            return None
-        macros_set = data_types.MacroSet(name=name, macros=list())
+        new_macros_set = data_types.MacroSet(name=name, macros=list())
         for key in self.macros_dict.keys():
-            macros_set.macros.append(data_types.Macro(
+            new_macros_set.macros.append(data_types.Macro(
                 name=self.macros_dict[key][0].text(), command=self.macros_dict[key][1].text()))
+        if name in [macro.name for macro in self.all_macros]:
+            macros_used = data_types.get_macros_by_name(name, self.all_macros)
+            if macros_used != new_macros_set:
+                reply = QtWidgets.QMessageBox.question(self, 'Message',
+                                                       'Macros set "%s" already exists. Overwrite?' % name,
+                                                       QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
+                if reply == QtWidgets.QMessageBox.Yes:
+                    ind = self.all_macros.index(macros_used)
+                    self.all_macros.pop(ind)
+                    self.all_macros.insert(ind, new_macros_set)
+            return None
         if name not in [macro.name for macro in self.all_macros]:
-            self.all_macros.append(macros_set)
-        return macros_set
+            self.all_macros.append(new_macros_set)
+            self.CBMacros.addItem(name)
+            self.CBMacros.setCurrentText(name)
+        return new_macros_set
+
+    def delete_pressed(self):
+        name = self.LineNameSet.text()
+        if name and name in [macro.name for macro in self.all_macros]:
+            reply = QtWidgets.QMessageBox.question(self, 'Message', 'Do you really want to delete "%s" macros set?'
+                                                   % name, QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
+            if reply == QtWidgets.QMessageBox.Yes:
+                macros_to_delete = data_types.get_macros_by_name(name, self.all_macros)
+                self.all_macros.remove(macros_to_delete)
+                self.CBMacros.clear()
+                self.CBMacros.addItem('None')
+                self.CBMacros.addItems([macrosset.name for macrosset in self.all_macros])
+                self.save()
+        self.CBMacros.setCurrentText('None')
+
+    def clear(self):
+        """
+        clears macros fields
+        :return:
+        """
+        self.LineNameSet.clear()
+        for field in self.macros_command_list:
+            field.clear()
+        for field in self.macros_names_list:
+            field.clear()
 
     def apply_pressed(self):
         """
         add macros as current
         :return:
         """
-        new_macros_set = self.create_macros_set(False)
+        new_macros_set = self.create_macros_set()
         if new_macros_set:
             self.current_macros = new_macros_set
             self.applied_signal.emit(new_macros_set.name)
@@ -103,20 +141,25 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         save macros to file and not add to current
         :return:
         """
-        new_macros_set = self.create_macros_set(True)
+        new_macros_set = self.create_macros_set()
         if new_macros_set:
-            with open("macros.json", "w") as f:
-                dump = {'Macros': [asdict(macros) for macros in self.all_macros]}
-                json.dump(dump, f, indent=4)
+            self.save()
             self.LblStatus.setText("Macros set saved")
             self.edited_signal.emit()
 
     def all_pressed(self):
-        new_macros_set = self.create_macros_set(True)
+        new_macros_set = self.create_macros_set()
         if new_macros_set:
             self.current_macros = new_macros_set
-            dump = {'Macros': [asdict(macros) for macros in self.all_macros]}
-            with open("macros.json", "w") as f:
-                json.dump(dump, f, indent=4)
+            self.save()
             self.LblStatus.setText("Macros set saved and applied")
             self.applied_signal.emit(new_macros_set.name)
+
+    def save(self):
+        """
+        saves macros data to file
+        :return:
+        """
+        dump = {'Macros': [asdict(macros) for macros in self.all_macros]}
+        with open("macros.json", "w") as f:
+            json.dump(dump, f, indent=4)

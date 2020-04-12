@@ -26,7 +26,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.counter = 0
         self.settings_form = None
         self.macros_form = None
-
+        self.colors = {'background-color': (255, 255, 255), 'font-transmit': (00, 102, 51), 'font-receive': (0, 0, 0)}
         self.CBBaudrate.setCurrentText('115200')
         self.serial_port.readyRead.connect(self.read_data)
         self.serial_port.errorOccurred.connect(self.serial_error)
@@ -37,6 +37,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnDisconnect.clicked.connect(self.disconnect)
         self.BtnClear.clicked.connect(self.clear_pressed)
         self.BtnSend.clicked.connect(self.write_data)
+        self.BtnBuffer.clicked.connect(self.read_data)
         self.BtnCounter.clicked.connect(self.clear_counter)
         self.BtnSave.clicked.connect(self.save_to_file)
         self.BtnCreateMacros.clicked.connect(self.macros_pressed)
@@ -47,7 +48,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
 
         plain_font = QtGui.QFont("Consolas", 10)
         self.TxtBuffer.setFont(plain_font)
-        self.TxtBuffer.setTextColor(QtGui.QColor(0, 0, 0))
+        self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
+        self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-transmit']))
 
         self.macros_btns_list = [self.BtnMacros1, self.BtnMacros2, self.BtnMacros3, self.BtnMacros4, self.BtnMacros5,
                                  self.BtnMacros6, self.BtnMacros7, self.BtnMacros8, self.BtnMacros9, self.BtnMacros10,
@@ -91,8 +93,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                 self.CBMacros.addItem('None')
                 self.CBMacros.addItems([macrosset.name for macrosset in self.all_macros])
 
-
-
     def connect(self):
         """
         connects to selected port with selected settings, sets connected UI state if success
@@ -114,6 +114,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.port_settings.name = name
             self.port_settings.last_name = name
             self.BtnSend.setEnabled(True)
+            self.BtnBuffer.setEnabled(True)
 
     def disconnect(self):
         """
@@ -125,6 +126,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.port_settings.name = ""
         self.scan_ports()
         self.BtnSend.setEnabled(False)
+        self.BtnBuffer.setEnabled(False)
         self.counter = 0
 
     def clear_pressed(self):
@@ -151,13 +153,17 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         read = ""
         try:
             read += self.serial_port.readAll().data().decode('utf-8')
+            self.statusbar.clearMessage()
         except UnicodeDecodeError:
-            pass
+            self.statusbar.showMessage("Unicode decode error")
+
         if read:
-            self.TxtBuffer.setTextColor(QtGui.QColor(0, 0, 0))
+            self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
+            self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-receive']))
             self.TxtBuffer.insertPlainText(read)
-            scroll = self.TxtBuffer.verticalScrollBar().maximum()
-            self.TxtBuffer.verticalScrollBar().setValue(scroll)
+            if self.CBScroll.isChecked():
+                scroll = self.TxtBuffer.verticalScrollBar().maximum()
+                self.TxtBuffer.verticalScrollBar().setValue(scroll)
             self.counter += len(read)
             self.LblCounterData.setText(str(self.counter))
 
@@ -175,8 +181,11 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         else:
             if self.CBClear.isChecked():
                 self.TxtTransmit.clear()
-            self.TxtBuffer.setTextColor(QtGui.QColor(0, 255, 0))
-            self.TxtBuffer.insertPlainText(text + '\r\n')
+            if self.CBShowSent.isChecked():
+                self.TxtBuffer.setStyleSheet("background-color:rgb%s" % str(self.colors['background-color']))
+                self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
+                self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-transmit']))
+                self.TxtBuffer.insertPlainText(text + '\r\n')
 
     def serial_error(self):
         """
@@ -212,7 +221,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         opens settings form
         :return:
         """
-        self.settings_form = settings.Settings(self.port_settings)
+        self.settings_form = settings.Settings(self.port_settings, self.colors)
         self.settings_form.show()
 
     def macros_pressed(self):

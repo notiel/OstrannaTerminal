@@ -6,14 +6,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>368</width>
-    <height>257</height>
+    <width>431</width>
+    <height>397</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Settings</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="0">
+    <widget class="QCheckBox" name="CBEndLine">
+     <property name="text">
+      <string>Add CR/LF</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="1" rowspan="2">
     <widget class="QGroupBox" name="GBParity">
      <property name="title">
@@ -157,14 +167,85 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QCheckBox" name="CBEndLine">
-     <property name="text">
-      <string>Add CR/LF</string>
+   <item row="3" column="0" colspan="3">
+    <widget class="QGroupBox" name="GBColor">
+     <property name="title">
+      <string>Select TextField Style</string>
      </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
+     <layout class="QGridLayout" name="gridLayout_6">
+      <item row="1" column="1">
+       <widget class="QLabel" name="LblSentColor">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255,255,255); color: rgb(00,102,51)</string>
+        </property>
+        <property name="text">
+         <string>Sent</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="LblBackground">
+        <property name="text">
+         <string>Backround Color</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="LblReceivedFont">
+        <property name="text">
+         <string>Font Received Color</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="LblFontSent">
+        <property name="text">
+         <string>Font Sent Color</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="LblBackgroundColor">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255,255,255)</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="LblReceivedColor">
+        <property name="styleSheet">
+         <string notr="true">background-color: white</string>
+        </property>
+        <property name="text">
+         <string>Received</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QPushButton" name="BtnBackgroundColor">
+        <property name="text">
+         <string>Select Color</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QPushButton" name="BtnSentColor">
+        <property name="text">
+         <string>Select Color</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QPushButton" name="BtnReceivedColor">
+        <property name="text">
+         <string>Select Color</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

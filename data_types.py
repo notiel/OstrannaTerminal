@@ -22,7 +22,7 @@ max_macros = 20
 
 
 databits_dict = {5: QtSerialPort.QSerialPort.Data5, 6: QtSerialPort.QSerialPort.Data6,
-                 7: QtSerialPort.QSerialPort.Data5, 8: QtSerialPort.QSerialPort.Data6}
+                 7: QtSerialPort.QSerialPort.Data7, 8: QtSerialPort.QSerialPort.Data8}
 
 
 class Parity(Enum):

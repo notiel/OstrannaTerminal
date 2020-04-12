@@ -1,14 +1,16 @@
 import settings_design
 from PyQt5 import QtWidgets
 import data_types
+from typing import Dict, Tuple
 
 
 class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
 
-    def __init__(self, port_settings: data_types.ComSettings):
+    def __init__(self, port_settings: data_types.ComSettings, color_settings: Dict[str, Tuple[int, int, int]]):
         super().__init__()
         self.setupUi(self)
         self.settings = port_settings
+        self.colors = color_settings
 
         databits_group = QtWidgets.QButtonGroup(self)
         databits_group.addButton(self.RBDatabits5)
@@ -63,6 +65,17 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
                 RB.setChecked(True)
         self.CBEndLine.setChecked(self.settings.CRLF)
 
+        self.color_ctrl_dict = {self.BtnBackgroundColor: 'background-color', self.BtnSentColor: 'font-transmit',
+                                self.BtnReceivedColor: 'font-receive'}
+
+        for color_btn in self.color_ctrl_dict.keys():
+            color_btn.clicked.connect(self.color_changed)
+
+        style_back = "background-color:rgb%s" % str(self.colors['background-color'])
+        self.LblBackgroundColor.setStyleSheet(style_back)
+        self.LblReceivedColor.setStyleSheet(style_back + '; color:rgb%s' % str(self.colors['font-receive']))
+        self.LblSentColor.setStyleSheet(style_back + '; color:rgb%s' % str(self.colors['font-transmit']))
+
     def databits_changed(self):
         for RB in self.databits_dict.keys():
             if RB.isChecked():
@@ -89,3 +102,15 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
 
     def end_string_changed(self):
         self.settings.CRLF = self.CBEndLine.isChecked()
+
+    # noinspection PyArgumentList
+    def color_changed(self):
+        sender = self.sender()
+        color = QtWidgets.QColorDialog.getColor()
+        if color.isValid():
+            self.colors[self.color_ctrl_dict[sender]] = (color.getRgb()[0], color.getRgb()[1], color.getRgb()[2])
+            print(color.getRgb())
+            style_back = "background-color:rgb%s" % str(self.colors['background-color'])
+            self.LblBackgroundColor.setStyleSheet(style_back)
+            self.LblReceivedColor.setStyleSheet(style_back + '; color:rgb%s' % str(self.colors['font-receive']))
+            self.LblSentColor.setStyleSheet(style_back + '; color:rgb%s' % str(self.colors['font-transmit']))

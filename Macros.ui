@@ -14,21 +14,21 @@
    <string>MacrosSet</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="9" column="4">
+   <item row="9" column="5">
     <widget class="QLabel" name="LblMacro17">
      <property name="text">
       <string>Macro17</string>
      </property>
     </widget>
    </item>
-   <item row="8" column="4">
+   <item row="8" column="5">
     <widget class="QLabel" name="LblMacro16">
      <property name="text">
       <string>Macro16</string>
      </property>
     </widget>
    </item>
-   <item row="11" column="4">
+   <item row="11" column="5">
     <widget class="QLabel" name="LblMacro19">
      <property name="text">
       <string>Macro19</string>
@@ -45,7 +45,7 @@
      </property>
     </widget>
    </item>
-   <item row="12" column="5">
+   <item row="12" column="6">
     <widget class="QLineEdit" name="LineName20">
      <property name="maximumSize">
       <size>
@@ -65,20 +65,14 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="2">
-    <widget class="QLineEdit" name="LineCommand3"/>
-   </item>
-   <item row="6" column="2">
-    <widget class="QLineEdit" name="LineCommand4"/>
-   </item>
-   <item row="10" column="4">
+   <item row="10" column="5">
     <widget class="QLabel" name="LblMacro18">
      <property name="text">
       <string>Macro18</string>
      </property>
     </widget>
    </item>
-   <item row="11" column="5">
+   <item row="11" column="6">
     <widget class="QLineEdit" name="LineName19">
      <property name="maximumSize">
       <size>
@@ -88,10 +82,7 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="2">
-    <widget class="QLineEdit" name="LineCommand2"/>
-   </item>
-   <item row="5" column="5">
+   <item row="5" column="6">
     <widget class="QLineEdit" name="LineName13">
      <property name="maximumSize">
       <size>
@@ -101,7 +92,7 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="5">
+   <item row="6" column="6">
     <widget class="QLineEdit" name="LineName14">
      <property name="maximumSize">
       <size>
@@ -111,7 +102,7 @@
      </property>
     </widget>
    </item>
-   <item row="10" column="5">
+   <item row="10" column="6">
     <widget class="QLineEdit" name="LineName18">
      <property name="maximumSize">
       <size>
@@ -141,9 +132,6 @@
      </property>
     </widget>
    </item>
-   <item row="8" column="2">
-    <widget class="QLineEdit" name="LineCommand6"/>
-   </item>
    <item row="7" column="1">
     <widget class="QLineEdit" name="LineName5">
      <property name="maximumSize">
@@ -154,7 +142,7 @@
      </property>
     </widget>
    </item>
-   <item row="8" column="5">
+   <item row="8" column="6">
     <widget class="QLineEdit" name="LineName16">
      <property name="maximumSize">
       <size>
@@ -164,7 +152,7 @@
      </property>
     </widget>
    </item>
-   <item row="9" column="5">
+   <item row="9" column="6">
     <widget class="QLineEdit" name="LineName17">
      <property name="maximumSize">
       <size>
@@ -174,7 +162,7 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="5">
+   <item row="4" column="6">
     <widget class="QLineEdit" name="LineName12">
      <property name="maximumSize">
       <size>
@@ -194,7 +182,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="5">
+   <item row="3" column="6">
     <widget class="QLineEdit" name="LineName11">
      <property name="maximumSize">
       <size>
@@ -204,13 +192,7 @@
      </property>
     </widget>
    </item>
-   <item row="10" column="2">
-    <widget class="QLineEdit" name="LineCommand8"/>
-   </item>
-   <item row="12" column="2">
-    <widget class="QLineEdit" name="LineCommand10"/>
-   </item>
-   <item row="7" column="5">
+   <item row="7" column="6">
     <widget class="QLineEdit" name="LineName15">
      <property name="maximumSize">
       <size>
@@ -227,13 +209,7 @@
      </property>
     </widget>
    </item>
-   <item row="9" column="2">
-    <widget class="QLineEdit" name="LineCommand7"/>
-   </item>
-   <item row="11" column="2">
-    <widget class="QLineEdit" name="LineCommand9"/>
-   </item>
-   <item row="12" column="4">
+   <item row="12" column="5">
     <widget class="QLabel" name="LblMacro20">
      <property name="text">
       <string>Macro20</string>
@@ -250,7 +226,7 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="4">
+   <item row="7" column="5">
     <widget class="QLabel" name="LblMacro15">
      <property name="text">
       <string>Macro15</string>
@@ -267,7 +243,7 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="4">
+   <item row="4" column="5">
     <widget class="QLabel" name="LblMacro12">
      <property name="text">
       <string>Macro12</string>
@@ -281,14 +257,14 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="4">
+   <item row="5" column="5">
     <widget class="QLabel" name="LblMacro13">
      <property name="text">
       <string>Macro13</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="6">
+   <item row="2" column="7">
     <widget class="QLabel" name="LblCommmand2">
      <property name="text">
       <string>Command:</string>
@@ -340,9 +316,6 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="2">
-    <widget class="QLineEdit" name="LineCommand5"/>
-   </item>
    <item row="4" column="0">
     <widget class="QLabel" name="LblMacro2">
      <property name="text">
@@ -360,9 +333,6 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="2">
-    <widget class="QLineEdit" name="LineCommand1"/>
-   </item>
    <item row="0" column="1">
     <widget class="QLabel" name="LblNameSet">
      <property name="text">
@@ -370,7 +340,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="4">
+   <item row="3" column="5">
     <widget class="QLabel" name="LblMacro11">
      <property name="text">
       <string>Macro11</string>
@@ -384,7 +354,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="5">
+   <item row="2" column="6">
     <widget class="QLabel" name="LblName2">
      <property name="text">
       <string>Name on Button:</string>
@@ -401,7 +371,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="5">
+   <item row="0" column="6">
     <widget class="QPushButton" name="BtnApply">
      <property name="text">
       <string>Apply</string>
@@ -415,7 +385,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="4">
+   <item row="0" column="5">
     <widget class="QPushButton" name="BtnSave">
      <property name="maximumSize">
       <size>
@@ -435,22 +405,66 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="4">
+   <item row="6" column="5">
     <widget class="QLabel" name="LblMacro14">
      <property name="text">
       <string>Macro14</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="6">
+   <item row="0" column="7">
     <widget class="QPushButton" name="BtnAll">
      <property name="text">
       <string>Save and Apply</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
+   <item row="3" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand1"/>
+   </item>
+   <item row="9" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand7"/>
+   </item>
+   <item row="4" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand2"/>
+   </item>
+   <item row="8" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand6"/>
+   </item>
+   <item row="6" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand4"/>
+   </item>
+   <item row="7" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand5"/>
+   </item>
+   <item row="5" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand3"/>
+   </item>
+   <item row="10" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand8"/>
+   </item>
+   <item row="0" column="4">
     <widget class="QComboBox" name="CBMacros"/>
+   </item>
+   <item row="0" column="8">
+    <widget class="QPushButton" name="BtnDelete">
+     <property name="text">
+      <string>Delete</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="7" colspan="2">
+    <widget class="QLineEdit" name="LineCommand14"/>
+   </item>
+   <item row="4" column="7" colspan="2">
+    <widget class="QLineEdit" name="LineCommand12"/>
+   </item>
+   <item row="13" column="0" colspan="9">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
    </item>
    <item row="14" column="0" colspan="3">
     <widget class="QLabel" name="LblStatus">
@@ -459,49 +473,35 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="7">
-    <widget class="QPushButton" name="pushButton">
-     <property name="text">
-      <string>Delete</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="6" colspan="2">
-    <widget class="QLineEdit" name="LineCommand11"/>
-   </item>
-   <item row="4" column="6" colspan="2">
-    <widget class="QLineEdit" name="LineCommand12"/>
-   </item>
-   <item row="5" column="6" colspan="2">
+   <item row="5" column="7" colspan="2">
     <widget class="QLineEdit" name="LineCommand13"/>
    </item>
-   <item row="6" column="6" colspan="2">
-    <widget class="QLineEdit" name="LineCommand14"/>
-   </item>
-   <item row="7" column="6" colspan="2">
-    <widget class="QLineEdit" name="LineCommand15"/>
-   </item>
-   <item row="8" column="6" colspan="2">
-    <widget class="QLineEdit" name="LineCommand16"/>
-   </item>
-   <item row="12" column="6" colspan="2">
-    <widget class="QLineEdit" name="LineCommand20"/>
-   </item>
-   <item row="11" column="6" colspan="2">
-    <widget class="QLineEdit" name="LineCommand19"/>
-   </item>
-   <item row="10" column="6" colspan="2">
+   <item row="10" column="7" colspan="2">
     <widget class="QLineEdit" name="LineCommand18"/>
    </item>
-   <item row="9" column="6" colspan="2">
+   <item row="7" column="7" colspan="2">
+    <widget class="QLineEdit" name="LineCommand15"/>
+   </item>
+   <item row="3" column="7" colspan="2">
+    <widget class="QLineEdit" name="LineCommand11"/>
+   </item>
+   <item row="9" column="7" colspan="2">
     <widget class="QLineEdit" name="LineCommand17"/>
    </item>
-   <item row="13" column="0" colspan="8">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
+   <item row="12" column="7" colspan="2">
+    <widget class="QLineEdit" name="LineCommand20"/>
+   </item>
+   <item row="8" column="7" colspan="2">
+    <widget class="QLineEdit" name="LineCommand16"/>
+   </item>
+   <item row="11" column="7" colspan="2">
+    <widget class="QLineEdit" name="LineCommand19"/>
+   </item>
+   <item row="11" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand9"/>
+   </item>
+   <item row="12" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand10"/>
    </item>
   </layout>
  </widget>
