@@ -24,6 +24,8 @@ max_macros = 20
 databits_dict = {5: QtSerialPort.QSerialPort.Data5, 6: QtSerialPort.QSerialPort.Data6,
                  7: QtSerialPort.QSerialPort.Data7, 8: QtSerialPort.QSerialPort.Data8}
 
+baudrates = [9600, 115200, 256000]
+
 
 class Parity(Enum):
     NONE = 0

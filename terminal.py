@@ -28,8 +28,14 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.settings_form: Optional[settings.Settings] = None
         self.macros_form: Optional[macros.Macros] = None
         self.colors: Dict[str, Tuple[int, int, int]] = \
-            {'background-color': (255, 255, 255), 'font-transmit': (00, 102, 51), 'font-receive': (0, 0, 0)}
+            {'background-color': (255, 255, 255), 'font-transmit': (50, 250, 00), 'font-receive': (0, 0, 0)}
         self.CBBaudrate.setCurrentText('115200')
+        plain_font = QtGui.QFont("Consolas", 10)
+        self.TxtBuffer.setFont(plain_font)
+        self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
+        self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-transmit']))
+        self.load_settings()
+
         self.serial_port.readyRead.connect(self.read_data)
         self.serial_port.errorOccurred.connect(self.serial_error)
         self.CBBaudrate.currentTextChanged.connect(self.baudrate_changed)
@@ -48,11 +54,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.actionSettings.setShortcut('Ctrl+S')
         self.actionSettings.triggered.connect(self.settings_pressed)
 
-        plain_font = QtGui.QFont("Consolas", 10)
-        self.TxtBuffer.setFont(plain_font)
-        self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
-        self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-transmit']))
-
         self.macros_btns_list = [self.BtnMacros1, self.BtnMacros2, self.BtnMacros3, self.BtnMacros4, self.BtnMacros5,
                                  self.BtnMacros6, self.BtnMacros7, self.BtnMacros8, self.BtnMacros9, self.BtnMacros10,
                                  self.BtnMacros11, self.BtnMacros12, self.BtnMacros13, self.BtnMacros14,
@@ -60,6 +61,30 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                                  self.BtnMacros19, self.BtnMacros20]
         for btn in self.macros_btns_list:
             btn.clicked.connect(self.macro_btn_pressed)
+
+    def load_settings(self):
+        """
+        loads settings from file if any and overwrites default
+        :return:
+        """
+        if os.path.exists("settings.json"):
+            with open("settings.json") as f:
+                try:
+                    settings = json.load(f)
+                    self.port_settings.baudrate = settings['COM settings']['baudrate']
+                    if self.port_settings.baudrate not in data_types.baudrates:
+                        self.CBBaudrate.addItem(str(self.port_settings.baudrate))
+                    self.CBBaudrate.setCurrentText(str(self.port_settings.baudrate))
+                    self.port_settings.stopbits = settings['COM settings']['stopbits']
+                    self.port_settings.parity = data_types.Parity(settings['COM settings']['parity'])
+                    self.port_settings.databits = settings['COM settings']['databits']
+                    self.port_settings.CRLF = settings['CRLF']
+                    self.colors['background-color'] = tuple(settings['Colors']['background-color'])
+                    self.back_color_changed()
+                    self.colors['font-transmit'] = tuple(settings['Colors']['font-transmit'])
+                    self.colors['font-receive'] = tuple(settings['Colors']['font-receive'])
+                except (json.JSONDecodeError, AttributeError, KeyError, ValueError):
+                    common_functions.error_message("Settings file is incorrect, default settings used")
 
     def scan_ports(self):
         """

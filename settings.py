@@ -119,10 +119,10 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
 
     def closeEvent(self, event):
         self.color_signal.emit()
-        settings_save = {'COM settings': [{'baudrate': self.settings.baudrate, 'databits': self.settings.databits,
-                                           'parity': self.settings.parity.value, 'stopbits': self.settings.stopbits}],
-                         'CRLF': True, 'Colors': [self.colors]}
+        settings_save = {'COM settings': {'baudrate': self.settings.baudrate, 'databits': self.settings.databits,
+                                          'parity': self.settings.parity.value, 'stopbits': self.settings.stopbits},
+                         'CRLF': self.settings.CRLF, 'Colors': self.colors}
         with open("Settings.json", "w") as f:
-            f.write(json.dumps(settings_save))
+            f.write(json.dumps(settings_save, indent=4))
 
         event.accept()
