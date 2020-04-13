@@ -2,10 +2,10 @@ import settings_design
 from PyQt5 import QtWidgets, QtCore
 import data_types
 from typing import Dict, Tuple
+import json
 
 
 class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
-
     color_signal = QtCore.pyqtSignal()
 
     def __init__(self, port_settings: data_types.ComSettings, color_settings: Dict[str, Tuple[int, int, int]]):
@@ -119,4 +119,10 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
 
     def closeEvent(self, event):
         self.color_signal.emit()
+        settings_save = {'COM settings': [{'baudrate': self.settings.baudrate, 'databits': self.settings.databits,
+                                           'parity': self.settings.parity.value, 'stopbits': self.settings.stopbits}],
+                         'CRLF': True, 'Colors': [self.colors]}
+        with open("Settings.json", "w") as f:
+            f.write(json.dumps(settings_save))
+
         event.accept()
