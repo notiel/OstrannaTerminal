@@ -13,7 +13,26 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         self.setupUi(self)
         self.settings = port_settings
         self.colors = color_settings
+        self.create_groups()
 
+        self.databits_dict = {self.RBDatabits5: 5, self.RBDatabits6: 6, self.RBDatabits7: 7, self.RBDatabits8: 8}
+        self.parity_dict = {self.RBParityEven: data_types.Parity.EVEN, self.RBParityMark: data_types.Parity.MARK,
+                            self.RBParityNone: data_types.Parity.NONE, self.RBParitySpace: data_types.Parity.SPACE,
+                            self.RBParityOdd: data_types.Parity.ODD}
+        self.stopbits_dict = {self.RBStopbits1: 1, self.RBStopbits2: 2, self.RBStopbits15: 1.5}
+        self.hs_dict = {self.RBHandNone: data_types.Handshaking.NONE, self.RBHandRts: data_types.Handshaking.RTSCTS}
+
+        self.CBEndLine.stateChanged.connect(self.end_string_changed)
+        self.create_rb_connections()
+        self.apply_port_settings()
+        self.color_ctrl_dict = dict()
+        self.apply_color_settings()
+
+    def create_groups(self):
+        """
+        groups radiobuttons
+        :return:
+        """
         databits_group = QtWidgets.QButtonGroup(self)
         databits_group.addButton(self.RBDatabits5)
         databits_group.addButton(self.RBDatabits6)
@@ -36,13 +55,11 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         hs_group.addButton(self.RBHandNone)
         hs_group.addButton(self.RBHandRts)
 
-        self.databits_dict = {self.RBDatabits5: 5, self.RBDatabits6: 6, self.RBDatabits7: 7, self.RBDatabits8: 8}
-        self.parity_dict = {self.RBParityEven: data_types.Parity.EVEN, self.RBParityMark: data_types.Parity.MARK,
-                            self.RBParityNone: data_types.Parity.NONE, self.RBParitySpace: data_types.Parity.SPACE,
-                            self.RBParityOdd: data_types.Parity.ODD}
-        self.stopbits_dict = {self.RBStopbits1: 1, self.RBStopbits2: 2, self.RBStopbits15: 1.5}
-        self.hs_dict = {self.RBHandNone: data_types.Handshaking.NONE, self.RBHandRts: data_types.Handshaking.RTSCTS}
-
+    def create_rb_connections(self):
+        """
+        connects radiobuttons to functions
+        :return:
+        """
         for RB in self.databits_dict.keys():
             RB.clicked.connect(self.databits_changed)
         for RB in self.parity_dict.keys():
@@ -51,8 +68,12 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
             RB.clicked.connect(self.stopbits_changed)
         for RB in self.hs_dict.keys():
             RB.clicked.connect(self.handshaking_changed)
-        self.CBEndLine.stateChanged.connect(self.end_string_changed)
 
+    def apply_port_settings(self):
+        """
+        applies port settings to gui
+        :return:
+        """
         for (RB, databits) in self.databits_dict.items():
             if self.settings.databits == databits:
                 RB.setChecked(True)
@@ -67,6 +88,11 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
                 RB.setChecked(True)
         self.CBEndLine.setChecked(self.settings.CRLF)
 
+    def apply_color_settings(self):
+        """
+        applies color settins to GUI
+        :return:
+        """
         self.color_ctrl_dict = {self.BtnBackgroundColor: 'background-color', self.BtnSentColor: 'font-transmit',
                                 self.BtnReceivedColor: 'font-receive'}
 
