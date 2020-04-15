@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>431</width>
-    <height>397</height>
+    <width>369</width>
+    <height>418</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -173,38 +173,48 @@
       <string>Select TextField Style</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_6">
-      <item row="1" column="1">
-       <widget class="QLabel" name="LblSentColor">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(255,255,255); color: rgb(00,102,51)</string>
-        </property>
+      <item row="3" column="0">
+       <widget class="QPushButton" name="BtnBackgroundColor">
         <property name="text">
-         <string>Sent</string>
+         <string>Select Color</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
+      <item row="3" column="3">
+       <widget class="QPushButton" name="BtnReceivedColor">
+        <property name="text">
+         <string>Select Color</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLabel" name="LblFont">
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Font  Style</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
        <widget class="QLabel" name="LblBackground">
         <property name="text">
          <string>Backround Color</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
+      <item row="1" column="3">
        <widget class="QLabel" name="LblReceivedFont">
         <property name="text">
          <string>Font Received Color</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="LblFontSent">
-        <property name="text">
-         <string>Font Sent Color</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
+      <item row="2" column="0">
        <widget class="QLabel" name="LblBackgroundColor">
         <property name="styleSheet">
          <string notr="true">background-color: rgb(255,255,255)</string>
@@ -214,8 +224,14 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
+      <item row="2" column="3">
        <widget class="QLabel" name="LblReceivedColor">
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">background-color: white</string>
         </property>
@@ -224,24 +240,40 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QPushButton" name="BtnBackgroundColor">
+      <item row="1" column="1" colspan="2">
+       <widget class="QLabel" name="LblFontSent">
         <property name="text">
-         <string>Select Color</string>
+         <string>Font Sent Color</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
+      <item row="3" column="1" colspan="2">
        <widget class="QPushButton" name="BtnSentColor">
         <property name="text">
          <string>Select Color</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="2">
-       <widget class="QPushButton" name="BtnReceivedColor">
+      <item row="2" column="1" colspan="2">
+       <widget class="QLabel" name="LblSentColor">
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255,255,255); color: rgb(00,102,51)</string>
+        </property>
         <property name="text">
-         <string>Select Color</string>
+         <string>Sent</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="3">
+       <widget class="QPushButton" name="BtnFont">
+        <property name="text">
+         <string>Select Font Style</string>
         </property>
        </widget>
       </item>

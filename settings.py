@@ -1,5 +1,5 @@
 import settings_design
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 import data_types
 from typing import Dict, Tuple
 import json
@@ -7,26 +7,36 @@ import json
 
 class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
     color_signal = QtCore.pyqtSignal()
+    font_signal = QtCore.pyqtSignal(QtGui.QFont)
 
-    def __init__(self, port_settings: data_types.ComSettings, color_settings: Dict[str, Tuple[int, int, int]]):
+    def __init__(self, port_settings: data_types.ComSettings, color_settings: Dict[str, Tuple[int, int, int]],
+                 current_font: QtGui.QFont):
         super().__init__()
         self.setupUi(self)
         self.settings = port_settings
         self.colors = color_settings
+        self.current_font = current_font
+        self.databits_dict, self.parity_dict, self.stopbits_dict, self.hs_dict = dict(), dict(), dict(), dict()
+        self.create_port_dicts()
         self.create_groups()
+        self.CBEndLine.stateChanged.connect(self.end_string_changed)
+        self.BtnFont.clicked.connect(self.font_changed)
+        self.create_rb_connections()
+        self.apply_port_settings()
+        self.color_ctrl_dict = dict()
+        self.apply_color_settings()
 
+    def create_port_dicts(self):
+        """
+        creates dicts to map our port settings constants and PyQt
+        :return:
+        """
         self.databits_dict = {self.RBDatabits5: 5, self.RBDatabits6: 6, self.RBDatabits7: 7, self.RBDatabits8: 8}
         self.parity_dict = {self.RBParityEven: data_types.Parity.EVEN, self.RBParityMark: data_types.Parity.MARK,
                             self.RBParityNone: data_types.Parity.NONE, self.RBParitySpace: data_types.Parity.SPACE,
                             self.RBParityOdd: data_types.Parity.ODD}
         self.stopbits_dict = {self.RBStopbits1: 1, self.RBStopbits2: 2, self.RBStopbits15: 1.5}
         self.hs_dict = {self.RBHandNone: data_types.Handshaking.NONE, self.RBHandRts: data_types.Handshaking.RTSCTS}
-
-        self.CBEndLine.stateChanged.connect(self.end_string_changed)
-        self.create_rb_connections()
-        self.apply_port_settings()
-        self.color_ctrl_dict = dict()
-        self.apply_color_settings()
 
     def create_groups(self):
         """
@@ -133,6 +143,10 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
 
     # noinspection PyArgumentList
     def color_changed(self):
+        """
+
+        :return:
+        """
         sender = self.sender()
         color = QtWidgets.QColorDialog.getColor()
         if color.isValid():
@@ -142,6 +156,15 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
             self.LblBackgroundColor.setStyleSheet(style_back)
             self.LblReceivedColor.setStyleSheet(style_back + '; color:rgb%s' % str(self.colors['font-receive']))
             self.LblSentColor.setStyleSheet(style_back + '; color:rgb%s' % str(self.colors['font-transmit']))
+            
+    def font_changed(self):
+        # noinspection PyCallByClass
+        font, ok = QtWidgets.QFontDialog.getFont(self.current_font)
+        if ok:
+            self.LblReceivedColor.setFont(font)
+            self.LblSentColor.setFont(font)
+            self.LblFont.setFont(font)
+            self.font_signal.emit(font)
 
     def closeEvent(self, event):
         self.color_signal.emit()

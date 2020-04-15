@@ -9,6 +9,7 @@ import settings
 import macros
 import json
 from typing import List, Dict, Tuple, Optional
+import datetime
 
 logger.start("logfile.log", rotation="1 week", format="{time} {level} {message}", level="DEBUG", enqueue=True)
 
@@ -25,13 +26,14 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.current_macros: data_types.MacroSet = data_types.MacroSet(name="", macros=list())
         self.load_macros()
         self.counter: int = 0
+        self.start_time = datetime.datetime.now()
         self.settings_form: Optional[settings.Settings] = None
         self.macros_form: Optional[macros.Macros] = None
         self.colors: Dict[str, Tuple[int, int, int]] = \
             {'background-color': (255, 255, 255), 'font-transmit': (50, 250, 00), 'font-receive': (0, 0, 0)}
         self.CBBaudrate.setCurrentText('115200')
-        plain_font = QtGui.QFont("Consolas", 10)
-        self.TxtBuffer.setFont(plain_font)
+        self.current_font = QtGui.QFont("Consolas", 10)
+        self.TxtBuffer.setFont(self.current_font)
         self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
         self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-transmit']))
         self.load_settings()
@@ -70,19 +72,19 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         if os.path.exists("settings.json"):
             with open("settings.json") as f:
                 try:
-                    settings = json.load(f)
-                    self.port_settings.baudrate = settings['COM settings']['baudrate']
+                    settings_json = json.load(f)
+                    self.port_settings.baudrate = settings_json['COM settings']['baudrate']
                     if self.port_settings.baudrate not in data_types.baudrates:
                         self.CBBaudrate.addItem(str(self.port_settings.baudrate))
                     self.CBBaudrate.setCurrentText(str(self.port_settings.baudrate))
-                    self.port_settings.stopbits = settings['COM settings']['stopbits']
-                    self.port_settings.parity = data_types.Parity(settings['COM settings']['parity'])
-                    self.port_settings.databits = settings['COM settings']['databits']
-                    self.port_settings.CRLF = settings['CRLF']
-                    self.colors['background-color'] = tuple(settings['Colors']['background-color'])
+                    self.port_settings.stopbits = settings_json['COM settings']['stopbits']
+                    self.port_settings.parity = data_types.Parity(settings_json['COM settings']['parity'])
+                    self.port_settings.databits = settings_json['COM settings']['databits']
+                    self.port_settings.CRLF = settings_json['CRLF']
+                    self.colors['background-color'] = tuple(settings_json['Colors']['background-color'])
                     self.back_color_changed()
-                    self.colors['font-transmit'] = tuple(settings['Colors']['font-transmit'])
-                    self.colors['font-receive'] = tuple(settings['Colors']['font-receive'])
+                    self.colors['font-transmit'] = tuple(settings_json['Colors']['font-transmit'])
+                    self.colors['font-receive'] = tuple(settings_json['Colors']['font-receive'])
                 except (json.JSONDecodeError, AttributeError, KeyError, ValueError):
                     common_functions.error_message("Settings file is incorrect, default settings used")
 
@@ -135,6 +137,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         if not self.serial_port.open(QtCore.QIODevice.ReadWrite):
             common_functions.error_message("Unable to open port %s" % name)
         else:
+            self.start_time = datetime.datetime.now()
             self.LblStatusInfo.setText("Connected")
             self.BtnDisconnect.setEnabled(True)
             self.BtnConnect.setEnabled(False)
@@ -188,6 +191,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         if read:
             self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
             self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-receive']))
+            if self.CBTime.isChecked():
+                delta = datetime.datetime.now() - self.start_time
+                read = '\n' + str(delta) + ': ' + read
+                read = read.strip().replace("\r", "\r\n%s: " % delta)
             self.TxtBuffer.insertPlainText(read)
             if self.CBScroll.isChecked():
                 scroll = self.TxtBuffer.verticalScrollBar().maximum()
@@ -250,9 +257,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         opens settings form
         :return:
         """
-        self.settings_form = settings.Settings(self.port_settings, self.colors)
+        self.settings_form = settings.Settings(self.port_settings, self.colors, self.current_font)
         self.settings_form.show()
         self.settings_form.color_signal.connect(self.back_color_changed)
+        self.settings_form.font_signal[QtGui.QFont].connect(self.font_changed)
 
     def macros_pressed(self):
         """
@@ -315,6 +323,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         btn = self.sender()
         self.TxtTransmit.setText(self.current_macros.macros[self.macros_btns_list.index(btn)].command)
+        self.BtnSend.click()
 
     def back_color_changed(self):
         """
@@ -322,6 +331,14 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         :return:
         """
         self.TxtBuffer.setStyleSheet("background-color:rgb%s" % str(self.colors['background-color']))
+
+    def font_changed(self, font: QtGui.QFont):
+        """
+        changes used font to TxtBuffer
+        :return:
+        """
+        self.current_font = font
+        self.TxtBuffer.setFont(font)
 
 
 def initiate_exception_logging():

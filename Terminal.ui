@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
-    <height>538</height>
+    <width>1084</width>
+    <height>553</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -55,7 +55,7 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="5">
+    <item row="6" column="5" alignment="Qt::AlignRight">
      <widget class="QLabel" name="LblBaudrate">
       <property name="text">
        <string>Baudrate:</string>
@@ -79,30 +79,6 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="6">
-     <widget class="QComboBox" name="CBBaudrate">
-      <item>
-       <property name="text">
-        <string>9600</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>115200</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>256000</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Custom</string>
-       </property>
-      </item>
-     </widget>
-    </item>
     <item row="6" column="12">
      <widget class="QPushButton" name="BtnMacros12">
       <property name="enabled">
@@ -110,16 +86,6 @@
       </property>
       <property name="text">
        <string>M12</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="4">
-     <widget class="QCheckBox" name="CBSTM">
-      <property name="text">
-       <string>STM devices only</string>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -137,16 +103,6 @@
       </property>
       <property name="text">
        <string>M11</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="4" colspan="3">
-     <widget class="QComboBox" name="CBPorts">
-      <property name="minimumSize">
-       <size>
-        <width>300</width>
-        <height>0</height>
-       </size>
       </property>
      </widget>
     </item>
@@ -291,7 +247,17 @@ p, li { white-space: pre-wrap; }
     <item row="23" column="11" colspan="2">
      <widget class="QPushButton" name="BtnCreateMacros">
       <property name="text">
-       <string>Create Set</string>
+       <string>Create/Edit Macros Set</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3" colspan="4">
+     <widget class="QComboBox" name="CBPorts">
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>0</height>
+       </size>
       </property>
      </widget>
     </item>
@@ -430,16 +396,6 @@ p, li { white-space: pre-wrap; }
       </property>
      </widget>
     </item>
-    <item row="16" column="12">
-     <widget class="QPushButton" name="BtnMacros17">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M17</string>
-      </property>
-     </widget>
-    </item>
     <item row="23" column="9">
      <widget class="QCheckBox" name="CBClear">
       <property name="text">
@@ -450,6 +406,57 @@ p, li { white-space: pre-wrap; }
       </property>
      </widget>
     </item>
+    <item row="6" column="3">
+     <widget class="QCheckBox" name="CBSTM">
+      <property name="text">
+       <string>STM devices only</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="3">
+     <widget class="QCheckBox" name="CBTime">
+      <property name="text">
+       <string>Show Timestamp</string>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="12">
+     <widget class="QPushButton" name="BtnMacros17">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>M17</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="6">
+     <widget class="QComboBox" name="CBBaudrate">
+      <item>
+       <property name="text">
+        <string>9600</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>115200</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>256000</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Custom</string>
+       </property>
+      </item>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -457,7 +464,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1024</width>
+     <width>1084</width>
      <height>26</height>
     </rect>
    </property>
@@ -477,7 +484,6 @@ p, li { white-space: pre-wrap; }
   </action>
  </widget>
  <tabstops>
-  <tabstop>CBSTM</tabstop>
   <tabstop>BtnReScan</tabstop>
   <tabstop>CBPorts</tabstop>
   <tabstop>CBBaudrate</tabstop>

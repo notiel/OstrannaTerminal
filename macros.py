@@ -93,7 +93,7 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
                     ind = self.all_macros.index(macros_used)
                     self.all_macros.pop(ind)
                     self.all_macros.insert(ind, new_macros_set)
-            return None
+            return macros_used
         if name not in [macro.name for macro in self.all_macros]:
             self.all_macros.append(new_macros_set)
             self.CBMacros.addItem(name)
