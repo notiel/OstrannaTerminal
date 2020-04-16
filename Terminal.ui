@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1054</width>
-    <height>561</height>
+    <width>1424</width>
+    <height>754</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,115 +15,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="7" column="0">
-     <widget class="QPushButton" name="BtnDisconnect">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>Disconnect</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0">
-     <widget class="QPushButton" name="BtnConnect">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>Connect</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="5" alignment="Qt::AlignRight">
-     <widget class="QLabel" name="LblBaudrate">
-      <property name="text">
-       <string>Baudrate:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="23" column="0">
-     <widget class="QLabel" name="LblTransmit">
-      <property name="text">
-       <string>Transmit:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="12">
-     <widget class="QPushButton" name="BtnMacros12">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M12</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QPushButton" name="BtnReScan">
-      <property name="text">
-       <string>ReScan</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="12">
-     <widget class="QPushButton" name="BtnMacros11">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M11</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="12">
-     <widget class="QPushButton" name="BtnMacros13">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M13</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="11">
-     <widget class="QPushButton" name="BtnMacros1">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M1</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1" colspan="2">
-     <widget class="QLabel" name="LblAvailable">
-      <property name="text">
-       <string>COMs Available:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="11">
-     <widget class="QPushButton" name="BtnMacros2">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M2</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="11">
-     <widget class="QPushButton" name="BtnMacros3">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M3</string>
-      </property>
-     </widget>
-    </item>
-    <item row="14" column="0" rowspan="9" colspan="11">
+    <item row="10" column="0" colspan="13">
      <widget class="QTextBrowser" name="TxtBuffer">
       <property name="html">
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -134,139 +26,54 @@ p, li { white-space: pre-wrap; }
       </property>
      </widget>
     </item>
-    <item row="23" column="11" colspan="2">
-     <widget class="QPushButton" name="BtnCreateMacros">
-      <property name="text">
-       <string>Create/Edit Macros Set</string>
+    <item row="4" column="13" rowspan="5" colspan="2">
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="title">
+       <string>Settings </string>
       </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="2" column="0">
+        <widget class="QLabel" name="LblBaudrate">
+         <property name="text">
+          <string>Baudrate:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" colspan="2">
+        <widget class="QComboBox" name="CBBaudrate">
+         <item>
+          <property name="text">
+           <string>9600</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>115200</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>256000</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Custom</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="3">
+        <widget class="QPushButton" name="BtnSettings">
+         <property name="text">
+          <string>Settings</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
-    <item row="0" column="3" colspan="4">
-     <widget class="QComboBox" name="CBPorts">
-      <property name="minimumSize">
-       <size>
-        <width>300</width>
-        <height>0</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item row="23" column="1" colspan="7">
-     <widget class="QLineEdit" name="TxtTransmit"/>
-    </item>
-    <item row="23" column="8">
-     <widget class="QPushButton" name="BtnSend">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>Send</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="6">
-     <widget class="QComboBox" name="CBBaudrate">
-      <item>
-       <property name="text">
-        <string>9600</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>115200</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>256000</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Custom</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item row="8" column="0">
-     <widget class="QPushButton" name="BtnClear">
-      <property name="text">
-       <string>Clear</string>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="8">
-     <widget class="QCheckBox" name="CBShowSent">
-      <property name="text">
-       <string>Show sent </string>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="6">
-     <widget class="QCheckBox" name="CBTime">
-      <property name="text">
-       <string>Show Timestamp</string>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="3">
-     <widget class="QLabel" name="LblCounterData">
-      <property name="text">
-       <string>0</string>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="2">
-     <widget class="QLabel" name="LblCounter">
-      <property name="maximumSize">
-       <size>
-        <width>55</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>Counter:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="4">
-     <widget class="QPushButton" name="BtnCounter">
-      <property name="text">
-       <string>Clear Counter</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="3" colspan="2">
-     <widget class="QCheckBox" name="CBSTM">
-      <property name="text">
-       <string>STM devices only</string>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="7">
-     <widget class="QCheckBox" name="CBScroll">
-      <property name="text">
-       <string>Scroll</string>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="9" colspan="2">
-     <widget class="QPushButton" name="BtnSave">
-      <property name="text">
-       <string>Save to log</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="9" colspan="2">
+    <item row="7" column="12">
      <widget class="QPushButton" name="BtnBuffer">
       <property name="enabled">
        <bool>false</bool>
@@ -276,7 +83,436 @@ p, li { white-space: pre-wrap; }
       </property>
      </widget>
     </item>
-    <item row="23" column="9" colspan="2">
+    <item row="8" column="12">
+     <widget class="QPushButton" name="BtnSave">
+      <property name="text">
+       <string>Save to log</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="13" rowspan="3" colspan="2">
+     <widget class="QGroupBox" name="groupBox_5">
+      <property name="title">
+       <string>GroupBox</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_6">
+       <item row="12" column="0" colspan="2">
+        <widget class="QLabel" name="LblMacrosSelected">
+         <property name="text">
+          <string>Macros set selected: None</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="BtnMacros11">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M11</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="BtnMacros12">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M12</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QPushButton" name="BtnMacros14">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M14</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="BtnMacros2">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QPushButton" name="BtnMacros5">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M5</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QPushButton" name="BtnMacros15">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M15</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QPushButton" name="BtnMacros17">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M17</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QPushButton" name="BtnMacros16">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M16</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QPushButton" name="BtnMacros8">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M8</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QPushButton" name="BtnMacros9">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M9</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QPushButton" name="BtnMacros6">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M6</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QPushButton" name="BtnMacros7">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M7</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="QPushButton" name="BtnMacros20">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M20</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0" colspan="2">
+        <widget class="QComboBox" name="CBMacros"/>
+       </item>
+       <item row="7" column="1">
+        <widget class="QPushButton" name="BtnMacros18">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M18</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QPushButton" name="BtnMacros19">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M19</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QPushButton" name="BtnMacros10">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M10</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0" colspan="2">
+        <widget class="QLabel" name="LblMacrosAvailable">
+         <property name="text">
+          <string>Macros sets available</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="BtnMacros1">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QPushButton" name="BtnMacros4">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M4</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="BtnMacros3">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M3</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="BtnMacros13">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>M13</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0" colspan="2">
+        <widget class="QPushButton" name="BtnCreateMacros">
+         <property name="text">
+          <string>Create/Edit Macros Set</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QLabel" name="LblAvailable">
+      <property name="text">
+       <string>COMs Available:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1" colspan="4">
+     <widget class="QComboBox" name="CBPorts">
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>0</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="2">
+     <widget class="QLabel" name="LblStatusInfo">
+      <property name="text">
+       <string>Not Connected</string>
+      </property>
+     </widget>
+    </item>
+    <item row="28" column="0" alignment="Qt::AlignRight">
+     <widget class="QLabel" name="LblTransmit">
+      <property name="text">
+       <string>Transmit:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="1">
+     <widget class="QLabel" name="LblStatus">
+      <property name="text">
+       <string>Status:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="28" column="1" colspan="8">
+     <widget class="QLineEdit" name="TxtTransmit"/>
+    </item>
+    <item row="28" column="9">
+     <widget class="QPushButton" name="BtnSend">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Send</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="4">
+     <widget class="QCheckBox" name="CBSTM">
+      <property name="text">
+       <string>STM devices only</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="10" rowspan="2" colspan="2">
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="title">
+       <string>Text Settings</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="1">
+        <widget class="QCheckBox" name="CBScroll">
+         <property name="text">
+          <string>Scroll</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="CBTime">
+         <property name="text">
+          <string>Show Timestamp</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QCheckBox" name="CBShowSent">
+         <property name="text">
+          <string>Show sent </string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="8" column="3">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="3" column="0" rowspan="6">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string/>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="BtnReScan">
+         <property name="text">
+          <string>ReScan</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="BtnConnect">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Connect</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="BtnClear">
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="BtnDisconnect">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Disconnect</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="7" column="7" rowspan="2" colspan="3">
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="title">
+       <string>Counter</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
+        <widget class="QLabel" name="LblCounter">
+         <property name="maximumSize">
+          <size>
+           <width>55</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Counter:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="BtnCounter">
+         <property name="text">
+          <string>Clear Counter</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="LblCounterData">
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="28" column="10">
      <widget class="QCheckBox" name="CBClear">
       <property name="text">
        <string>Clear after sending</string>
@@ -286,182 +522,37 @@ p, li { white-space: pre-wrap; }
       </property>
      </widget>
     </item>
-    <item row="8" column="11">
-     <widget class="QPushButton" name="BtnMacros4">
-      <property name="enabled">
-       <bool>false</bool>
+    <item row="28" column="11" rowspan="2" colspan="4">
+     <widget class="QGroupBox" name="groupBox_6">
+      <property name="title">
+       <string>GroupBox</string>
       </property>
-      <property name="text">
-       <string>M4</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="12">
-     <widget class="QPushButton" name="BtnMacros14">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M14</string>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="11">
-     <widget class="QPushButton" name="BtnMacros5">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M5</string>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="12">
-     <widget class="QPushButton" name="BtnMacros15">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M15</string>
-      </property>
-     </widget>
-    </item>
-    <item row="14" column="11">
-     <widget class="QPushButton" name="BtnMacros6">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M6</string>
-      </property>
-     </widget>
-    </item>
-    <item row="14" column="12">
-     <widget class="QPushButton" name="BtnMacros16">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M16</string>
-      </property>
-     </widget>
-    </item>
-    <item row="15" column="11">
-     <widget class="QPushButton" name="BtnMacros7">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M7</string>
-      </property>
-     </widget>
-    </item>
-    <item row="15" column="12">
-     <widget class="QPushButton" name="BtnMacros17">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M17</string>
-      </property>
-     </widget>
-    </item>
-    <item row="16" column="11">
-     <widget class="QPushButton" name="BtnMacros8">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M8</string>
-      </property>
-     </widget>
-    </item>
-    <item row="16" column="12">
-     <widget class="QPushButton" name="BtnMacros18">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M18</string>
-      </property>
-     </widget>
-    </item>
-    <item row="17" column="11">
-     <widget class="QPushButton" name="BtnMacros9">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M9</string>
-      </property>
-     </widget>
-    </item>
-    <item row="17" column="12">
-     <widget class="QPushButton" name="BtnMacros19">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M19</string>
-      </property>
-     </widget>
-    </item>
-    <item row="18" column="11">
-     <widget class="QPushButton" name="BtnMacros10">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M10</string>
-      </property>
-     </widget>
-    </item>
-    <item row="18" column="12">
-     <widget class="QPushButton" name="BtnMacros20">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>M20</string>
-      </property>
-     </widget>
-    </item>
-    <item row="19" column="11" colspan="2">
-     <widget class="QLabel" name="LblMacrosAvailable">
-      <property name="text">
-       <string>Macros sets available</string>
-      </property>
-     </widget>
-    </item>
-    <item row="20" column="11" colspan="2">
-     <widget class="QComboBox" name="CBMacros"/>
-    </item>
-    <item row="21" column="11" colspan="2">
-     <widget class="QLabel" name="LblMacrosSelected">
-      <property name="text">
-       <string>Macros set selected: None</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="7">
-     <widget class="QLabel" name="LblStatus">
-      <property name="text">
-       <string>Status:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="8">
-     <widget class="QLabel" name="LblStatusInfo">
-      <property name="text">
-       <string>Not Connected</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="9" colspan="2">
-     <widget class="QPushButton" name="BtnSettings">
-      <property name="text">
-       <string>Settings</string>
-      </property>
+      <layout class="QGridLayout" name="gridLayout_7">
+       <item row="0" column="1">
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Send File</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>Select File</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>File Selected: None</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
@@ -474,20 +565,7 @@ p, li { white-space: pre-wrap; }
   </action>
  </widget>
  <tabstops>
-  <tabstop>BtnReScan</tabstop>
-  <tabstop>CBPorts</tabstop>
-  <tabstop>CBBaudrate</tabstop>
-  <tabstop>BtnConnect</tabstop>
-  <tabstop>BtnDisconnect</tabstop>
   <tabstop>TxtTransmit</tabstop>
-  <tabstop>BtnMacros1</tabstop>
-  <tabstop>BtnMacros11</tabstop>
-  <tabstop>BtnMacros2</tabstop>
-  <tabstop>BtnMacros12</tabstop>
-  <tabstop>BtnMacros3</tabstop>
-  <tabstop>BtnMacros13</tabstop>
-  <tabstop>BtnCreateMacros</tabstop>
-  <tabstop>TxtBuffer</tabstop>
  </tabstops>
  <resources/>
  <connections/>
