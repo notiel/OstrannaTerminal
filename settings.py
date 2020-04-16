@@ -24,7 +24,7 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         self.create_rb_connections()
         self.apply_port_settings()
         self.color_ctrl_dict = dict()
-        self.apply_color_settings()
+        self.apply_color_font_settings()
 
     def create_port_dicts(self):
         """
@@ -98,7 +98,7 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
                 RB.setChecked(True)
         self.CBEndLine.setChecked(self.settings.CRLF)
 
-    def apply_color_settings(self):
+    def apply_color_font_settings(self):
         """
         applies color settins to GUI
         :return:
@@ -113,6 +113,9 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         self.LblBackgroundColor.setStyleSheet(style_back)
         self.LblReceivedColor.setStyleSheet(style_back + '; color:rgb%s' % str(self.colors['font-receive']))
         self.LblSentColor.setStyleSheet(style_back + '; color:rgb%s' % str(self.colors['font-transmit']))
+        self.LblReceivedColor.setFont(self.current_font)
+        self.LblSentColor.setFont(self.current_font)
+        self.LblFont.setFont(self.current_font)
 
     def databits_changed(self):
         for RB in self.databits_dict.keys():
@@ -161,6 +164,7 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         # noinspection PyCallByClass
         font, ok = QtWidgets.QFontDialog.getFont(self.current_font)
         if ok:
+            self.current_font = font
             self.LblReceivedColor.setFont(font)
             self.LblSentColor.setFont(font)
             self.LblFont.setFont(font)
@@ -170,7 +174,8 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         self.color_signal.emit()
         settings_save = {'COM settings': {'baudrate': self.settings.baudrate, 'databits': self.settings.databits,
                                           'parity': self.settings.parity.value, 'stopbits': self.settings.stopbits},
-                         'CRLF': self.settings.CRLF, 'Colors': self.colors}
+                         'CRLF': self.settings.CRLF, 'Colors': self.colors, 'Font':
+                             {'family': self.current_font.family(), 'size': self.current_font.pointSize()}}
         with open("Settings.json", "w") as f:
             f.write(json.dumps(settings_save, indent=4))
 

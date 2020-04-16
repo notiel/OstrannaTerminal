@@ -86,13 +86,13 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         if name in [macro.name for macro in self.all_macros]:
             macros_used = data_types.get_macros_by_name(name, self.all_macros)
             if macros_used != new_macros_set:
-                reply = QtWidgets.QMessageBox.question(self, 'Message',
-                                                       'Macros set "%s" already exists. Overwrite?' % name,
-                                                       QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
-                if reply == QtWidgets.QMessageBox.Yes:
-                    ind = self.all_macros.index(macros_used)
-                    self.all_macros.pop(ind)
-                    self.all_macros.insert(ind, new_macros_set)
+                # reply = QtWidgets.QMessageBox.question(self, 'Message',
+                #                                        'Macros set "%s" already exists. Overwrite?' % name,
+                #                                        QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
+                # if reply == QtWidgets.QMessageBox.Yes:
+                ind = self.all_macros.index(macros_used)
+                self.all_macros.pop(ind)
+                self.all_macros.insert(ind, new_macros_set)
             return macros_used
         if name not in [macro.name for macro in self.all_macros]:
             self.all_macros.append(new_macros_set)
@@ -103,6 +103,7 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
     def delete_pressed(self):
         name = self.LineNameSet.text()
         if name and name in [macro.name for macro in self.all_macros]:
+            # noinspection PyCallByClass
             reply = QtWidgets.QMessageBox.question(self, 'Message', 'Do you really want to delete "%s" macros set?'
                                                    % name, QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
             if reply == QtWidgets.QMessageBox.Yes:
