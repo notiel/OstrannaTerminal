@@ -3,8 +3,6 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 import data_types
 from typing import Dict, Tuple
 import json
-import terminal
-
 
 class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
     color_signal = QtCore.pyqtSignal()
