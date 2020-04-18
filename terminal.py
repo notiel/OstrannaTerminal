@@ -48,12 +48,14 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnDisconnect.clicked.connect(self.disconnect)
         self.BtnClear.clicked.connect(self.clear_pressed)
         self.BtnSend.clicked.connect(self.send_clicked)
+        self.BtnSend2.clicked.connect(self.send_clicked)
         self.BtnBuffer.clicked.connect(self.read_data)
         self.BtnCounter.clicked.connect(self.clear_counter)
         self.BtnSave.clicked.connect(self.save_to_file)
         self.BtnCreateMacros.clicked.connect(self.macros_pressed)
         self.CBMacros.currentTextChanged.connect(self.macros_selected)
         self.TxtTransmit.returnPressed.connect(self.send_clicked)
+        self.TxtTransmit2.returnPressed.connect(self.send_clicked)
         self.BtnSettings.clicked.connect(self.settings_pressed)
         self.BtnFile.clicked.connect(self.select_file)
         self.BtnSendFile.clicked.connect(self.send_file)
@@ -150,6 +152,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.port_settings.name = name
             self.port_settings.last_name = name
             self.BtnSend.setEnabled(True)
+            self.BtnSend2.setEnabled(True)
             self.BtnBuffer.setEnabled(True)
 
     def disconnect(self):
@@ -163,6 +166,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.counter = 0
         self.scan_ports()
         self.BtnSend.setEnabled(False)
+        self.BtnSend.setEnabled(True)
         self.BtnBuffer.setEnabled(False)
 
     def clear_pressed(self):
@@ -214,34 +218,48 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         send data to comport
         :return:
         """
-        text: str = self.TxtTransmit.text()
+        sender = self.sender()
+        source = self.TxtTransmit if sender in [self.TxtTransmit, self.BtnSend] else self.TxtTransmit2
+        text: str = source.text()
+        if self.port_settings.CRLF:
+            text += '\r\n'
+        cb_clear = self.CBClear if sender in [self.TxtTransmit, self.BtnSend] else self.CBClear2
         error: int = self.write_data(text)
         if not error:
-            if self.CBClear.isChecked():
-                self.TxtTransmit.clear()
+            if cb_clear.isChecked():
+                source.clear()
 
-    def write_data(self, text: Union[str, bytes], encode=True) -> int:
+    def write_data(self, text: Union[str, bytes], encode=True, hexes=True) -> int:
         """
         writes data to comport
+        :param hexes: convert hexes or not
         :param encode: True if we need to encode
         :param text: text to send
         :return: -1 if failed 0 if ok
         """
-        if encode:
-            command: bytes = bytes(text+'\r\n', encoding='utf-8') if self.port_settings.CRLF else \
-                bytes(text, encoding='utf-8')
-        else:
-            command: bytes = text
-        res = self.serial_port.write(command)
+        commands = common_functions.split_with_bytes(text) if hexes and encode else [text]
+        res_command = bytes()
+        for command in commands:
+            if common_functions.is_byte(command):
+                add_command = bytes.fromhex(command[1:]) if encode else command
+            else:
+                add_command = bytes(command, encoding='utf-8') if encode else command
+            res_command += add_command
+        res = self.serial_port.write(res_command)
         self.serial_port.flush()
-        if res != len(command):
+        if res != len(res_command):
             common_functions.error_message('Data was not sent correctly')
             return -1
         if self.CBShowSent.isChecked() and encode:
             self.TxtBuffer.setStyleSheet("background-color:rgb%s" % str(self.colors['background-color']))
             self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
-            self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-transmit']))
-            self.TxtBuffer.insertPlainText(text + '\r\n')
+            for command in commands:
+                if common_functions.is_byte(command):
+                    self.TxtBuffer.setTextColor(QtGui.QColor(255, 0, 0))
+                else:
+                    self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-transmit']))
+                self.TxtBuffer.insertPlainText(command)
+
         return 0
 
     def serial_error(self):
@@ -346,7 +364,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         btn = self.sender()
         # self.TxtTransmit.setText(self.current_macros.macros[self.macros_btns_list.index(btn)].command)
         # self.BtnSend.click()
-        self.write_data(self.current_macros.macros[self.macros_btns_list.index(btn)].command)
+        text_to_send = self.current_macros.macros[self.macros_btns_list.index(btn)].command
+        if self.port_settings.CRLF:
+            text_to_send += '\r\n'
+        self.write_data(text_to_send)
 
     def back_color_changed(self):
         """
