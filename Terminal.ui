@@ -7,11 +7,15 @@
     <x>0</x>
     <y>0</y>
     <width>1424</width>
-    <height>754</height>
+    <height>766</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>OstrannaTerminal</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="logo.qrc">
+    <normaloff>:/newPrefix/Logo_new.ico</normaloff>:/newPrefix/Logo_new.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -586,6 +590,8 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="logo.qrc"/>
+ </resources>
  <connections/>
 </ui>
