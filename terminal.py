@@ -31,7 +31,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.settings_form: Optional[settings.Settings] = None
         self.macros_form: Optional[macros.Macros] = None
         self.colors: Dict[str, Tuple[int, int, int]] = \
-            {'background-color': (255, 255, 255), 'font-transmit': (50, 250, 00), 'font-receive': (0, 0, 0)}
+            {'background-color': (255, 255, 255), 'font-transmit': (50, 250, 00), 'font-receive': (0, 0, 0),
+             'bytes-color': (255, 0, 0)}
         self.CBBaudrate.setCurrentText('115200')
         self.current_font = QtGui.QFont("Consolas", 10)
         self.TxtBuffer.setFont(self.current_font)
@@ -41,7 +42,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
 
         self.serial_port.readyRead.connect(self.read_data)
         self.serial_port.errorOccurred.connect(self.serial_error)
-        self.CBBaudrate.currentTextChanged.connect(self.baudrate_changed)
+        self.CBBaudrate.activated.connect(self.baudrate_changed)
 
         self.BtnReScan.clicked.connect(self.scan_ports)
         self.BtnConnect.clicked.connect(self.connect)
@@ -77,22 +78,38 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             with open("settings.json") as f:
                 try:
                     settings_json = json.load(f)
-                    self.port_settings.baudrate = settings_json['COM settings']['baudrate']
-                    if self.port_settings.baudrate not in data_types.baudrates:
-                        self.CBBaudrate.addItem(str(self.port_settings.baudrate))
-                    self.CBBaudrate.setCurrentText(str(self.port_settings.baudrate))
-                    self.port_settings.stopbits = settings_json['COM settings']['stopbits']
-                    self.port_settings.parity = data_types.Parity(settings_json['COM settings']['parity'])
-                    self.port_settings.databits = settings_json['COM settings']['databits']
-                    self.port_settings.CRLF = settings_json['CRLF']
-                    self.colors['background-color'] = tuple(settings_json['Colors']['background-color'])
-                    self.back_color_changed()
-                    self.colors['font-transmit'] = tuple(settings_json['Colors']['font-transmit'])
-                    self.colors['font-receive'] = tuple(settings_json['Colors']['font-receive'])
-                    font_family = settings_json['Font']['family']
-                    font_size = settings_json['Font']['size']
-                    self.current_font = QtGui.QFont(font_family, font_size)
-                    self.TxtBuffer.setFont(self.current_font)
+                    if 'COM settings' in settings_json.keys():
+                        if 'baudrate' in settings_json['COM settings'].keys():
+                            self.port_settings.baudrate = settings_json['COM settings']['baudrate']
+                            if self.port_settings.baudrate not in data_types.baudrates:
+                                self.CBBaudrate.addItem(str(self.port_settings.baudrate))
+                            self.CBBaudrate.setCurrentText(str(self.port_settings.baudrate))
+                        if 'stopbits' in settings_json['COM settings'].keys():
+                            self.port_settings.stopbits = settings_json['COM settings']['stopbits']
+                        if 'parity' in settings_json['COM settings'].keys():
+                            self.port_settings.parity = data_types.Parity(settings_json['COM settings']['parity'])
+                        if 'databits' in settings_json['COM settings'].keys():
+                            self.port_settings.databits = settings_json['COM settings']['databits']
+                    if 'CRLF' in settings_json.keys():
+                        self.port_settings.CRLF = settings_json['CRLF']
+                    if 'bytecodes' in settings_json.keys():
+                        self.port_settings.bytecodes = settings_json['bytecodes']
+                    if 'Colors' in settings_json.keys():
+                        if 'background-color' in settings_json['Colors'].keys():
+                            self.colors['background-color'] = tuple(settings_json['Colors']['background-color'])
+                            self.back_color_changed()
+                        if 'font-transmit' in settings_json['Colors'].keys():
+                            self.colors['font-transmit'] = tuple(settings_json['Colors']['font-transmit'])
+                        if 'font-receive' in settings_json['Colors'].keys():
+                            self.colors['font-receive'] = tuple(settings_json['Colors']['font-receive'])
+                        if 'bytes-color' in settings_json['Colors'].keys():
+                            self.colors['bytes-color'] = tuple(settings_json['Colors']['bytes-color'])
+                    if 'Font' in settings_json.keys():
+                        font_family = settings_json['Font']['family'] if 'family' in settings_json['Font'].keys() \
+                            else 'Consolas'
+                        font_size = settings_json['Font']['size'] if 'size' in settings_json['Font'].keys() else 10
+                        self.current_font = QtGui.QFont(font_family, font_size)
+                        self.TxtBuffer.setFont(self.current_font)
                 except (json.JSONDecodeError, AttributeError, KeyError, ValueError):
                     common_functions.error_message("Settings file is incorrect, default settings used")
 
@@ -185,6 +202,18 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         if self.CBBaudrate.currentText() != 'Custom':
             self.port_settings.baudrate = int(self.CBBaudrate.currentText())
+        else:
+            # noinspection PyCallByClass,PyArgumentList
+            text, ok = QtWidgets.QInputDialog.getText(self, 'Custom baudrate', 'Enter baudrate')
+            if ok:
+                try:
+                    new_baudrate: Optional[int] = int(text)
+                except ValueError:
+                    new_baudrate = None
+                if not new_baudrate or new_baudrate <= 0:
+                    common_functions.error_message("Baudrate must be positive number")
+                else:
+                    self.port_settings.baudrate = new_baudrate
 
     def read_data(self):
         """
@@ -224,7 +253,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         if self.port_settings.CRLF:
             text += '\r\n'
         cb_clear = self.CBClear if sender in [self.TxtTransmit, self.BtnSend] else self.CBClear2
-        error: int = self.write_data(text)
+        error: int = self.write_data(text, True, self.port_settings.bytecodes)
         if not error:
             if cb_clear.isChecked():
                 source.clear()
@@ -255,7 +284,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
             for command in commands:
                 if common_functions.is_byte(command):
-                    self.TxtBuffer.setTextColor(QtGui.QColor(255, 0, 0))
+                    self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['bytes-color']))
                 else:
                     self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-transmit']))
                 self.TxtBuffer.insertPlainText(command)
@@ -367,7 +396,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         text_to_send = self.current_macros.macros[self.macros_btns_list.index(btn)].command
         if self.port_settings.CRLF:
             text_to_send += '\r\n'
-        self.write_data(text_to_send)
+        self.write_data(text_to_send, True, self.port_settings.bytecodes)
 
     def back_color_changed(self):
         """
@@ -405,7 +434,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             if os.path.exists(self.file_to_send) and not os.path.isdir(self.file_to_send):
                 with open(self.file_to_send, "rb") as f:
                     data = f.read()
-                    self.write_data(data, False)
+                    self.write_data(data, False, self.port_settings.bytecodes)
 
 
 def initiate_exception_logging():

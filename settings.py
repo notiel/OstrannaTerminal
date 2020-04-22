@@ -4,6 +4,7 @@ import data_types
 from typing import Dict, Tuple
 import json
 
+
 class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
     color_signal = QtCore.pyqtSignal()
     font_signal = QtCore.pyqtSignal(QtGui.QFont)
@@ -19,6 +20,7 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         self.create_port_dicts()
         self.create_groups()
         self.CBEndLine.stateChanged.connect(self.end_string_changed)
+        self.CBBytes.stateChanged.connect(self.bytecodes_changed)
         self.BtnFont.clicked.connect(self.font_changed)
         self.create_rb_connections()
         self.apply_port_settings()
@@ -96,6 +98,7 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
             if self.settings.parity == parity:
                 RB.setChecked(True)
         self.CBEndLine.setChecked(self.settings.CRLF)
+        self.CBBytes.setChecked(self.settings.bytecodes)
 
     def apply_color_font_settings(self):
         """
@@ -103,7 +106,7 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         :return:
         """
         self.color_ctrl_dict = {self.BtnBackgroundColor: 'background-color', self.BtnSentColor: 'font-transmit',
-                                self.BtnReceivedColor: 'font-receive'}
+                                self.BtnReceivedColor: 'font-receive', self.BtnColorByte: 'bytes-color'}
 
         for color_btn in self.color_ctrl_dict.keys():
             color_btn.clicked.connect(self.color_changed)
@@ -112,54 +115,83 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         self.LblBackgroundColor.setStyleSheet(style_back)
         self.LblReceivedColor.setStyleSheet(style_back + '; color:rgb%s' % str(self.colors['font-receive']))
         self.LblSentColor.setStyleSheet(style_back + '; color:rgb%s' % str(self.colors['font-transmit']))
+        self.LblColorByte.setStyleSheet(style_back + '; color:rgb%s' % str(self.colors['bytes-color']))
         self.LblReceivedColor.setFont(self.current_font)
         self.LblSentColor.setFont(self.current_font)
         self.LblFont.setFont(self.current_font)
+        self.LblColorByte.setFont(self.current_font)
 
     def databits_changed(self):
+        """
+        changes databits setting to selected
+        :return:
+        """
         for RB in self.databits_dict.keys():
             if RB.isChecked():
                 self.settings.databits = self.databits_dict[RB]
-                print(self.databits_dict[RB])
 
     def parity_changed(self):
+        """
+        changes parity to selected
+        :return:
+        """
         for RB in self.parity_dict.keys():
             if RB.isChecked():
                 self.settings.parity = self.parity_dict[RB]
-                print(self.parity_dict[RB])
 
     def stopbits_changed(self):
+        """
+        changes stopbits setting to selected
+        :return:
+        """
         for RB in self.stopbits_dict.keys():
             if RB.isChecked():
                 self.settings.stopbits = self.stopbits_dict[RB]
-                print(self.stopbits_dict[RB])
 
     def handshaking_changed(self):
+        """
+        sets handshaking setting as selected
+        :return:
+        """
         for RB in self.hs_dict.keys():
             if RB.isChecked():
                 self.settings.handshaking = self.hs_dict[RB]
-                print(self.hs_dict[RB])
 
     def end_string_changed(self):
+        """
+        change end string settings as selected
+        :return:
+        """
         self.settings.CRLF = self.CBEndLine.isChecked()
+
+    def bytecodes_changed(self):
+        """
+        change bytecode setting as selected
+        :return:
+        """
+        self.settings.bytecodes = self.CBBytes.isChecked()
 
     # noinspection PyArgumentList
     def color_changed(self):
         """
-
+        applies all color changes to settings and UI examples
         :return:
         """
         sender = self.sender()
         color = QtWidgets.QColorDialog.getColor()
         if color.isValid():
             self.colors[self.color_ctrl_dict[sender]] = (color.getRgb()[0], color.getRgb()[1], color.getRgb()[2])
-            print(color.getRgb())
             style_back = "background-color:rgb%s" % str(self.colors['background-color'])
             self.LblBackgroundColor.setStyleSheet(style_back)
             self.LblReceivedColor.setStyleSheet(style_back + '; color:rgb%s' % str(self.colors['font-receive']))
             self.LblSentColor.setStyleSheet(style_back + '; color:rgb%s' % str(self.colors['font-transmit']))
+            self.LblColorByte.setStyleSheet(style_back + '; color:rgb%s' % str(self.colors['bytes-color']))
             
     def font_changed(self):
+        """
+        applies font changes to settings and examples
+        :return:
+        """
         # noinspection PyCallByClass
         font, ok = QtWidgets.QFontDialog.getFont(self.current_font)
         if ok:
@@ -167,15 +199,20 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
             self.LblReceivedColor.setFont(font)
             self.LblSentColor.setFont(font)
             self.LblFont.setFont(font)
+            self.LblColorByte.setFont(font)
             self.font_signal.emit(font)
 
     def closeEvent(self, event):
+        """
+        saves settings to settings.json before exit
+        :param event:
+        :return:
+        """
         self.color_signal.emit()
         settings_save = {'COM settings': {'baudrate': self.settings.baudrate, 'databits': self.settings.databits,
                                           'parity': self.settings.parity.value, 'stopbits': self.settings.stopbits},
-                         'CRLF': self.settings.CRLF, 'Colors': self.colors, 'Font':
-                             {'family': self.current_font.family(), 'size': self.current_font.pointSize()}}
+                         'CRLF': self.settings.CRLF, 'bytecodes': self.settings.bytecodes, 'Colors': self.colors,
+                         'Font': {'family': self.current_font.family(), 'size': self.current_font.pointSize()}}
         with open("Settings.json", "w") as f:
             f.write(json.dumps(settings_save, indent=4))
-
         event.accept()

@@ -63,6 +63,7 @@ class ComSettings:
     stopbits: float = 1
     handshaking: Handshaking = Handshaking.NONE
     CRLF: bool = True
+    bytecodes: bool = True
 
 
 @dataclass
