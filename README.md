@@ -1,5 +1,17 @@
 # OstrannaTerminal
-Custom COM-port terminal
+Custom serial port terminal with support for macros.
 
-Run terminal.py
-Based on PyQt
+## Usage
+
+```
+# python terminal.py
+```
+
+## Requirements
+
+* Python 3.7+
+* [PyQt 5](https://pypi.org/project/PyQt5/)
+
+## Authors
+
+* Julia Salinkova
