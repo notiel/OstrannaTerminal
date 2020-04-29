@@ -9,11 +9,12 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
     color_signal = QtCore.pyqtSignal()
     font_signal = QtCore.pyqtSignal(QtGui.QFont)
 
-    def __init__(self, port_settings: data_types.ComSettings, color_settings: Dict[str, Tuple[int, int, int]],
-                 current_font: QtGui.QFont):
+    def __init__(self, port_settings: data_types.ComSettings, text_settings: data_types.TextSettings,
+                 color_settings: Dict[str, Tuple[int, int, int]], current_font: QtGui.QFont):
         super().__init__()
         self.setupUi(self)
         self.settings = port_settings
+        self.text_settings = text_settings
         self.colors = color_settings
         self.current_font = current_font
         self.databits_dict, self.parity_dict, self.stopbits_dict, self.hs_dict = dict(), dict(), dict(), dict()
@@ -21,6 +22,9 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         self.create_groups()
         self.CBEndLine.stateChanged.connect(self.end_string_changed)
         self.CBBytes.stateChanged.connect(self.bytecodes_changed)
+        self.CBScroll.stateChanged.connect(self.scroll_changed)
+        self.CBShowSent.stateChanged.connect(self.show_sent_changed)
+        self.CBTime.stateChanged.connect(self.timestamp_changed)
         self.BtnFont.clicked.connect(self.font_changed)
         self.create_rb_connections()
         self.apply_port_settings()
@@ -97,8 +101,11 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         for (RB, parity) in self.parity_dict.items():
             if self.settings.parity == parity:
                 RB.setChecked(True)
-        self.CBEndLine.setChecked(self.settings.CRLF)
-        self.CBBytes.setChecked(self.settings.bytecodes)
+        self.CBEndLine.setChecked(self.text_settings.CRLF)
+        self.CBBytes.setChecked(self.text_settings.bytecodes)
+        self.CBTime.setChecked(self.text_settings.timestamps)
+        self.CBShowSent.setChecked(self.text_settings.show_sent)
+        self.CBScroll.setChecked(self.text_settings.scroll)
 
     def apply_color_font_settings(self):
         """
@@ -162,14 +169,35 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         change end string settings as selected
         :return:
         """
-        self.settings.CRLF = self.CBEndLine.isChecked()
+        self.text_settings.CRLF = self.CBEndLine.isChecked()
 
     def bytecodes_changed(self):
         """
         change bytecode setting as selected
         :return:
         """
-        self.settings.bytecodes = self.CBBytes.isChecked()
+        self.text_settings.bytecodes = self.CBBytes.isChecked()
+
+    def scroll_changed(self):
+        """
+        changes scroll setting as selected
+        :return:
+        """
+        self.text_settings.scroll = self.CBScroll.isChecked()
+
+    def show_sent_changed(self):
+        """
+        changes show_sent setting as selected
+        :return:
+        """
+        self.text_settings.show_sent = self.CBShowSent.isChecked()
+
+    def timestamp_changed(self):
+        """
+        changes show_sent setting as selected
+        :return:
+        """
+        self.text_settings.timestamps = self.CBTime.isChecked()
 
     # noinspection PyArgumentList
     def color_changed(self):
@@ -202,6 +230,23 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
             self.LblColorByte.setFont(font)
             self.font_signal.emit(font)
 
+    def save_settings(self):
+        """
+        saves settings to file
+        :return:
+        """
+        settings_save = {'COM settings': {'baudrate': self.settings.baudrate, 'databits': self.settings.databits,
+                                          'parity': self.settings.parity.value, 'stopbits': self.settings.stopbits},
+                         'Text settings': {'CRLF': self.text_settings.CRLF, 'bytecodes': self.text_settings.bytecodes,
+                                           'scroll': self.text_settings.scroll,
+                                           'timestamps': self.text_settings.timestamps,
+                                           'show sent': self.text_settings.show_sent},
+                         'Colors': self.colors,
+                         'Font': {'family': self.current_font.family(), 'size': self.current_font.pointSize()},
+                         'Macros set': self.settings.last_macros_set}
+        with open("Settings.json", "w") as f:
+            f.write(json.dumps(settings_save, indent=4))
+
     def closeEvent(self, event):
         """
         saves settings to settings.json before exit
@@ -209,10 +254,5 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         :return:
         """
         self.color_signal.emit()
-        settings_save = {'COM settings': {'baudrate': self.settings.baudrate, 'databits': self.settings.databits,
-                                          'parity': self.settings.parity.value, 'stopbits': self.settings.stopbits},
-                         'CRLF': self.settings.CRLF, 'bytecodes': self.settings.bytecodes, 'Colors': self.colors,
-                         'Font': {'family': self.current_font.family(), 'size': self.current_font.pointSize()}}
-        with open("Settings.json", "w") as f:
-            f.write(json.dumps(settings_save, indent=4))
+        self.save_settings()
         event.accept()

@@ -25,7 +25,7 @@ def split_with_bytes(text: str):
     :return: result
     """
     # (.*?)(&\w+|$) - regexp to get them all, but the way below is better
-    res = re.split(r'(&*[0-9a-fA-F][0-9a-fA-F])', text)
+    res = re.split(r'(\$*[0-9a-fA-F][0-9a-fA-F])', text)
     return res
 
 
@@ -35,9 +35,24 @@ def is_byte(text: str):
     :param text: text to check
     :return:
     """
-    return len(text) == 3 and text[0] == '&' and text[1].lower() in hex_symbols and text[2].lower() in hex_symbols
+    return len(text) == 3 and text[0] == '$' and text[1].lower() in hex_symbols and text[2].lower() in hex_symbols
 
-#
+
+def hexify(text: str):
+    """
+    returns hex codes of symbols separated with ' '
+    :param text: text to hexifi
+    :return: hexified string
+    """
+    hex_str = ""
+    for ch in text:
+        add = hex(ord(ch)).replace('0x', '')
+        if len(add) == 1:
+            add = '0' + add
+        hex_str += add + ' '
+    return hex_str
+
+
 # def split_with_bytes(text: str):
     # """
     # finds bytes marked as &ff and splits text with them
@@ -61,5 +76,3 @@ def is_byte(text: str):
     # if last != len(text):
     #     res.append(text[last:])
     # return res
-
-

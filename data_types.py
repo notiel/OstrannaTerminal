@@ -62,8 +62,17 @@ class ComSettings:
     parity: Parity = Parity.NONE
     stopbits: float = 1
     handshaking: Handshaking = Handshaking.NONE
+    last_macros_set: str = ""
+
+@dataclass
+class TextSettings:
     CRLF: bool = True
     bytecodes: bool = True
+    scroll: bool = True
+    timestamps: bool = False
+    show_sent: bool = True
+
+
 
 
 @dataclass
