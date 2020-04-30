@@ -201,7 +201,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.counter = 0
         self.scan_ports()
         self.BtnSend.setEnabled(False)
-        self.BtnSend.setEnabled(True)
+        self.BtnSend2.setEnabled(False)
 
     def clear_pressed(self):
         """
