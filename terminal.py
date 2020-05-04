@@ -412,6 +412,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                 caption = self.current_macros.macros[index].name if self.current_macros.macros[
                     index].name else '<Not used>'
                 btn.setText(caption)
+                if self.current_macros.macros[index].name:
+                    btn.setToolTip(self.current_macros.macros[index].command)
                 btn.setEnabled(caption != '<Not used>')
         else:
             self.LblMacrosSelected.setText("Macros set selected: None")
