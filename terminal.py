@@ -26,6 +26,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnReScan.clicked.connect(self.scan_ports)
         self.BtnConnect.clicked.connect(self.connect)
         self.BtnDisconnect.clicked.connect(self.disconnect)
+        self.CBNRF.stateChanged.connect(self.scan_ports)
+        self.CBSTM.stateChanged.connect(self.scan_ports)
         self.BtnClear.clicked.connect(self.clear_pressed)
         self.BtnClear.setShortcut('Esc')
         self.BtnSend.clicked.connect(self.send_clicked)
@@ -137,15 +139,18 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         scans ports, sets disconnected state UI, selects last port name if any
         :return:
         """
-        self.serial_port.close()
         self.CBPorts.clear()
-        self.LblStatusInfo.setText('Disconnected')
-        self.BtnDisconnect.setEnabled(False)
         # noinspection PyArgumentList
         for port in QtSerialPort.QSerialPortInfo.availablePorts():
-            if not self.CBSTM.isChecked() or port.manufacturer().startswith('STMicroelectronics'):
+            if self.CBSTM.isChecked():
+                if port.manufacturer().lower().startswith('stmicroelectronics'):
+                    self.CBPorts.addItem("%s: (%s)" % (port.portName(), (port.description())))
+            if self.CBNRF.isChecked():
+                if port.manufacturer().lower().startswith('nordic') or port.manufacturer().lower().startswith('segger'):
+                    self.CBPorts.addItem("%s: (%s)" % (port.portName(), (port.description())))
+            if not self.CBSTM.isChecked() and not self.CBNRF.isChecked():
                 self.CBPorts.addItem("%s: (%s)" % (port.portName(), (port.description())))
-        if self.CBPorts.count() > 0:
+        if self.CBPorts.count() > 0 and self.port_settings.name == "":
             self.BtnConnect.setEnabled(True)
         if self.port_settings.last_name:
             for i in range(self.CBPorts.count()):
@@ -197,6 +202,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         self.serial_port.close()
         self.LblStatusInfo.setText('Disconnected')
+        self.BtnDisconnect.setEnabled(False)
         self.port_settings.name = ""
         self.counter = 0
         self.scan_ports()
@@ -317,6 +323,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         process error
         :return:
         """
+        # noinspection PyCallingNonCallable
         code = self.serial_port.error()
         if code and self.port_settings.name:
             # common_functions.error_message(data_types.error_codes[code])

@@ -355,13 +355,6 @@ p, li { white-space: pre-wrap; }
       </layout>
      </widget>
     </item>
-    <item row="5" column="4">
-     <widget class="QLabel" name="LblStatus">
-      <property name="text">
-       <string>Status:</string>
-      </property>
-     </widget>
-    </item>
     <item row="3" column="12" rowspan="4" colspan="2">
      <widget class="QGroupBox" name="GBSettings">
       <property name="title">
@@ -462,17 +455,10 @@ p, li { white-space: pre-wrap; }
       </property>
      </widget>
     </item>
-    <item row="5" column="5" colspan="2">
-     <widget class="QLabel" name="LblStatusInfo">
-      <property name="text">
-       <string>Not Connected</string>
-      </property>
-     </widget>
-    </item>
     <item row="5" column="3">
      <widget class="QCheckBox" name="CBSTM">
       <property name="text">
-       <string>ST&amp;M devices only</string>
+       <string>Filter ST&amp;M devices</string>
       </property>
       <property name="checked">
        <bool>true</bool>
@@ -536,6 +522,27 @@ p, li { white-space: pre-wrap; }
      <widget class="QCheckBox" name="CBHex">
       <property name="text">
        <string>Hex Mode</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="4" colspan="3">
+     <widget class="QCheckBox" name="CBNRF">
+      <property name="text">
+       <string>Filter &amp;NRF devices</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="11">
+     <widget class="QLabel" name="LblStatusInfo">
+      <property name="text">
+       <string>Not Connected</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="10">
+     <widget class="QLabel" name="LblStatus">
+      <property name="text">
+       <string>Status:</string>
       </property>
      </widget>
     </item>
