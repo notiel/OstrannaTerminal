@@ -195,7 +195,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.BtnSend.setEnabled(True)
             self.BtnSend2.setEnabled(True)
 
-    def disconnect(self):
+    def disconnect(self, rescan=True):
         """
         disconnects and sets disconnected ui
         :return:
@@ -205,7 +205,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnDisconnect.setEnabled(False)
         self.port_settings.name = ""
         self.counter = 0
-        self.scan_ports()
+        if rescan:
+            self.scan_ports()
         self.BtnSend.setEnabled(False)
         self.BtnSend2.setEnabled(False)
 
@@ -329,6 +330,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             # common_functions.error_message(data_types.error_codes[code])
             self.LblStatusInfo.setText(data_types.error_codes[code])
             self.serial_port.clearError()
+            self.BtnConnect.setEnabled(True)
+            self.disconnect(False)
             
     def clear_counter(self):
         """
