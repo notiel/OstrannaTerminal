@@ -136,6 +136,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                             self.text_settings.show_sent = settings_json['Text settings']['show sent']
                         if 'timestamps' in settings_json['Text settings'].keys():
                             self.text_settings.timestamps = settings_json['Text settings']['timestamps']
+                        if 'decode' in settings_json['Text settings'].keys():
+                            self.text_settings.decode = settings_json['Text settings']['decode']
 
                     if 'Colors' in settings_json.keys():
                         if 'background-color' in settings_json['Colors'].keys():
@@ -279,27 +281,44 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         :return:
         """
         read: str = ""
+        data: bytes = self.serial_port.readAll().data()
+        self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
         try:
-            read += self.serial_port.readAll().data().decode('utf-8')
+            read += data.decode('ascii')
             self.statusbar.clearMessage()
         except UnicodeDecodeError:
-            self.statusbar.showMessage("Unicode decode error")
-
+            if self.text_settings.decode == 1:
+                for byte in data:
+                    try:
+                        char = chr(byte)
+                        self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-receive']))
+                    except ValueError:
+                        char = '?'
+                        self.TxtBuffer.setTextColor(QtGui.QColor(255, 0, 0))
+                    self.TxtBuffer.insertPlainText(char)
+                    self.counter += 1
+            if self.text_settings.decode == 2:
+                try:
+                    read = data.decode('cp1251')
+                except UnicodeDecodeError:
+                    self.counter += len(data)
+        self.statusbar.showMessage("Unicode decode error")
         if read:
-            self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
             self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-receive']))
             self.counter += len(read)
-            self.LblCounterData.setText(str(self.counter))
             read_to_show: str = common_functions.hexify(read) if self.CBHex.isChecked() else read
+            # refactor
             if self.text_settings.timestamps:
                 delta = datetime.datetime.now() - self.start_time
                 if self.counter == 0:
                     read_to_show = '\n' + str(delta) + ': ' + read_to_show
                 read_to_show = read_to_show.replace("\r", "\r\n%s: " % delta)
             self.TxtBuffer.insertPlainText(read_to_show)
-            if self.text_settings.scroll:
-                scroll = self.TxtBuffer.verticalScrollBar().maximum()
-                self.TxtBuffer.verticalScrollBar().setValue(scroll)
+
+        self.LblCounterData.setText(str(self.counter))
+        if self.text_settings.scroll:
+            scroll = self.TxtBuffer.verticalScrollBar().maximum()
+            self.TxtBuffer.verticalScrollBar().setValue(scroll)
 
     def send_clicked(self):
         """
@@ -427,6 +446,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         applies new macros
         :return:
         """
+        self.load_macros()
         selected_macros: data_types.MacroSet = \
             [macrosset for macrosset in self.all_macros if macrosset.name == macros_name][0]
         self.current_macros = selected_macros

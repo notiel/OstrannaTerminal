@@ -26,6 +26,7 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         self.CBShowSent.stateChanged.connect(self.show_sent_changed)
         self.CBTime.stateChanged.connect(self.timestamp_changed)
         self.BtnFont.clicked.connect(self.font_changed)
+        self.CBDecode.currentTextChanged.connect(self.decode_changed)
         self.create_rb_connections()
         self.apply_port_settings()
         self.color_ctrl_dict = dict()
@@ -106,6 +107,7 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         self.CBTime.setChecked(self.text_settings.timestamps)
         self.CBShowSent.setChecked(self.text_settings.show_sent)
         self.CBScroll.setChecked(self.text_settings.scroll)
+        self.CBDecode.setCurrentIndex(self.text_settings.decode)
 
     def apply_color_font_settings(self):
         """
@@ -127,6 +129,7 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         self.LblSentColor.setFont(self.current_font)
         self.LblFont.setFont(self.current_font)
         self.LblColorByte.setFont(self.current_font)
+
 
     def databits_changed(self):
         """
@@ -230,6 +233,13 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
             self.LblColorByte.setFont(font)
             self.font_signal.emit(font)
 
+    def decode_changed(self):
+        """
+        changes decode
+        :return:
+        """
+        self.text_settings.decode = self.CBDecode.currentIndex()
+
     def save_settings(self):
         """
         saves settings to file
@@ -240,7 +250,8 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
                          'Text settings': {'CRLF': self.text_settings.CRLF, 'bytecodes': self.text_settings.bytecodes,
                                            'scroll': self.text_settings.scroll,
                                            'timestamps': self.text_settings.timestamps,
-                                           'show sent': self.text_settings.show_sent},
+                                           'show sent': self.text_settings.show_sent,
+                                           'decode': self.text_settings.decode},
                          'Colors': self.colors,
                          'Font': {'family': self.current_font.family(), 'size': self.current_font.pointSize()},
                          'Macros set': self.settings.last_macros_set}

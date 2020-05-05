@@ -71,6 +71,7 @@ class TextSettings:
     scroll: bool = True
     timestamps: bool = False
     show_sent: bool = True
+    decode: int  = 0
 
 
 
