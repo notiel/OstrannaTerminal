@@ -21,7 +21,31 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.create_connections()
+        self.serial_port = QtSerialPort.QSerialPort()
+        self.port_settings: data_types.ComSettings = data_types.ComSettings()
+        self.text_settings: data_types.TextSettings = data_types.TextSettings()
+        self.serial_port_ui()
+        self.all_macros: List[data_types.MacroSet] = list()
+        self.current_macros: data_types.MacroSet = data_types.MacroSet(name="", macros=list())
+        self.load_macros()
+        self.counter: int = 0
+        self.file_to_send = ""
+        self.start_time = datetime.datetime.now()
+        self.settings_form: Optional[settings.Settings] = None
+        self.macros_form: Optional[macros.Macros] = None
+        self.ascii_form: Optional[ASCII_table.ASCIITable] = None
+        self.colors: Dict[str, Tuple[int, int, int]] = dict()
+        self.current_font = QtGui.QFont("Consolas", 10)
+        self.macros_btns_list = list()
+        self.macros_ui()
+        self.load_settings()
 
+    def create_connections(self):
+        """
+        connections created
+        :return:
+        """
         self.CBBaudrate.activated.connect(self.baudrate_changed)
         self.BtnReScan.clicked.connect(self.scan_ports)
         self.BtnConnect.clicked.connect(self.connect)
@@ -42,34 +66,15 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnSendFile.clicked.connect(self.send_file)
         self.BtnAscii.clicked.connect(self.ascii_show)
 
-        self.serial_port = QtSerialPort.QSerialPort()
+    def serial_port_ui(self):
+        """
+        set UI for serial port
+        :return:
+        """
         self.serial_port.readyRead.connect(self.read_data)
         self.serial_port.errorOccurred.connect(self.serial_error)
-        self.port_settings: data_types.ComSettings = data_types.ComSettings()
-        self.text_settings: data_types.TextSettings = data_types.TextSettings()
-        self.scan_ports()
-        self.all_macros: List[data_types.MacroSet] = list()
-        self.current_macros: data_types.MacroSet = data_types.MacroSet(name="", macros=list())
-        self.load_macros()
-        self.counter: int = 0
-        self.file_to_send = ""
-        self.start_time = datetime.datetime.now()
-        self.settings_form: Optional[settings.Settings] = None
-        self.macros_form: Optional[macros.Macros] = None
-        self.ascii_form: Optional[ASCII_table.ASCIITable] = None
-        self.colors: Dict[str, Tuple[int, int, int]] = \
-            {'background-color': (255, 255, 255), 'font-transmit': (50, 250, 00), 'font-receive': (0, 0, 0),
-             'bytes-color': (255, 0, 0)}
         self.CBBaudrate.setCurrentText('115200')
-        self.current_font = QtGui.QFont("Consolas", 10)
-        self.TxtBuffer.setFont(self.current_font)
-        self.TxtTransmit.setFont(self.current_font)
-        self.TxtTransmit2.setFont(self.current_font)
-        self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
-        self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-transmit']))
-
-        self.macros_btns_list = list()
-        self.load_settings()
+        self.scan_ports()
 
     def macros_ui(self):
         """
@@ -84,6 +89,20 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         for btn in self.macros_btns_list:
             btn.clicked.connect(self.macro_btn_pressed)
         self.CBMacros.currentTextChanged.connect(self.macros_selected)
+
+    def apply_styles(self):
+        """
+        apply styles to GUI
+        :return:
+        """
+        self.colors: Dict[str, Tuple[int, int, int]] = \
+            {'background-color': (255, 255, 255), 'font-transmit': (50, 250, 00), 'font-receive': (0, 0, 0),
+             'bytes-color': (255, 0, 0)}
+        self.TxtBuffer.setFont(self.current_font)
+        self.TxtTransmit.setFont(self.current_font)
+        self.TxtTransmit2.setStyleSheet("font: 12pt 'Times New Roman';")
+        self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
+        self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-transmit']))
 
     def load_settings(self):
         """
@@ -179,6 +198,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                 self.all_macros, warning = data_types.create_macros_from_list(macros_data['Macros'])
                 if warning:
                     self.LblStatus.setText(warning)
+                self.CBMacros.clear()
                 self.CBMacros.addItem('None')
                 self.CBMacros.addItems([macrosset.name for macrosset in self.all_macros])
 

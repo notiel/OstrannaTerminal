@@ -31,13 +31,12 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         self.current_macros = current_macros
         self.load_current_set()
         self.BtnSave.clicked.connect(self.save_pressed)
-        self.BtnApply.clicked.connect(self.apply_pressed)
+        # self.BtnApply.clicked.connect(self.apply_pressed)
         self.BtnAll.clicked.connect(self.all_pressed)
         self.BtnDelete.clicked.connect(self.delete_pressed)
         self.CBMacros.currentTextChanged.connect(self.selected_changed)
         for line in self.macros_command_list:
             line.setFont(current_font)
-
 
     def load_current_set(self):
         """
@@ -129,16 +128,16 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         for field in self.macros_names_list:
             field.clear()
 
-    def apply_pressed(self):
-        """
-        add macros as current
-        :return:
-        """
-        new_macros_set = self.create_macros_set()
-        if new_macros_set:
-            self.current_macros = new_macros_set
-            self.applied_signal.emit(new_macros_set.name)
-            self.LblStatus.setText("Macros set applied")
+    # def apply_pressed(self):
+    #     """
+    #     add macros as current
+    #     :return:
+    #     """
+    #     new_macros_set = self.create_macros_set()
+    #     if new_macros_set:
+    #         self.current_macros = new_macros_set
+    #         self.applied_signal.emit(new_macros_set.name)
+    #         self.LblStatus.setText("Macros set applied")
 
     def save_pressed(self):
         """

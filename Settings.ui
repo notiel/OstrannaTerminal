@@ -474,13 +474,6 @@
       <string>TextSettings</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_8">
-      <item row="0" column="1">
-       <widget class="QCheckBox" name="CBTime">
-        <property name="text">
-         <string>Show &amp;Timestamp</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="0">
        <widget class="QCheckBox" name="CBBytes">
         <property name="text">
@@ -511,6 +504,13 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="1">
+       <widget class="QCheckBox" name="CBTime">
+        <property name="text">
+         <string>Show &amp;Timestamp</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="2">
        <widget class="QCheckBox" name="CBShowSent">
         <property name="text">
@@ -518,6 +518,32 @@
         </property>
         <property name="checked">
          <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QComboBox" name="CBDecode">
+        <item>
+         <property name="text">
+          <string>Ignore</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Red ? symbols</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Decode in Win-1251</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QLabel" name="LblDecode">
+        <property name="text">
+         <string>For non-ASCII characters</string>
         </property>
        </widget>
       </item>
