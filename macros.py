@@ -12,7 +12,7 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
     applied_signal = QtCore.pyqtSignal(str)
     edited_signal = QtCore.pyqtSignal()
 
-    def __init__(self, current_macros: data_types.MacroSet, all_macros: List[data_types.MacroSet]):
+    def __init__(self, current_macros: data_types.MacroSet, all_macros: List[data_types.MacroSet], current_font):
         super().__init__()
         self.setupUi(self)
         self.macros_names_list = [self.LineName1, self.LineName2, self.LineName3, self.LineName4, self.LineName5,
@@ -35,6 +35,9 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         self.BtnAll.clicked.connect(self.all_pressed)
         self.BtnDelete.clicked.connect(self.delete_pressed)
         self.CBMacros.currentTextChanged.connect(self.selected_changed)
+        for line in self.macros_command_list:
+            line.setFont(current_font)
+
 
     def load_current_set(self):
         """

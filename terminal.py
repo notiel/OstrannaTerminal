@@ -25,7 +25,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.CBBaudrate.activated.connect(self.baudrate_changed)
         self.BtnReScan.clicked.connect(self.scan_ports)
         self.BtnConnect.clicked.connect(self.connect)
-        self.BtnDisconnect.clicked.connect(self.disconnect)
+        self.BtnDisconnect.clicked.connect(self.disconnect_stub)
         self.CBNRF.stateChanged.connect(self.scan_ports)
         self.CBSTM.stateChanged.connect(self.scan_ports)
         self.BtnClear.clicked.connect(self.clear_pressed)
@@ -63,9 +63,19 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.CBBaudrate.setCurrentText('115200')
         self.current_font = QtGui.QFont("Consolas", 10)
         self.TxtBuffer.setFont(self.current_font)
+        self.TxtTransmit.setFont(self.current_font)
+        self.TxtTransmit2.setFont(self.current_font)
         self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
         self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-transmit']))
 
+        self.macros_btns_list = list()
+        self.load_settings()
+
+    def macros_ui(self):
+        """
+        sets macros ui
+        :return:
+        """
         self.macros_btns_list = [self.BtnMacros1, self.BtnMacros2, self.BtnMacros3, self.BtnMacros4, self.BtnMacros5,
                                  self.BtnMacros6, self.BtnMacros7, self.BtnMacros8, self.BtnMacros9, self.BtnMacros10,
                                  self.BtnMacros11, self.BtnMacros12, self.BtnMacros13, self.BtnMacros14,
@@ -74,7 +84,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         for btn in self.macros_btns_list:
             btn.clicked.connect(self.macro_btn_pressed)
         self.CBMacros.currentTextChanged.connect(self.macros_selected)
-        self.load_settings()
 
     def load_settings(self):
         """
@@ -125,6 +134,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                         font_size = settings_json['Font']['size'] if 'size' in settings_json['Font'].keys() else 10
                         self.current_font = QtGui.QFont(font_family, font_size)
                         self.TxtBuffer.setFont(self.current_font)
+                        self.TxtTransmit.setFont(self.current_font)
+                        self.TxtTransmit2.setFont(self.current_font)
                     if 'Macros set' in settings_json.keys():
                         self.current_macros = data_types.get_macros_by_name(settings_json['Macros set'],
                                                                             self.all_macros)
@@ -194,6 +205,9 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.port_settings.last_name = name
             self.BtnSend.setEnabled(True)
             self.BtnSend2.setEnabled(True)
+
+    def disconnect_stub(self):
+        self.disconnect(True)
 
     def disconnect(self, rescan=True):
         """
@@ -367,7 +381,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         opens macros form
         :return:
         """
-        self.macros_form = macros.Macros(self.current_macros, self.all_macros)
+        self.macros_form = macros.Macros(self.current_macros, self.all_macros, self.current_font)
+        self.load_macros()
         self.macros_form.show()
         self.macros_form.edited_signal.connect(self.macros_edited)
         self.macros_form.applied_signal[str].connect(self.macros_applied)
@@ -410,7 +425,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.settings_form = settings.Settings(self.port_settings, self.text_settings,
                                                    self.colors, self.current_font)
             self.settings_form.save_settings()
-            self.LblMacrosSelected.setText("Macros set selected: %s" % selected_macros.name)
             for (index, btn) in enumerate(self.macros_btns_list):
                 caption = self.current_macros.macros[index].name if self.current_macros.macros[
                     index].name else '<Not used>'
@@ -419,7 +433,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                     btn.setToolTip(self.current_macros.macros[index].command)
                 btn.setEnabled(caption != '<Not used>')
         else:
-            self.LblMacrosSelected.setText("Macros set selected: None")
             self.port_settings.last_macros_set = ""
             for (index, btn) in enumerate(self.macros_btns_list):
                 btn.setText('M%i' % (index+1))
@@ -452,6 +465,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         self.current_font = font
         self.TxtBuffer.setFont(font)
+        self.TxtTransmit.setFont(self.current_font)
+        self.TxtTransmit2.setFont(self.current_font)
 
     def select_file(self):
         """

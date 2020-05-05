@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>OstrannaTerminal</string>
+   <string>Quetima</string>
   </property>
   <property name="windowIcon">
    <iconset resource="logo.qrc">
@@ -128,7 +128,7 @@ p, li { white-space: pre-wrap; }
        <string>Macros </string>
       </property>
       <layout class="QGridLayout" name="gridLayout_6">
-       <item row="3" column="1">
+       <item row="6" column="1">
         <widget class="QPushButton" name="BtnMacros14">
          <property name="enabled">
           <bool>false</bool>
@@ -138,7 +138,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
+       <item row="7" column="1">
         <widget class="QPushButton" name="BtnMacros15">
          <property name="enabled">
           <bool>false</bool>
@@ -148,7 +148,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="4" column="1">
         <widget class="QPushButton" name="BtnMacros12">
          <property name="enabled">
           <bool>false</bool>
@@ -158,7 +158,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
+       <item row="10" column="0">
         <widget class="QPushButton" name="BtnMacros8">
          <property name="enabled">
           <bool>false</bool>
@@ -168,7 +168,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="9" column="0">
+       <item row="12" column="0">
         <widget class="QPushButton" name="BtnMacros10">
          <property name="enabled">
           <bool>false</bool>
@@ -178,7 +178,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="8" column="1">
         <widget class="QPushButton" name="BtnMacros16">
          <property name="enabled">
           <bool>false</bool>
@@ -188,7 +188,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="5" column="1">
         <widget class="QPushButton" name="BtnMacros13">
          <property name="enabled">
           <bool>false</bool>
@@ -198,17 +198,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="10" column="0" colspan="2">
-        <widget class="QLabel" name="LblMacrosAvailable">
-         <property name="text">
-          <string>Macros sets available</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0" colspan="2">
-        <widget class="QComboBox" name="CBMacros"/>
-       </item>
-       <item row="0" column="1">
+       <item row="3" column="1">
         <widget class="QPushButton" name="BtnMacros11">
          <property name="enabled">
           <bool>false</bool>
@@ -218,7 +208,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
+       <item row="3" column="0">
         <widget class="QPushButton" name="BtnMacros1">
          <property name="enabled">
           <bool>false</bool>
@@ -228,7 +218,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="4" column="0">
         <widget class="QPushButton" name="BtnMacros2">
          <property name="enabled">
           <bool>false</bool>
@@ -238,7 +228,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="8" column="0">
+       <item row="11" column="0">
         <widget class="QPushButton" name="BtnMacros9">
          <property name="enabled">
           <bool>false</bool>
@@ -248,7 +238,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="8" column="1">
+       <item row="11" column="1">
         <widget class="QPushButton" name="BtnMacros19">
          <property name="enabled">
           <bool>false</bool>
@@ -258,7 +248,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="6" column="0">
+       <item row="9" column="0">
         <widget class="QPushButton" name="BtnMacros7">
          <property name="enabled">
           <bool>false</bool>
@@ -268,7 +258,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item row="8" column="0">
         <widget class="QPushButton" name="BtnMacros6">
          <property name="enabled">
           <bool>false</bool>
@@ -278,7 +268,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="9" column="1">
+       <item row="12" column="1">
         <widget class="QPushButton" name="BtnMacros20">
          <property name="enabled">
           <bool>false</bool>
@@ -288,7 +278,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
+       <item row="6" column="0">
         <widget class="QPushButton" name="BtnMacros4">
          <property name="enabled">
           <bool>false</bool>
@@ -298,7 +288,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
+       <item row="5" column="0">
         <widget class="QPushButton" name="BtnMacros3">
          <property name="enabled">
           <bool>false</bool>
@@ -308,14 +298,14 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="13" column="0" colspan="2">
+       <item row="15" column="0" colspan="2">
         <widget class="QPushButton" name="BtnCreateMacros">
          <property name="text">
           <string>C&amp;reate/Edit Macros Set</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
+       <item row="7" column="0">
         <widget class="QPushButton" name="BtnMacros5">
          <property name="enabled">
           <bool>false</bool>
@@ -325,7 +315,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="6" column="1">
+       <item row="9" column="1">
         <widget class="QPushButton" name="BtnMacros17">
          <property name="enabled">
           <bool>false</bool>
@@ -335,7 +325,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="7" column="1">
+       <item row="10" column="1">
         <widget class="QPushButton" name="BtnMacros18">
          <property name="enabled">
           <bool>false</bool>
@@ -345,14 +335,7 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="12" column="0" colspan="2">
-        <widget class="QLabel" name="LblMacrosSelected">
-         <property name="text">
-          <string>Macros set selected: None</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="0">
+       <item row="16" column="0">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -364,6 +347,30 @@ p, li { white-space: pre-wrap; }
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="LblMacrosAvailable">
+         <property name="text">
+          <string>Macros sets available</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QComboBox" name="CBMacros"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="LblEmpty1">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QLabel" name="LblEmpty2">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -559,6 +566,22 @@ p, li { white-space: pre-wrap; }
       </property>
      </widget>
     </item>
+    <item row="6" column="5">
+     <widget class="QLineEdit" name="LineName">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="3" alignment="Qt::AlignRight">
+     <widget class="QLabel" name="LblName">
+      <property name="text">
+       <string>Session Name:</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -606,7 +629,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>BtnMacros19</tabstop>
   <tabstop>BtnMacros10</tabstop>
   <tabstop>BtnMacros20</tabstop>
-  <tabstop>CBMacros</tabstop>
   <tabstop>BtnCreateMacros</tabstop>
   <tabstop>BtnSettings</tabstop>
   <tabstop>BtnAscii</tabstop>
