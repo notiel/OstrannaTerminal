@@ -2,13 +2,28 @@
   <qresource prefix="newPrefix">
     <file>Logo_new.ico</file>
   </qresource>
+  <qresource prefix="rescan">
+    <file>icon/rescan.gif</file>
+  </qresource>
   <qresource prefix="Connect">
-    <file>icon/connect.bmp</file>
+    <file>icon/conn.ico</file>
   </qresource>
   <qresource prefix="Disconnect">
-    <file>icon/discon.bmp</file>
+    <file>icon/discon.ico</file>
+  </qresource>
+  <qresource prefix="status-conn">
+    <file>icon/status con2.gif</file>
   </qresource>
   <qresource prefix="Settings">
     <file>icon/customize.bmp</file>
+  </qresource>
+  <qresource prefix="status-disconn">
+    <file>icon/status discon2.gif</file>
+  </qresource>
+  <qresource prefix="clear">
+    <file>icon/clear.gif</file>
+  </qresource>
+  <qresource prefix="ascii">
+    <file>icon/i16x16.ico</file>
   </qresource>
 </RCC>

@@ -397,6 +397,10 @@ p, li { white-space: pre-wrap; }
          <property name="text">
           <string>ASCII</string>
          </property>
+         <property name="icon">
+          <iconset resource="logo.qrc">
+           <normaloff>:/ascii/icon/i16x16.ico</normaloff>:/ascii/icon/i16x16.ico</iconset>
+         </property>
         </widget>
        </item>
        <item row="2" column="3">
@@ -438,6 +442,10 @@ p, li { white-space: pre-wrap; }
       <property name="text">
        <string>&amp;ReScan</string>
       </property>
+      <property name="icon">
+       <iconset resource="logo.qrc">
+        <normaloff>:/rescan/icon/rescan.gif</normaloff>:/rescan/icon/rescan.gif</iconset>
+      </property>
      </widget>
     </item>
     <item row="4" column="0" alignment="Qt::AlignLeft">
@@ -450,7 +458,7 @@ p, li { white-space: pre-wrap; }
       </property>
       <property name="icon">
        <iconset resource="logo.qrc">
-        <normaloff>:/Connect/icon/connect.bmp</normaloff>:/Connect/icon/connect.bmp</iconset>
+        <normaloff>:/Connect/icon/conn.ico</normaloff>:/Connect/icon/conn.ico</iconset>
       </property>
      </widget>
     </item>
@@ -464,7 +472,7 @@ p, li { white-space: pre-wrap; }
       </property>
       <property name="icon">
        <iconset resource="logo.qrc">
-        <normaloff>:/Disconnect/icon/discon.bmp</normaloff>:/Disconnect/icon/discon.bmp</iconset>
+        <normaloff>:/Disconnect/icon/discon.ico</normaloff>:/Disconnect/icon/discon.ico</iconset>
       </property>
      </widget>
     </item>
@@ -472,6 +480,10 @@ p, li { white-space: pre-wrap; }
      <widget class="QPushButton" name="BtnClear">
       <property name="text">
        <string>Clear</string>
+      </property>
+      <property name="icon">
+       <iconset resource="logo.qrc">
+        <normaloff>:/clear/icon/clear.gif</normaloff>:/clear/icon/clear.gif</iconset>
       </property>
      </widget>
     </item>
