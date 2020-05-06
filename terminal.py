@@ -65,6 +65,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnFile.clicked.connect(self.select_file)
         self.BtnSendFile.clicked.connect(self.send_file)
         self.BtnAscii.clicked.connect(self.ascii_show)
+        self.LineName.textChanged.connect(self.title_changed)
 
     def serial_port_ui(self):
         """
@@ -290,8 +291,12 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             if self.text_settings.decode == 1:
                 for byte in data:
                     try:
-                        char = chr(byte)
-                        self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-receive']))
+                        if byte < 128:
+                            char = chr(byte)
+                            self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-receive']))
+                        else:
+                            char = '?'
+                            self.TxtBuffer.setTextColor(QtGui.QColor(255, 0, 0))
                     except ValueError:
                         char = '?'
                         self.TxtBuffer.setTextColor(QtGui.QColor(255, 0, 0))
@@ -538,6 +543,17 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         self.ascii_form = ASCII_table.ASCIITable()
         self.ascii_form.show()
+
+    def title_changed(self):
+        """
+        changes title
+        :return:
+        """
+        title = self.LineName.text()
+        if title:
+            self.setWindowTitle(self.LineName.text())
+        else:
+            self.setWindowTitle('Quetima')
 
 
 def initiate_exception_logging():
