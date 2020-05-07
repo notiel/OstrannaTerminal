@@ -221,7 +221,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             common_functions.error_message("Unable to open port %s" % name)
         else:
             self.start_time = datetime.datetime.now()
-            self.LblStatusInfo.setText("Connected")
+            self.LblStatus.setPixmap(QtGui.QPixmap(":/status-conn/icon/status con2.gif"))
             self.BtnDisconnect.setEnabled(True)
             self.BtnConnect.setEnabled(False)
             self.port_settings.name = name
@@ -238,7 +238,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         :return:
         """
         self.serial_port.close()
-        self.LblStatusInfo.setText('Disconnected')
+        self.LblStatus.setPixmap(QtGui.QPixmap(":/status-disconn/icon/status discon2.gif"))
         self.BtnDisconnect.setEnabled(False)
         self.port_settings.name = ""
         self.counter = 0
