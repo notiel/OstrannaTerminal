@@ -247,12 +247,15 @@ class Ui_Form(object):
         self.LineCommand16 = QtWidgets.QLineEdit(Form)
         self.LineCommand16.setObjectName("LineCommand16")
         self.gridLayout.addWidget(self.LineCommand16, 8, 7, 1, 2)
-        self.BtnAll = QtWidgets.QPushButton(Form)
-        self.BtnAll.setObjectName("BtnAll")
-        self.gridLayout.addWidget(self.BtnAll, 0, 7, 1, 1)
         self.BtnSave = QtWidgets.QPushButton(Form)
         self.BtnSave.setObjectName("BtnSave")
-        self.gridLayout.addWidget(self.BtnSave, 0, 6, 1, 1)
+        self.gridLayout.addWidget(self.BtnSave, 0, 7, 1, 1)
+        self.BtnAll = QtWidgets.QPushButton(Form)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/Save/icon/floppy.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BtnAll.setIcon(icon)
+        self.BtnAll.setObjectName("BtnAll")
+        self.gridLayout.addWidget(self.BtnAll, 0, 6, 1, 1)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -296,8 +299,8 @@ class Ui_Form(object):
         Form.setTabOrder(self.LineName19, self.LineCommand19)
         Form.setTabOrder(self.LineCommand19, self.LineName20)
         Form.setTabOrder(self.LineName20, self.LineCommand20)
-        Form.setTabOrder(self.LineCommand20, self.BtnSave)
-        Form.setTabOrder(self.BtnSave, self.BtnAll)
+        Form.setTabOrder(self.LineCommand20, self.BtnAll)
+        Form.setTabOrder(self.BtnAll, self.BtnSave)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -328,6 +331,7 @@ class Ui_Form(object):
         self.LblName2.setText(_translate("Form", "Name on Button:"))
         self.LblMacro10.setText(_translate("Form", "Macro10"))
         self.BtnDelete.setText(_translate("Form", "Delete"))
-        self.BtnAll.setText(_translate("Form", "Save and Apply"))
         self.BtnSave.setText(_translate("Form", "Save only"))
+        self.BtnAll.setText(_translate("Form", "Save and Apply"))
 
+import logo_rc

@@ -477,16 +477,20 @@
     <widget class="QLineEdit" name="LineCommand16"/>
    </item>
    <item row="0" column="7">
-    <widget class="QPushButton" name="BtnAll">
+    <widget class="QPushButton" name="BtnSave">
      <property name="text">
-      <string>Save and Apply</string>
+      <string>Save only</string>
      </property>
     </widget>
    </item>
    <item row="0" column="6">
-    <widget class="QPushButton" name="BtnSave">
+    <widget class="QPushButton" name="BtnAll">
      <property name="text">
-      <string>Save only</string>
+      <string>Save and Apply</string>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/Save/icon/floppy.ico</normaloff>:/Save/icon/floppy.ico</iconset>
      </property>
     </widget>
    </item>
@@ -534,9 +538,11 @@
   <tabstop>LineCommand19</tabstop>
   <tabstop>LineName20</tabstop>
   <tabstop>LineCommand20</tabstop>
-  <tabstop>BtnSave</tabstop>
   <tabstop>BtnAll</tabstop>
+  <tabstop>BtnSave</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="logo.qrc"/>
+ </resources>
  <connections/>
 </ui>

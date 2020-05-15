@@ -37,6 +37,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.ascii_form: Optional[ASCII_table.ASCIITable] = None
         self.colors: Dict[str, Tuple[int, int, int]] = dict()
         self.current_font = QtGui.QFont("Consolas", 10)
+        self.apply_styles()
         self.macros_btns_list = list()
         self.macros_ui()
         self.load_settings()
@@ -66,6 +67,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnSendFile.clicked.connect(self.send_file)
         self.BtnAscii.clicked.connect(self.ascii_show)
         self.LineName.textChanged.connect(self.title_changed)
+        self.BtnRefresh.clicked.connect(self.refresh_length)
 
     def serial_port_ui(self):
         """
@@ -228,6 +230,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.port_settings.last_name = name
             self.BtnSend.setEnabled(True)
             self.BtnSend2.setEnabled(True)
+            self.statusbar.clearMessage()
 
     def disconnect_stub(self):
         self.disconnect(True)
@@ -386,7 +389,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         code = self.serial_port.error()
         if code and self.port_settings.name:
             # common_functions.error_message(data_types.error_codes[code])
-            self.LblStatusInfo.setText(data_types.error_codes[code])
+            self.statusbar.showMessage(data_types.error_codes[code])
             self.serial_port.clearError()
             self.BtnConnect.setEnabled(True)
             self.disconnect(False)
@@ -524,6 +527,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.file_to_send = new_filename
             self.LblFile.setText("File Selected: %s" % self.file_to_send)
             self.BtnSendFile.setEnabled(True)
+            self.LblLength.setText("Length: %i" % os.path.getsize(new_filename))
+            self.BtnRefresh.setEnabled(True)
 
     def send_file(self):
         """
@@ -554,6 +559,16 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.setWindowTitle(self.LineName.text())
         else:
             self.setWindowTitle('Quetima')
+
+    def refresh_length(self):
+        """
+        recalculates length of selected file
+        :return:
+        """
+        if self.file_to_send and os.path.exists(self.file_to_send):
+            self.LblLength.setText("Length: %i" % os.path.getsize(self.file_to_send))
+        else:
+            self.LblLength.setText("Length: None")
 
 
 def initiate_exception_logging():

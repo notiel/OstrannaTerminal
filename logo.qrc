@@ -2,6 +2,15 @@
   <qresource prefix="newPrefix">
     <file>Logo_new.ico</file>
   </qresource>
+  <qresource prefix="Help">
+    <file>icon/info.ico</file>
+  </qresource>
+  <qresource prefix="Save">
+    <file>icon/floppy.ico</file>
+  </qresource>
+  <qresource prefix="Refresh">
+    <file>icon/refresh.bmp</file>
+  </qresource>
   <qresource prefix="rescan">
     <file>icon/rescan.gif</file>
   </qresource>
