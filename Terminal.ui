@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1068</width>
+    <width>1384</width>
     <height>825</height>
    </rect>
   </property>
@@ -252,9 +252,6 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QComboBox" name="CBMacros"/>
-       </item>
        <item row="2" column="0">
         <widget class="QLabel" name="LblEmpty1">
          <property name="text">
@@ -269,6 +266,9 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QComboBox" name="CBMacros"/>
+       </item>
       </layout>
      </widget>
     </item>
@@ -279,14 +279,23 @@
       </property>
      </widget>
     </item>
-    <item row="4" column="1">
-     <widget class="QPushButton" name="BtnReScan">
+    <item row="4" column="11">
+     <widget class="QLabel" name="LblStatus">
       <property name="text">
-       <string>&amp;ReScan</string>
+       <string/>
       </property>
-      <property name="icon">
-       <iconset resource="logo.qrc">
-        <normaloff>:/rescan/icon/rescan.gif</normaloff>:/rescan/icon/rescan.gif</iconset>
+      <property name="pixmap">
+       <pixmap resource="logo.qrc">:/status-disconn/icon/status discon2.gif</pixmap>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="3" colspan="8">
+     <widget class="QComboBox" name="CBPorts">
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>0</height>
+       </size>
       </property>
      </widget>
     </item>
@@ -315,6 +324,17 @@
       </property>
      </widget>
     </item>
+    <item row="4" column="1">
+     <widget class="QPushButton" name="BtnReScan">
+      <property name="text">
+       <string>&amp;ReScan</string>
+      </property>
+      <property name="icon">
+       <iconset resource="logo.qrc">
+        <normaloff>:/rescan/icon/rescan.gif</normaloff>:/rescan/icon/rescan.gif</iconset>
+      </property>
+     </widget>
+    </item>
     <item row="5" column="0">
      <widget class="QPushButton" name="BtnDisconnect">
       <property name="enabled">
@@ -329,149 +349,49 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="3" colspan="4">
-     <widget class="QCheckBox" name="CBSTM">
-      <property name="text">
-       <string>Filter ST&amp;M devices</string>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1" rowspan="2" colspan="2">
-     <widget class="QGroupBox" name="GBCounter">
+    <item row="27" column="0" rowspan="2" colspan="11">
+     <widget class="QGroupBox" name="GBTansmit">
       <property name="title">
-       <string>Counter</string>
+       <string>Transmit Command</string>
       </property>
-      <layout class="QGridLayout" name="gridLayout_4">
+      <layout class="QGridLayout" name="gridLayout_8">
+       <item row="2" column="0">
+        <widget class="QLineEdit" name="TxtTransmit"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="BtnSend">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Send Input&amp;2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="BtnSend2">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Send Input&amp;1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLineEdit" name="TxtTransmit2"/>
+       </item>
        <item row="0" column="0">
-        <widget class="QLabel" name="LblCounter">
-         <property name="maximumSize">
-          <size>
-           <width>55</width>
-           <height>16777215</height>
-          </size>
-         </property>
+        <widget class="QCheckBox" name="CBClear">
          <property name="text">
-          <string>Counter:</string>
+          <string>Clear aft&amp;er sending</string>
          </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QPushButton" name="BtnCounter">
-         <property name="text">
-          <string>Clear Counter</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="LblCounterData">
-         <property name="text">
-          <string>0</string>
+         <property name="checked">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
       </layout>
-     </widget>
-    </item>
-    <item row="5" column="12">
-     <widget class="QLabel" name="LblName">
-      <property name="text">
-       <string>Session Name:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="12">
-     <widget class="QCheckBox" name="CBHex">
-      <property name="text">
-       <string>Hex Mode</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="13">
-     <widget class="QLineEdit" name="LineName">
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="7" colspan="5">
-     <widget class="QCheckBox" name="CBNRF">
-      <property name="text">
-       <string>Filter &amp;NRF devices</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="13">
-     <widget class="QPushButton" name="BtnSave">
-      <property name="text">
-       <string>Save to &amp;log</string>
-      </property>
-     </widget>
-    </item>
-    <item row="9" column="0" colspan="14">
-     <widget class="QTextBrowser" name="TxtBuffer">
-      <property name="html">
-       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="3" colspan="8">
-     <widget class="QComboBox" name="CBPorts">
-      <property name="minimumSize">
-       <size>
-        <width>300</width>
-        <height>0</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="12" alignment="Qt::AlignRight">
-     <widget class="QLabel" name="LblBaudrate">
-      <property name="text">
-       <string>Baudrate:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="11">
-     <widget class="QLabel" name="LblStatus">
-      <property name="text">
-       <string/>
-      </property>
-      <property name="pixmap">
-       <pixmap resource="logo.qrc">:/status-disconn/icon/status discon2.gif</pixmap>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="13">
-     <widget class="QComboBox" name="CBBaudrate">
-      <item>
-       <property name="text">
-        <string>9600</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>115200</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>256000</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Custom</string>
-       </property>
-      </item>
      </widget>
     </item>
     <item row="3" column="14" rowspan="4" colspan="2">
@@ -529,44 +449,62 @@ p, li { white-space: pre-wrap; }
       </layout>
      </widget>
     </item>
-    <item row="27" column="12" rowspan="2" colspan="4">
+    <item row="5" column="12">
+     <widget class="QLabel" name="LblName">
+      <property name="text">
+       <string>Session Name:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="12">
+     <widget class="QCheckBox" name="CBHex">
+      <property name="text">
+       <string>Hex Mode</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="13">
+     <widget class="QLineEdit" name="LineName">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>100</width>
+        <height>200</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+     </widget>
+    </item>
+    <item row="27" column="11" rowspan="2" colspan="5">
      <widget class="QGroupBox" name="GBTransmit">
       <property name="title">
        <string>Transmit File</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_7">
-       <item row="0" column="1">
-        <widget class="QPushButton" name="BtnSendFile">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Send F&amp;ile</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QPushButton" name="BtnFile">
-         <property name="text">
-          <string>Select &amp;File</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QLabel" name="LblFile">
-         <property name="text">
-          <string>File Selected: None</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="0">
         <widget class="QLabel" name="LblLength">
          <property name="text">
-          <string>Length: 0</string>
+          <string>Length: None</string>
          </property>
         </widget>
        </item>
        <item row="2" column="1">
+        <widget class="QLabel" name="LblCrc">
+         <property name="text">
+          <string>CRC: None</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
         <widget class="QPushButton" name="BtnRefresh">
          <property name="enabled">
           <bool>false</bool>
@@ -576,56 +514,155 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="icon">
           <iconset resource="logo.qrc">
-           <normaloff>:/Refresh/icon/refresh.bmp</normaloff>:/Refresh/icon/refresh.bmp</iconset>
+           <normaloff>:/Refresh/icon/kisspng_computer_icons_icon_design_clip_art_database_icon_5ab2e5fb7763e8.png</normaloff>:/Refresh/icon/kisspng_computer_icons_icon_design_clip_art_database_icon_5ab2e5fb7763e8.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="BtnSendFile">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Send F&amp;ile</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="BtnFile">
+         <property name="text">
+          <string>Select &amp;File</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="3">
+        <widget class="QLabel" name="LblFile">
+         <property name="text">
+          <string>File Selected: None</string>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
     </item>
-    <item row="27" column="0" rowspan="2" colspan="12">
-     <widget class="QGroupBox" name="GBTansmit">
-      <property name="title">
-       <string>Transmit Command</string>
+    <item row="6" column="13">
+     <widget class="QPushButton" name="BtnSave">
+      <property name="maximumSize">
+       <size>
+        <width>100</width>
+        <height>16777215</height>
+       </size>
       </property>
-      <layout class="QGridLayout" name="gridLayout_8">
-       <item row="2" column="0">
-        <widget class="QLineEdit" name="TxtTransmit"/>
-       </item>
-       <item row="2" column="1">
-        <widget class="QPushButton" name="BtnSend">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Send Input&amp;2</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="BtnSend2">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Send Input&amp;1</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLineEdit" name="TxtTransmit2"/>
-       </item>
+      <property name="text">
+       <string>Save to &amp;log</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0" colspan="14">
+     <widget class="QTextBrowser" name="TxtBuffer">
+      <property name="html">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="12" alignment="Qt::AlignRight">
+     <widget class="QLabel" name="LblBaudrate">
+      <property name="text">
+       <string>Baudrate:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="13">
+     <widget class="QComboBox" name="CBBaudrate">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <item>
+       <property name="text">
+        <string>9600</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>115200</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>256000</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Custom</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="5" column="1" rowspan="2" colspan="2">
+     <widget class="QGroupBox" name="GBCounter">
+      <property name="title">
+       <string>Counter</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
-        <widget class="QCheckBox" name="CBClear">
-         <property name="text">
-          <string>Clear aft&amp;er sending</string>
+        <widget class="QLabel" name="LblCounter">
+         <property name="maximumSize">
+          <size>
+           <width>55</width>
+           <height>16777215</height>
+          </size>
          </property>
-         <property name="checked">
-          <bool>false</bool>
+         <property name="text">
+          <string>Counter:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="BtnCounter">
+         <property name="text">
+          <string>Clear Counter</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="LblCounterData">
+         <property name="text">
+          <string>0</string>
          </property>
         </widget>
        </item>
       </layout>
+     </widget>
+    </item>
+    <item row="5" column="8" colspan="3" alignment="Qt::AlignRight">
+     <widget class="QCheckBox" name="CBSTM">
+      <property name="text">
+       <string>Filter ST&amp;M devices</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="8" colspan="3" alignment="Qt::AlignRight">
+     <widget class="QCheckBox" name="CBNRF">
+      <property name="text">
+       <string>Filter &amp;NRF devices</string>
+      </property>
      </widget>
     </item>
    </layout>
@@ -644,13 +681,10 @@ p, li { white-space: pre-wrap; }
   <tabstop>BtnDisconnect</tabstop>
   <tabstop>BtnClear</tabstop>
   <tabstop>BtnCounter</tabstop>
-  <tabstop>CBSTM</tabstop>
   <tabstop>TxtTransmit2</tabstop>
   <tabstop>BtnSend2</tabstop>
   <tabstop>TxtTransmit</tabstop>
   <tabstop>BtnSend</tabstop>
-  <tabstop>BtnFile</tabstop>
-  <tabstop>BtnSendFile</tabstop>
   <tabstop>BtnMacros1</tabstop>
   <tabstop>BtnMacros11</tabstop>
   <tabstop>BtnMacros2</tabstop>

@@ -1,8 +1,10 @@
 from PyQt5.QtWidgets import QMessageBox
 import re
+from typing import List
+import binascii
 
 hex_symbols = '1234567890abcdef'
-
+crc_init_value = 0
 
 def error_message(text: str):
     """
@@ -53,26 +55,48 @@ def hexify(text: str):
     return hex_str
 
 
-# def split_with_bytes(text: str):
-    # """
-    # finds bytes marked as &ff and splits text with them
-    # :param text: text to split
-    # :return:
-    # """
-    # last = 0
-    # i = 0
-    # res = list()
-    # while i < len(text):
-    #     if text[i] != '&':
-    #         i += 1
-    #     else:
-    #         if i+2 < len(text) and text[i+1].lower() in hex_symbols and text[i+2].lower() in hex_symbols:
-    #             res.append(text[last:i])
-    #             res.append(text[i:i+3])
-    #             last = i + 3
-    #             i = i + 3
-    #         else:
-    #             i += 1
-    # if last != len(text):
-    #     res.append(text[last:])
-    # return res
+def get_crc_table() -> List[int]:
+    """
+    get crc16_table
+    :return:
+    """
+    res = list()
+    poly = 4129
+    for i in range(256):
+        temp = 0
+        a = i << 8
+        for j in range(8):
+            temp = (temp << 1) ^ poly if (temp ^ a) & 0x8000 else temp << 1
+            a <<= 1
+        res.append(temp & 0xFFFF)
+        # print(hex(temp % 2**16))
+    return res
+
+"""
+uint16_t CalculateCRC16(uint8_t *Buf, uint32_t Len) {
+    uint16_t crc = CRC_INITVALUE;
+    for(uint32_t i=0; i<Len; ++i) {
+        crc = (crc << 8) ^ CRCTable[(crc >> 8) ^ (0xFF & Buf[i])];
+    }
+    return crc;
+}
+"""
+
+
+def calculate_crc(crc_table: List[int], data: bytes) -> int:
+    """
+    calculate crc
+    :param crc_table: crc table
+    :param data: data to get crc
+    :return:
+    """
+    crc = crc_init_value
+    for ch in data:
+        crc = ((crc << 8 & 0xFFFF) ^ crc_table[crc >> 8 ^ (0xff & ch)])
+    return crc
+
+
+if __name__ == '__main__':
+    test_file = open(r'C:\Users\juice\Downloads\PycharmProjects\OstrannaTerminal\logo.qrc', "rb")
+    crc_table = get_crc_table()
+    print(hex(calculate_crc(crc_table, test_file.read())))

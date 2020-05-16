@@ -103,7 +103,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
              'bytes-color': (255, 0, 0)}
         self.TxtBuffer.setFont(self.current_font)
         self.TxtTransmit.setFont(self.current_font)
-        self.TxtTransmit2.setStyleSheet("font: 12pt 'Times New Roman';")
+        self.TxtTransmit2.setFont(self.current_font)
         self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
         self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-transmit']))
 
@@ -338,10 +338,9 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         text: str = source.text()
         if self.text_settings.CRLF:
             text += '\r\n'
-        cb_clear = self.CBClear if sender in [self.TxtTransmit, self.BtnSend] else self.CBClear2
         error: int = self.write_data(text, True, self.text_settings.bytecodes)
         if not error:
-            if cb_clear.isChecked():
+            if self.CBClear.isChecked():
                 source.clear()
 
     def write_data(self, text: Union[str, bytes], encode=True, hexes=True) -> int:
@@ -430,6 +429,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         self.macros_form = macros.Macros(self.current_macros, self.all_macros, self.current_font)
         self.load_macros()
+        self.CBMacros.setCurrentText(self.current_macros.name)
         self.macros_form.show()
         self.macros_form.edited_signal.connect(self.macros_edited)
         self.macros_form.applied_signal[str].connect(self.macros_applied)
@@ -527,8 +527,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.file_to_send = new_filename
             self.LblFile.setText("File Selected: %s" % self.file_to_send)
             self.BtnSendFile.setEnabled(True)
-            self.LblLength.setText("Length: %i" % os.path.getsize(new_filename))
             self.BtnRefresh.setEnabled(True)
+            self.refresh_length()
 
     def send_file(self):
         """
@@ -567,8 +567,11 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         if self.file_to_send and os.path.exists(self.file_to_send):
             self.LblLength.setText("Length: %i" % os.path.getsize(self.file_to_send))
+            self.LblCrc.setText("CRC: " + hex(common_functions.calculate_crc(common_functions.get_crc_table(),
+                                                               open(self.file_to_send, "rb").read())))
         else:
             self.LblLength.setText("Length: None")
+            self.LblCrc.setText('Crc: None')
 
 
 def initiate_exception_logging():

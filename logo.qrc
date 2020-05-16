@@ -9,7 +9,7 @@
     <file>icon/floppy.ico</file>
   </qresource>
   <qresource prefix="Refresh">
-    <file>icon/refresh.bmp</file>
+    <file>icon/kisspng_computer_icons_icon_design_clip_art_database_icon_5ab2e5fb7763e8.png</file>
   </qresource>
   <qresource prefix="rescan">
     <file>icon/rescan.gif</file>
