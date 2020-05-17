@@ -30,6 +30,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.current_macros: data_types.MacroSet = data_types.MacroSet(name="", macros=list())
         self.load_macros()
         self.counter: int = 0
+        self.time_shown = False
+        self.tail = ""
         self.file_to_send = ""
         self.start_time = datetime.datetime.now()
         self.settings_form: Optional[settings.Settings] = None
@@ -314,13 +316,24 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         if read:
             self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-receive']))
             self.counter += len(read)
-            read_to_show: str = common_functions.hexify(read) if self.CBHex.isChecked() else read
             # refactor
             if self.text_settings.timestamps:
                 delta = datetime.datetime.now() - self.start_time
-                if self.counter == 0:
-                    read_to_show = '\n' + str(delta) + ': ' + read_to_show
-                read_to_show = read_to_show.replace("\r", "\r\n%s: " % delta)
+                lines = read.split('\r')
+                self.tail = lines[-1]
+                if len(lines) == 1 or lines[-1] not in ['', '\n']:
+                    self.time_shown = True
+                else:
+                    self.time_shown = False
+                if self.CBHex.isChecked():
+                    lines = [common_functions.hexify(line) for line in lines]
+                read_to_show = ('\r' + str(delta) + ': ').join(lines) if lines[-1] not in ['', '\n'] else \
+                    ('\r' + str(delta) + ': ').join(lines[:-1]) + lines[-1]
+                if not self.time_shown:
+                    read_to_show = str(delta) + ': ' + read_to_show
+
+            else:
+                read_to_show: str = common_functions.hexify(read) if self.CBHex.isChecked() else read
             self.TxtBuffer.insertPlainText(read_to_show)
 
         self.LblCounterData.setText(str(self.counter))
@@ -525,7 +538,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         new_filename = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file to send...', "")[0]
         if new_filename:
             self.file_to_send = new_filename
-            self.LblFile.setText("File Selected: %s" % self.file_to_send)
+            self.LblFile.setText("File: %s" % self.file_to_send)
             self.BtnSendFile.setEnabled(True)
             self.BtnRefresh.setEnabled(True)
             self.refresh_length()
