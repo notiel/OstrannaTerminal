@@ -1,6 +1,9 @@
 <RCC>
   <qresource prefix="newPrefix">
-    <file>Logo_new.ico</file>
+    <file>Q_my_variant_white_background.ico</file>
+  </qresource>
+  <qresource prefix="ico_curved">
+    <file>Q_curved_white_background.ico</file>
   </qresource>
   <qresource prefix="Help">
     <file>icon/info.ico</file>
