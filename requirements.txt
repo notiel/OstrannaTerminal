@@ -1,3 +1,4 @@
+pyqtgraph
 loguru==0.4.1
 PyQt5==5.9.2
 PyQt5-sip==12.7.2

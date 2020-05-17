@@ -2,6 +2,8 @@ from PyQt5.QtWidgets import QMessageBox
 import re
 from typing import List
 import binascii
+from matplotlib import pyplot
+from time import sleep
 
 hex_symbols = '1234567890abcdef'
 crc_init_value = 0
@@ -72,16 +74,6 @@ def get_crc_table() -> List[int]:
         # print(hex(temp % 2**16))
     return res
 
-"""
-uint16_t CalculateCRC16(uint8_t *Buf, uint32_t Len) {
-    uint16_t crc = CRC_INITVALUE;
-    for(uint32_t i=0; i<Len; ++i) {
-        crc = (crc << 8) ^ CRCTable[(crc >> 8) ^ (0xFF & Buf[i])];
-    }
-    return crc;
-}
-"""
-
 
 def calculate_crc(crc_table: List[int], data: bytes) -> int:
     """
@@ -96,7 +88,27 @@ def calculate_crc(crc_table: List[int], data: bytes) -> int:
     return crc
 
 
+def test_graph():
+    with open("test_graph.txt") as f:
+        pyplot.ion()
+        fig = pyplot.figure()
+        pyplot.title('Realtime file reading')
+        ax1 = pyplot.axes()
+        data_x = [1]
+        data_y = [50]
+        l1, = pyplot.plot(data_y)
+        pyplot.ylim([0, 10])
+        for line in f:
+            #sleep(1)
+            data_x.append(int(line.split(';')[0]))
+            data_y.append(int(line.split(';')[1]))
+            pyplot.ylim([0, 10])
+            l1.set_xdata(data_x)
+            l1.set_ydata(data_y)  # update the data
+            pyplot.draw()
+        pyplot.savefig("test.png")
+        pyplot.show()
+        sleep(5)
+
 if __name__ == '__main__':
-    test_file = open(r'C:\Users\juice\Downloads\PycharmProjects\OstrannaTerminal\logo.qrc', "rb")
-    crc_table = get_crc_table()
-    print(hex(calculate_crc(crc_table, test_file.read())))
+    test_graph()

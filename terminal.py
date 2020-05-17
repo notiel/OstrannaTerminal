@@ -8,6 +8,7 @@ import json
 import terminal_design
 import data_types
 import common_functions
+import terminal_graph
 import settings
 import macros
 import ASCII_table
@@ -33,6 +34,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.time_shown = False
         self.tail = ""
         self.file_to_send = ""
+        self.graph_form = Optional[terminal_graph.MainWindow]
+        self.graph = False
         self.start_time = datetime.datetime.now()
         self.settings_form: Optional[settings.Settings] = None
         self.macros_form: Optional[macros.Macros] = None
@@ -70,6 +73,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnAscii.clicked.connect(self.ascii_show)
         self.LineName.textChanged.connect(self.title_changed)
         self.BtnRefresh.clicked.connect(self.refresh_length)
+        self.BtnGraph.clicked.connect(self.graph_clicked)
 
     def serial_port_ui(self):
         """
@@ -289,6 +293,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         read: str = ""
         data: bytes = self.serial_port.readAll().data()
         self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
+        # decoding block
         try:
             read += data.decode('ascii')
             self.statusbar.clearMessage()
@@ -312,15 +317,16 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                     read = data.decode('cp1251')
                 except UnicodeDecodeError:
                     self.counter += len(data)
-        self.statusbar.showMessage("Unicode decode error")
+            self.statusbar.showMessage("Unicode decode error")
+
         if read:
             self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-receive']))
             self.counter += len(read)
-            # refactor
+            # if timestamps
             if self.text_settings.timestamps:
                 delta = datetime.datetime.now() - self.start_time
                 lines = read.split('\r')
-                self.tail = lines[-1]
+                start = str(delta) + ': ' if not self.time_shown else ""
                 if len(lines) == 1 or lines[-1] not in ['', '\n']:
                     self.time_shown = True
                 else:
@@ -329,13 +335,26 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                     lines = [common_functions.hexify(line) for line in lines]
                 read_to_show = ('\r' + str(delta) + ': ').join(lines) if lines[-1] not in ['', '\n'] else \
                     ('\r' + str(delta) + ': ').join(lines[:-1]) + lines[-1]
-                if not self.time_shown:
-                    read_to_show = str(delta) + ': ' + read_to_show
-
+                read_to_show = start + read_to_show
             else:
                 read_to_show: str = common_functions.hexify(read) if self.CBHex.isChecked() else read
             self.TxtBuffer.insertPlainText(read_to_show)
 
+            if self.graph and self.graph_form:
+                lines = (self.tail + read).split('\r')
+                self.tail = lines[-1]
+                for line in lines:
+                    try:
+                        data = line.strip().split(';')
+                        data_x = float(data[0])
+                        data_y = [float(value) for value in data[1:] if value]
+                        if self.graph_form.data_x:
+                            self.graph_form.update_plot_data(data_x, data_y)
+                        else:
+                            self.graph_form.create_graph(data_x, data_y)
+                            self.graph_form.show()
+                    except (ValueError, IndexError):
+                        pass
         self.LblCounterData.setText(str(self.counter))
         if self.text_settings.scroll:
             scroll = self.TxtBuffer.verticalScrollBar().maximum()
@@ -585,6 +604,21 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         else:
             self.LblLength.setText("Length: None")
             self.LblCrc.setText('Crc: None')
+
+    def graph_clicked(self):
+        """
+        starts or stops showing graphs
+        :return:
+        """
+        if self.graph:
+            self.graph = False
+            self.BtnGraph.setText("ShowGraph")
+            self.graph_form.destroy()
+            self.graph_form = terminal_graph.MainWindow()
+        else:
+            self.graph = True
+            self.BtnGraph.setText("StopGraph")
+            self.graph_form = terminal_graph.MainWindow()
 
 
 def initiate_exception_logging():
