@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="logo.qrc">
-    <normaloff>:/newPrefix/Q_my_variant_white_background.ico</normaloff>:/newPrefix/Q_my_variant_white_background.ico</iconset>
+    <normaloff>:/ico_curved/Q_curved_white_background.ico</normaloff>:/ico_curved/Q_curved_white_background.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">

@@ -63,6 +63,8 @@ class ComSettings:
     stopbits: float = 1
     handshaking: Handshaking = Handshaking.NONE
     last_macros_set: str = ""
+    STMFilter: bool = True
+    NRFFilter: bool = False
 
 @dataclass
 class TextSettings:
@@ -71,7 +73,10 @@ class TextSettings:
     scroll: bool = True
     timestamps: bool = False
     show_sent: bool = True
-    decode: int  = 0
+    decode: int = 0
+    crc_poly: int = 4129
+    crc_init: int = 0
+
 
 
 

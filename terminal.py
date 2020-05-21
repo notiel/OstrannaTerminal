@@ -13,6 +13,8 @@ import settings
 import macros
 import ASCII_table
 
+# stub = ['31.2; 3.7; 281.2; 11.2\r\n31.2; 3.7; 285; 15.0\r\n', '31.2; 3.7; 287; 15.7\r\n', '31.2; 3.7; 287; 15.7\r\n']
+
 
 logger.start("logfile.log", rotation="1 week", format="{time} {level} {message}", level="DEBUG", enqueue=True)
 
@@ -26,13 +28,13 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.serial_port = QtSerialPort.QSerialPort()
         self.port_settings: data_types.ComSettings = data_types.ComSettings()
         self.text_settings: data_types.TextSettings = data_types.TextSettings()
-        self.serial_port_ui()
         self.all_macros: List[data_types.MacroSet] = list()
         self.current_macros: data_types.MacroSet = data_types.MacroSet(name="", macros=list())
         self.load_macros()
         self.counter: int = 0
         self.time_shown = False
         self.tail = ""
+        self.count = 0
         self.file_to_send = ""
         self.graph_form = Optional[terminal_graph.MainWindow]
         self.graph = False
@@ -40,12 +42,12 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.settings_form: Optional[settings.Settings] = None
         self.macros_form: Optional[macros.Macros] = None
         self.ascii_form: Optional[ASCII_table.ASCIITable] = None
-        self.colors: Dict[str, Tuple[int, int, int]] = dict()
         self.current_font = QtGui.QFont("Consolas", 10)
         self.apply_styles()
         self.macros_btns_list = list()
         self.macros_ui()
         self.load_settings()
+        self.serial_port_ui()
 
     def create_connections(self):
         """
@@ -147,7 +149,18 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                             self.text_settings.timestamps = settings_json['Text settings']['timestamps']
                         if 'decode' in settings_json['Text settings'].keys():
                             self.text_settings.decode = settings_json['Text settings']['decode']
-
+                    if 'Filters' in settings_json.keys():
+                        if 'STM' in settings_json['Filters'].keys():
+                            self.port_settings.STMFilter = settings_json['Filters']['STM']
+                            self.CBSTM.setChecked(self.port_settings.STMFilter)
+                        if 'NRF' in settings_json['Filters'].keys():
+                            self.port_settings.NRFFilter = settings_json['Filters']['NRF']
+                            self.CBNRF.setChecked(self.port_settings.NRFFilter)
+                    if 'CRC' in settings_json.keys():
+                        if 'polynom' in settings_json['CRC'].keys():
+                            self.text_settings.crc_poly = settings_json['CRC']['polynom']
+                            if 'init value' in settings_json['CRC'].keys():
+                                self.text_settings.crc_init = settings_json['CRC']['init value']
                     if 'Colors' in settings_json.keys():
                         if 'background-color' in settings_json['Colors'].keys():
                             self.colors['background-color'] = tuple(settings_json['Colors']['background-color'])
@@ -180,6 +193,11 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         scans ports, sets disconnected state UI, selects last port name if any
         :return:
         """
+        self.port_settings.STMFilter = self.CBSTM.isChecked()
+        self.port_settings.NRFFilter = self.CBNRF.isChecked()
+        self.settings_form = settings.Settings(self.port_settings, self.text_settings,
+                                               self.colors, self.current_font)
+        self.settings_form.save_settings()
         self.CBPorts.clear()
         # noinspection PyArgumentList
         for port in QtSerialPort.QSerialPortInfo.availablePorts():
@@ -237,6 +255,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.BtnSend.setEnabled(True)
             self.BtnSend2.setEnabled(True)
             self.statusbar.clearMessage()
+            self.TxtBuffer.clear()
+            self.clear_counter()
 
     def disconnect_stub(self):
         self.disconnect(True)
@@ -339,22 +359,29 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             else:
                 read_to_show: str = common_functions.hexify(read) if self.CBHex.isChecked() else read
             self.TxtBuffer.insertPlainText(read_to_show)
+            print(bytes(read_to_show, encoding='utf-8'))
 
             if self.graph and self.graph_form:
                 lines = (self.tail + read).split('\r')
+                logger.debug(lines)
                 self.tail = lines[-1]
-                for line in lines:
-                    try:
-                        data = line.strip().split(';')
-                        data_x = float(data[0])
-                        data_y = [float(value) for value in data[1:] if value]
-                        if self.graph_form.data_x:
-                            self.graph_form.update_plot_data(data_x, data_y)
-                        else:
-                            self.graph_form.create_graph(data_x, data_y)
-                            self.graph_form.show()
-                    except (ValueError, IndexError):
-                        pass
+                # lines = (self.tail + stub[self.count]).split('\r')
+                # self.count += 1
+                if len(lines) > 1:
+                    for line in lines[:-1]:
+                        logger.debug(line)
+                        if line.strip():
+                            try:
+                                data_graph = line.strip().split(';')
+                                data_x = float(data_graph[0].strip())
+                                data_y = [float(value) for value in data_graph[1:] if value.strip()]
+                                if self.graph_form.data_x:
+                                    self.graph_form.update_plot_data(data_x, data_y)
+                                else:
+                                    self.graph_form.create_graph(data_x, data_y)
+                                    self.graph_form.show()
+                            except (ValueError, IndexError):
+                                pass
         self.LblCounterData.setText(str(self.counter))
         if self.text_settings.scroll:
             scroll = self.TxtBuffer.verticalScrollBar().maximum()
@@ -599,8 +626,9 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         if self.file_to_send and os.path.exists(self.file_to_send):
             self.LblLength.setText("Length: %i" % os.path.getsize(self.file_to_send))
-            self.LblCrc.setText("CRC: " + hex(common_functions.calculate_crc(common_functions.get_crc_table(),
-                                                               open(self.file_to_send, "rb").read())))
+            self.LblCrc.setText("CRC: " + hex(common_functions.calculate_crc16(
+                common_functions.get_crc16_table(self.text_settings.crc_poly), open(self.file_to_send, "rb").read(),
+                self.text_settings.crc_init)))
         else:
             self.LblLength.setText("Length: None")
             self.LblCrc.setText('Crc: None')

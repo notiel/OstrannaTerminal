@@ -34,8 +34,8 @@ class MainWindow(QtWidgets.QMainWindow):
         for y in data_y:
             self.data_y.append([y])
         for y_data in self.data_y:
-            self.data_lines.append(self.graphWidget.plot(self.data_x, self.data_y, pen=pen, symbol='o',
-                                                         symbolSize=5,
+            self.data_lines.append(self.graphWidget.plot(self.data_x, y_data, pen=pen, symbol='o',
+                                                         symbolSize=10,
                                                          symbolBrush=(QtGui.QColor(colors[self.data_y.index(y_data)]))))
 
     def update_plot_data(self, data_x: float, data_y: List[float]):

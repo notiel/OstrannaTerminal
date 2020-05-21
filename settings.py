@@ -17,7 +17,8 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         self.text_settings = text_settings
         self.colors = color_settings
         self.current_font = current_font
-        self.databits_dict, self.parity_dict, self.stopbits_dict, self.hs_dict = dict(), dict(), dict(), dict()
+        self.databits_dict, self.parity_dict, self.stopbits_dict, self.hs_dict, self.crc_dict = \
+            dict(), dict(), dict(), dict(), dict()
         self.create_port_dicts()
         self.create_groups()
         self.CBEndLine.stateChanged.connect(self.end_string_changed)
@@ -27,6 +28,8 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         self.CBTime.stateChanged.connect(self.timestamp_changed)
         self.BtnFont.clicked.connect(self.font_changed)
         self.CBDecode.currentTextChanged.connect(self.decode_changed)
+        self.SpinStart.valueChanged.connect(self.spin_changed)
+        self.SpinPoly.valueChanged.connect(self.spin_changed)
         self.create_rb_connections()
         self.apply_port_settings()
         self.color_ctrl_dict = dict()
@@ -43,6 +46,7 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
                             self.RBParityOdd: data_types.Parity.ODD}
         self.stopbits_dict = {self.RBStopbits1: 1, self.RBStopbits2: 2, self.RBStopbits15: 1.5}
         self.hs_dict = {self.RBHandNone: data_types.Handshaking.NONE, self.RBHandRts: data_types.Handshaking.RTSCTS}
+        self.crc_dict = {self.SpinPoly: 'crc_poly', self.SpinStart: 'crc_init'}
 
     def create_groups(self):
         """
@@ -108,6 +112,8 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         self.CBShowSent.setChecked(self.text_settings.show_sent)
         self.CBScroll.setChecked(self.text_settings.scroll)
         self.CBDecode.setCurrentIndex(self.text_settings.decode)
+        self.SpinPoly.setValue(self.text_settings.crc_poly)
+        self.SpinStart.setValue(self.text_settings.crc_init)
 
     def apply_color_font_settings(self):
         """
@@ -129,7 +135,6 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         self.LblSentColor.setFont(self.current_font)
         self.LblFont.setFont(self.current_font)
         self.LblColorByte.setFont(self.current_font)
-
 
     def databits_changed(self):
         """
@@ -254,9 +259,20 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
                                            'decode': self.text_settings.decode},
                          'Colors': self.colors,
                          'Font': {'family': self.current_font.family(), 'size': self.current_font.pointSize()},
-                         'Macros set': self.settings.last_macros_set}
+                         'Macros set': self.settings.last_macros_set,
+                         'CRC': {'polynom': self.text_settings.crc_poly, 'init value': self.text_settings.crc_init},
+                         'Filters': {'STM': self.settings.STMFilter, 'NRF': self.settings.NRFFilter}}
         with open("Settings.json", "w") as f:
             f.write(json.dumps(settings_save, indent=4))
+
+    def spin_changed(self):
+        """
+        change corresponding data filed if spin changed
+        :return:
+        """
+        sender = self.sender()
+        setattr(self.text_settings, self.crc_dict[sender], sender.value())
+        print(self.text_settings.crc_init)
 
     def closeEvent(self, event):
         """

@@ -1,12 +1,8 @@
 from PyQt5.QtWidgets import QMessageBox
 import re
 from typing import List
-import binascii
-from matplotlib import pyplot
-from time import sleep
-
 hex_symbols = '1234567890abcdef'
-crc_init_value = 0
+
 
 def error_message(text: str):
     """
@@ -57,13 +53,13 @@ def hexify(text: str):
     return hex_str
 
 
-def get_crc_table() -> List[int]:
+def get_crc16_table(poly: int) -> List[int]:
     """
     get crc16_table
+    :param poly: crc polynom
     :return:
     """
     res = list()
-    poly = 4129
     for i in range(256):
         temp = 0
         a = i << 8
@@ -75,9 +71,10 @@ def get_crc_table() -> List[int]:
     return res
 
 
-def calculate_crc(crc_table: List[int], data: bytes) -> int:
+def calculate_crc16(crc_table: List[int], data: bytes, crc_init_value: int = 0) -> int:
     """
-    calculate crc
+    calculate crc16
+    :param crc_init_value: init value of crc16
     :param crc_table: crc table
     :param data: data to get crc
     :return:
@@ -86,29 +83,3 @@ def calculate_crc(crc_table: List[int], data: bytes) -> int:
     for ch in data:
         crc = ((crc << 8 & 0xFFFF) ^ crc_table[crc >> 8 ^ (0xff & ch)])
     return crc
-
-
-def test_graph():
-    with open("test_graph.txt") as f:
-        pyplot.ion()
-        fig = pyplot.figure()
-        pyplot.title('Realtime file reading')
-        ax1 = pyplot.axes()
-        data_x = [1]
-        data_y = [50]
-        l1, = pyplot.plot(data_y)
-        pyplot.ylim([0, 10])
-        for line in f:
-            #sleep(1)
-            data_x.append(int(line.split(';')[0]))
-            data_y.append(int(line.split(';')[1]))
-            pyplot.ylim([0, 10])
-            l1.set_xdata(data_x)
-            l1.set_ydata(data_y)  # update the data
-            pyplot.draw()
-        pyplot.savefig("test.png")
-        pyplot.show()
-        sleep(5)
-
-if __name__ == '__main__':
-    test_graph()
