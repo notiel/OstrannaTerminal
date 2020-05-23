@@ -18,7 +18,7 @@ error_codes = {0: 'No error',
                12: 'Timeout error',
                13: 'Not open error'}
 
-max_macros = 20
+max_macros = 30
 
 
 databits_dict = {5: QtSerialPort.QSerialPort.Data5, 6: QtSerialPort.QSerialPort.Data6,
@@ -122,5 +122,9 @@ def create_macros_from_list(data: List[Dict[str, Any]]) -> Tuple[List[MacroSet],
                 macros.append(Macro(name=macro['name'], command=macro['command']))
         except KeyError:
             warning = "Some macros data is incorrect"
+        if len(macros) < max_macros:
+            delta = max_macros - len(macros)
+            for i in range(delta):
+                macros.append(Macro(name="", command=""))
         result.append(MacroSet(name=macroset['name'], macros=macros))
     return result, warning

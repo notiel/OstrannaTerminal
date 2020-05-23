@@ -96,7 +96,9 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                                  self.BtnMacros6, self.BtnMacros7, self.BtnMacros8, self.BtnMacros9, self.BtnMacros10,
                                  self.BtnMacros11, self.BtnMacros12, self.BtnMacros13, self.BtnMacros14,
                                  self.BtnMacros15, self.BtnMacros16, self.BtnMacros17, self.BtnMacros18,
-                                 self.BtnMacros19, self.BtnMacros20]
+                                 self.BtnMacros19, self.BtnMacros20, self.BtnMacros21, self.BtnMacros22,
+                                 self.BtnMacros23, self.BtnMacros24, self.BtnMacros25, self.BtnMacros26,
+                                 self.BtnMacros27, self.BtnMacros28, self.BtnMacros29, self.BtnMacros30]
         for btn in self.macros_btns_list:
             btn.clicked.connect(self.macro_btn_pressed)
         self.CBMacros.currentTextChanged.connect(self.macros_selected)
@@ -106,6 +108,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         apply styles to GUI
         :return:
         """
+        # noinspection PyAttributeOutsideInit
         self.colors: Dict[str, Tuple[int, int, int]] = \
             {'background-color': (255, 255, 255), 'font-transmit': (50, 250, 00), 'font-receive': (0, 0, 0),
              'bytes-color': (255, 0, 0)}
@@ -357,7 +360,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                     ('\r' + str(delta) + ': ').join(lines[:-1]) + lines[-1]
                 read_to_show = start + read_to_show
             else:
-                read_to_show: str = common_functions.hexify(read) if self.CBHex.isChecked() else read
+                read_to_show: str = common_functions.hexify(read) if self.CBHex.isChecked() else read.lstrip()
             self.TxtBuffer.insertPlainText(read_to_show)
             print(bytes(read_to_show, encoding='utf-8'))
 
@@ -492,6 +495,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.macros_form.show()
         self.macros_form.edited_signal.connect(self.macros_edited)
         self.macros_form.applied_signal[str].connect(self.macros_applied)
+        self.macros_form.send_signal[str].connect(self.send_macros)
 
     def macros_edited(self):
         """
@@ -557,6 +561,16 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         if self.text_settings.CRLF:
             text_to_send += '\r\n'
         self.write_data(text_to_send, True, self.text_settings.bytecodes)
+
+    def send_macros(self, command: str):
+        """
+        sends command from macros selected on macros form
+        :param command:
+        :return:
+        """
+        if self.text_settings.CRLF:
+            command += '\r\n'
+        self.write_data(command, True, self.text_settings.bytecodes)
 
     def back_color_changed(self):
         """
@@ -666,7 +680,7 @@ def initiate_exception_logging():
     sys.excepthook = my_exception_hook
 
 
-@logger.catch
+# @logger.catch
 def main():
     initiate_exception_logging()
     app = QtWidgets.QApplication(sys.argv)

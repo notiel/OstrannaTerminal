@@ -278,7 +278,7 @@
       </font>
      </property>
      <property name="title">
-      <string>Select TextField Style</string>
+      <string>TextField Style</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_6">
       <item row="0" column="0" colspan="3">

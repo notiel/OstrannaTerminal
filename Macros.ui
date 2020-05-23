@@ -6,34 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>942</width>
-    <height>396</height>
+    <width>950</width>
+    <height>622</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MacrosSet</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="3" column="6">
-    <widget class="QLineEdit" name="LineName11">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="6">
-    <widget class="QLineEdit" name="LineName15">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
+  <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,0,0,0,0,0,0,0,0,0">
    <item row="2" column="2">
     <widget class="QLabel" name="LblCommand2">
      <property name="text">
@@ -51,13 +31,6 @@
      </property>
     </widget>
    </item>
-   <item row="12" column="5">
-    <widget class="QLabel" name="LblMacro20">
-     <property name="text">
-      <string>Macro20</string>
-     </property>
-    </widget>
-   </item>
    <item row="5" column="1">
     <widget class="QLineEdit" name="LineName3">
      <property name="maximumSize">
@@ -68,25 +41,8 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="5">
-    <widget class="QLabel" name="LblMacro15">
-     <property name="text">
-      <string>Macro15</string>
-     </property>
-    </widget>
-   </item>
    <item row="6" column="1">
     <widget class="QLineEdit" name="LineName4">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="6">
-    <widget class="QLineEdit" name="LineName18">
      <property name="maximumSize">
       <size>
        <width>150</width>
@@ -125,62 +81,8 @@
      </property>
     </widget>
    </item>
-   <item row="8" column="6">
-    <widget class="QLineEdit" name="LineName16">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="6">
-    <widget class="QLineEdit" name="LineName17">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="6">
-    <widget class="QLineEdit" name="LineName12">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="5">
-    <widget class="QLabel" name="LblMacro17">
-     <property name="text">
-      <string>Macro17</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="5">
-    <widget class="QLabel" name="LblMacro16">
-     <property name="text">
-      <string>Macro16</string>
-     </property>
-    </widget>
-   </item>
    <item row="8" column="1">
     <widget class="QLineEdit" name="LineName6">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="6">
-    <widget class="QLineEdit" name="LineName20">
      <property name="maximumSize">
       <size>
        <width>150</width>
@@ -196,57 +98,6 @@
        <width>150</width>
        <height>16777215</height>
       </size>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="5">
-    <widget class="QLabel" name="LblMacro19">
-     <property name="text">
-      <string>Macro19</string>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="6">
-    <widget class="QLineEdit" name="LineName19">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="5">
-    <widget class="QLabel" name="LblMacro18">
-     <property name="text">
-      <string>Macro18</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="6">
-    <widget class="QLineEdit" name="LineName13">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="6">
-    <widget class="QLineEdit" name="LineName14">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="5">
-    <widget class="QLabel" name="LblMacro13">
-     <property name="text">
-      <string>Macro13</string>
      </property>
     </widget>
    </item>
@@ -268,13 +119,6 @@
     <widget class="QLabel" name="LblMacro5">
      <property name="text">
       <string>Macro5</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="5">
-    <widget class="QLabel" name="LblMacro14">
-     <property name="text">
-      <string>Macro14</string>
      </property>
     </widget>
    </item>
@@ -335,13 +179,6 @@
    <item row="3" column="2" colspan="3">
     <widget class="QLineEdit" name="LineCommand1"/>
    </item>
-   <item row="3" column="5">
-    <widget class="QLabel" name="LblMacro11">
-     <property name="text">
-      <string>Macro11</string>
-     </property>
-    </widget>
-   </item>
    <item row="6" column="0">
     <widget class="QLabel" name="LblMacro4">
      <property name="text">
@@ -355,13 +192,6 @@
    <item row="0" column="2" colspan="2">
     <widget class="QLineEdit" name="LineNameSet"/>
    </item>
-   <item row="4" column="5">
-    <widget class="QLabel" name="LblMacro12">
-     <property name="text">
-      <string>Macro12</string>
-     </property>
-    </widget>
-   </item>
    <item row="8" column="2" colspan="3">
     <widget class="QLineEdit" name="LineCommand6"/>
    </item>
@@ -371,7 +201,7 @@
    <item row="5" column="2" colspan="3">
     <widget class="QLineEdit" name="LineCommand3"/>
    </item>
-   <item row="2" column="7">
+   <item row="2" column="9">
     <widget class="QLabel" name="LblCommmand2">
      <property name="text">
       <string>Command:</string>
@@ -380,6 +210,18 @@
    </item>
    <item row="3" column="0">
     <widget class="QLabel" name="LblMacro1">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>50</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="text">
       <string>Macro1</string>
      </property>
@@ -402,7 +244,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="6">
+   <item row="2" column="8">
     <widget class="QLabel" name="LblName2">
      <property name="text">
       <string>Name on Button:</string>
@@ -416,42 +258,20 @@
      </property>
     </widget>
    </item>
-   <item row="13" column="0" colspan="9">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="7" colspan="2">
-    <widget class="QLineEdit" name="LineCommand19"/>
-   </item>
    <item row="12" column="2" colspan="3">
     <widget class="QLineEdit" name="LineCommand10"/>
-   </item>
-   <item row="4" column="7" colspan="2">
-    <widget class="QLineEdit" name="LineCommand12"/>
    </item>
    <item row="0" column="4">
     <widget class="QComboBox" name="CBMacros"/>
    </item>
-   <item row="12" column="7" colspan="2">
-    <widget class="QLineEdit" name="LineCommand20"/>
-   </item>
-   <item row="3" column="7" colspan="2">
-    <widget class="QLineEdit" name="LineCommand11"/>
-   </item>
-   <item row="14" column="0" colspan="3">
+   <item row="19" column="0" colspan="3">
     <widget class="QLabel" name="LblStatus">
      <property name="text">
       <string/>
      </property>
     </widget>
    </item>
-   <item row="10" column="7" colspan="2">
-    <widget class="QLineEdit" name="LineCommand18"/>
-   </item>
-   <item row="0" column="8">
+   <item row="0" column="10">
     <widget class="QPushButton" name="BtnDelete">
      <property name="text">
       <string>Delete</string>
@@ -461,36 +281,668 @@
    <item row="11" column="2" colspan="3">
     <widget class="QLineEdit" name="LineCommand9"/>
    </item>
-   <item row="7" column="7" colspan="2">
-    <widget class="QLineEdit" name="LineCommand15"/>
+   <item row="8" column="9" colspan="2">
+    <widget class="QLineEdit" name="LineCommand21"/>
    </item>
-   <item row="5" column="7" colspan="2">
-    <widget class="QLineEdit" name="LineCommand13"/>
-   </item>
-   <item row="9" column="7" colspan="2">
-    <widget class="QLineEdit" name="LineCommand17"/>
-   </item>
-   <item row="6" column="7" colspan="2">
-    <widget class="QLineEdit" name="LineCommand14"/>
-   </item>
-   <item row="8" column="7" colspan="2">
-    <widget class="QLineEdit" name="LineCommand16"/>
-   </item>
-   <item row="0" column="7">
-    <widget class="QPushButton" name="BtnSave">
+   <item row="4" column="5">
+    <widget class="QPushButton" name="BtnSend2">
      <property name="text">
-      <string>Save only</string>
+      <string>Send</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="6">
+   <item row="5" column="5">
+    <widget class="QPushButton" name="BtnSend3">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="5">
+    <widget class="QPushButton" name="BtnSend4">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="5">
+    <widget class="QPushButton" name="BtnSend5">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="5">
+    <widget class="QPushButton" name="BtnSend10">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="5">
+    <widget class="QPushButton" name="BtnSend9">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="5">
+    <widget class="QPushButton" name="BtnSend7">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="5">
+    <widget class="QPushButton" name="BtnSend6">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="9" colspan="2">
+    <widget class="QLineEdit" name="LineCommand29"/>
+   </item>
+   <item row="10" column="5">
+    <widget class="QPushButton" name="BtnSend8">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="5">
+    <widget class="QPushButton" name="BtnSend14">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="5">
+    <widget class="QPushButton" name="BtnSend11">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="5">
+    <widget class="QPushButton" name="BtnSend12">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="5">
+    <widget class="QPushButton" name="BtnSend13">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="7">
+    <widget class="QLabel" name="LblMacro25">
+     <property name="text">
+      <string>Macro25</string>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="7">
+    <widget class="QLabel" name="LblMacro27">
+     <property name="text">
+      <string>Macro27</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="7">
+    <widget class="QLabel" name="LblMacro21">
+     <property name="text">
+      <string>Macro21</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="7">
+    <widget class="QLabel" name="LblMacro22">
+     <property name="text">
+      <string>Macro22</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="7">
+    <widget class="QLabel" name="LblMacro26">
+     <property name="text">
+      <string>Macro26</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="7">
+    <widget class="QLabel" name="LblMacro24">
+     <property name="text">
+      <string>Macro24</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="7">
+    <widget class="QLabel" name="LblMacro23">
+     <property name="text">
+      <string>Macro23</string>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="7">
+    <widget class="QLabel" name="LblMacro28">
+     <property name="text">
+      <string>Macro28</string>
+     </property>
+    </widget>
+   </item>
+   <item row="17" column="7">
+    <widget class="QLabel" name="LblLabel30">
+     <property name="text">
+      <string>Macro30</string>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="7">
+    <widget class="QLabel" name="LblMacro29">
+     <property name="text">
+      <string>Macro29</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="8">
+    <widget class="QLineEdit" name="LineName25">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="17" column="5">
+    <widget class="QPushButton" name="BtnSend15">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="8">
+    <widget class="QLineEdit" name="LineName24">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="8">
+    <widget class="QLineEdit" name="LineName29">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="8">
+    <widget class="QLineEdit" name="LineName26">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="8">
+    <widget class="QLineEdit" name="LineName28">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="17" column="8">
+    <widget class="QLineEdit" name="LineName30">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="8">
+    <widget class="QLineEdit" name="LineName27">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="0">
+    <widget class="QLabel" name="LblMacro12">
+     <property name="text">
+      <string>Macro12</string>
+     </property>
+    </widget>
+   </item>
+   <item row="17" column="0">
+    <widget class="QLabel" name="LblMacro15">
+     <property name="text">
+      <string>Macro15</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="0">
+    <widget class="QLabel" name="LblMacro11">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>60</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Macro11</string>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="0">
+    <widget class="QLabel" name="LblMacro13">
+     <property name="text">
+      <string>Macro13</string>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="1">
+    <widget class="QLineEdit" name="LineName13">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="1">
+    <widget class="QLineEdit" name="LineName14">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="1">
+    <widget class="QLineEdit" name="LineName12">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="0">
+    <widget class="QLabel" name="LblMacro14">
+     <property name="text">
+      <string>Macro14</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="1">
+    <widget class="QLineEdit" name="LineName11">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="17" column="1">
+    <widget class="QLineEdit" name="LineName15">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="17" column="9" colspan="2">
+    <widget class="QLineEdit" name="LineCommand30"/>
+   </item>
+   <item row="15" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand13"/>
+   </item>
+   <item row="17" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand15"/>
+   </item>
+   <item row="13" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand11"/>
+   </item>
+   <item row="16" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand14"/>
+   </item>
+   <item row="14" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand12"/>
+   </item>
+   <item row="3" column="7">
+    <widget class="QLabel" name="LblMacro16">
+     <property name="text">
+      <string>Macro16</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="7">
+    <widget class="QLabel" name="LblMacro18">
+     <property name="text">
+      <string>Macro18</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="7">
+    <widget class="QLabel" name="LblMacro20">
+     <property name="text">
+      <string>Macro20</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="6" rowspan="16">
+    <widget class="Line" name="line">
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <property name="lineWidth">
+      <number>2</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="7">
+    <widget class="QLabel" name="LblMacro19">
+     <property name="text">
+      <string>Macro19</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="7">
+    <widget class="QLabel" name="LblMacro17">
+     <property name="text">
+      <string>Macro17</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="9" colspan="2">
+    <widget class="QLineEdit" name="LineCommand22"/>
+   </item>
+   <item row="11" column="9" colspan="2">
+    <widget class="QLineEdit" name="LineCommand24"/>
+   </item>
+   <item row="12" column="9" colspan="2">
+    <widget class="QLineEdit" name="LineCommand25"/>
+   </item>
+   <item row="10" column="9" colspan="2">
+    <widget class="QLineEdit" name="LineCommand23"/>
+   </item>
+   <item row="14" column="9" colspan="2">
+    <widget class="QLineEdit" name="LineCommand27"/>
+   </item>
+   <item row="9" column="8">
+    <widget class="QLineEdit" name="LineName22">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="8">
+    <widget class="QLineEdit" name="LineName21">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="8">
+    <widget class="QLineEdit" name="LineName23">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="9" colspan="2">
+    <widget class="QLineEdit" name="LineCommand28"/>
+   </item>
+   <item row="13" column="9" colspan="2">
+    <widget class="QLineEdit" name="LineCommand26"/>
+   </item>
+   <item row="3" column="5">
+    <widget class="QPushButton" name="BtnSend1">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="8">
+    <widget class="QLineEdit" name="LineName16">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="8">
+    <widget class="QLineEdit" name="LineName17">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="8">
+    <widget class="QLineEdit" name="LineName20">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="9" colspan="2">
+    <widget class="QLineEdit" name="LineCommand17"/>
+   </item>
+   <item row="5" column="8">
+    <widget class="QLineEdit" name="LineName18">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="8">
+    <widget class="QLineEdit" name="LineName19">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="9" colspan="2">
+    <widget class="QLineEdit" name="LineCommand16"/>
+   </item>
+   <item row="5" column="9" colspan="2">
+    <widget class="QLineEdit" name="LineCommand18"/>
+   </item>
+   <item row="7" column="9" colspan="2">
+    <widget class="QLineEdit" name="LineCommand20"/>
+   </item>
+   <item row="6" column="9" colspan="2">
+    <widget class="QLineEdit" name="LineCommand19"/>
+   </item>
+   <item row="0" column="8">
     <widget class="QPushButton" name="BtnAll">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="text">
       <string>Save and Apply</string>
      </property>
      <property name="icon">
       <iconset resource="logo.qrc">
        <normaloff>:/Save/icon/floppy.ico</normaloff>:/Save/icon/floppy.ico</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="9">
+    <widget class="QPushButton" name="BtnSave">
+     <property name="text">
+      <string>Save only</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="11">
+    <widget class="QPushButton" name="BtnSend17">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="11">
+    <widget class="QPushButton" name="BtnSend16">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="11">
+    <widget class="QPushButton" name="BtnSend18">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="11">
+    <widget class="QPushButton" name="BtnSend19">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="11">
+    <widget class="QPushButton" name="BtnSend20">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="11">
+    <widget class="QPushButton" name="BtnSend21">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="11">
+    <widget class="QPushButton" name="BtnSend22">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="11">
+    <widget class="QPushButton" name="BtnSend23">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="11">
+    <widget class="QPushButton" name="BtnSend24">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="11">
+    <widget class="QPushButton" name="BtnSend25">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="11">
+    <widget class="QPushButton" name="BtnSend26">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="11">
+    <widget class="QPushButton" name="BtnSend27">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="11">
+    <widget class="QPushButton" name="BtnSend28">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="11">
+    <widget class="QPushButton" name="BtnSend29">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="17" column="11">
+    <widget class="QPushButton" name="BtnSend30">
+     <property name="text">
+      <string>Send</string>
      </property>
     </widget>
    </item>
@@ -518,26 +970,6 @@
   <tabstop>LineCommand9</tabstop>
   <tabstop>LineName10</tabstop>
   <tabstop>LineCommand10</tabstop>
-  <tabstop>LineName11</tabstop>
-  <tabstop>LineCommand11</tabstop>
-  <tabstop>LineName12</tabstop>
-  <tabstop>LineCommand12</tabstop>
-  <tabstop>LineName13</tabstop>
-  <tabstop>LineCommand13</tabstop>
-  <tabstop>LineName14</tabstop>
-  <tabstop>LineCommand14</tabstop>
-  <tabstop>LineName15</tabstop>
-  <tabstop>LineCommand15</tabstop>
-  <tabstop>LineName16</tabstop>
-  <tabstop>LineCommand16</tabstop>
-  <tabstop>LineName17</tabstop>
-  <tabstop>LineCommand17</tabstop>
-  <tabstop>LineName18</tabstop>
-  <tabstop>LineCommand18</tabstop>
-  <tabstop>LineName19</tabstop>
-  <tabstop>LineCommand19</tabstop>
-  <tabstop>LineName20</tabstop>
-  <tabstop>LineCommand20</tabstop>
   <tabstop>BtnAll</tabstop>
   <tabstop>BtnSave</tabstop>
  </tabstops>
