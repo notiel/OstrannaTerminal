@@ -360,7 +360,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                     ('\r' + str(delta) + ': ').join(lines[:-1]) + lines[-1]
                 read_to_show = start + read_to_show
             else:
-                read_to_show: str = common_functions.hexify(read) if self.CBHex.isChecked() else read.lstrip()
+                read_to_show: str = common_functions.hexify(read) if self.CBHex.isChecked() else read.replace("\n", "")
             self.TxtBuffer.insertPlainText(read_to_show)
             print(bytes(read_to_show, encoding='utf-8'))
 
