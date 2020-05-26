@@ -12,6 +12,7 @@ import terminal_graph
 import settings
 import macros
 import ASCII_table
+import help
 
 # stub = ['31.2; 3.7; 281.2; 11.2\r\n31.2; 3.7; 285; 15.0\r\n', '31.2; 3.7; 287; 15.7\r\n', '31.2; 3.7; 287; 15.7\r\n']
 
@@ -42,6 +43,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.settings_form: Optional[settings.Settings] = None
         self.macros_form: Optional[macros.Macros] = None
         self.ascii_form: Optional[ASCII_table.ASCIITable] = None
+        self.help_form: Optional[help.Help] = None
         self.current_font = QtGui.QFont("Consolas", 10)
         self.apply_styles()
         self.macros_btns_list = list()
@@ -76,6 +78,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.LineName.textChanged.connect(self.title_changed)
         self.BtnRefresh.clicked.connect(self.refresh_length)
         self.BtnGraph.clicked.connect(self.graph_clicked)
+        self.BtnHelp.clicked.connect(self.help_clicked)
 
     def serial_port_ui(self):
         """
@@ -661,6 +664,14 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.graph = True
             self.BtnGraph.setText("StopGraph")
             self.graph_form = terminal_graph.MainWindow()
+
+    def help_clicked(self):
+        """
+        help window opened
+        :return:
+        """
+        self.help_form = help.Help()
+        self.help_form.show()
 
 
 def initiate_exception_logging():
