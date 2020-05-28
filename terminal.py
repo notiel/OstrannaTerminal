@@ -13,8 +13,7 @@ import settings
 import macros
 import ASCII_table
 import help
-
-# stub = ['31.2; 3.7; 281.2; 11.2\r\n31.2; 3.7; 285; 15.0\r\n', '31.2; 3.7; 287; 15.7\r\n', '31.2; 3.7; 287; 15.7\r\n']
+import variables
 
 
 logger.start("logfile.log", rotation="1 week", format="{time} {level} {message}", level="DEBUG", enqueue=True)
@@ -44,6 +43,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.macros_form: Optional[macros.Macros] = None
         self.ascii_form: Optional[ASCII_table.ASCIITable] = None
         self.help_form: Optional[help.Help] = None
+        self.var_form: Optional[variables.Variables] = None
         self.current_font = QtGui.QFont("Consolas", 10)
         self.apply_styles()
         self.macros_btns_list = list()
@@ -79,6 +79,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnRefresh.clicked.connect(self.refresh_length)
         self.BtnGraph.clicked.connect(self.graph_clicked)
         self.BtnHelp.clicked.connect(self.help_clicked)
+        self.BtnVar.clicked.connect(self.var_pressed)
 
     def serial_port_ui(self):
         """
@@ -365,7 +366,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             else:
                 read_to_show: str = common_functions.hexify(read) if self.CBHex.isChecked() else read.replace("\n", "")
             self.TxtBuffer.insertPlainText(read_to_show)
-            print(bytes(read_to_show, encoding='utf-8'))
+
 
             if self.graph and self.graph_form:
                 lines = (self.tail + read).split('\r')
@@ -672,6 +673,25 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         self.help_form = help.Help()
         self.help_form.show()
+
+    def var_pressed(self):
+        """
+        var form show
+        :return:
+        """
+        self.var_form = variables.Variables()
+        self.var_form.send_signal[str].connect(self.var_signal_send)
+        self.var_form.show()
+
+
+    def var_signal_send(self, command: str):
+        """
+        send signal from var form
+        :return:
+        """
+        if self.text_settings.CRLF:
+            command += '\r\n'
+        self.write_data(command, True, False)
 
 
 def initiate_exception_logging():

@@ -225,7 +225,7 @@ class Ui_MainWindow(object):
         self.BtnAscii.setObjectName("BtnAscii")
         self.gridLayout_3.addWidget(self.BtnAscii, 1, 3, 1, 1)
         self.BtnVar = QtWidgets.QPushButton(self.GBSettings)
-        self.BtnVar.setEnabled(False)
+        self.BtnVar.setEnabled(True)
         self.BtnVar.setObjectName("BtnVar")
         self.gridLayout_3.addWidget(self.BtnVar, 0, 3, 1, 1)
         self.gridLayout.addWidget(self.GBSettings, 3, 14, 4, 2)
