@@ -569,16 +569,15 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                     btn.setToolTip(self.current_macros.macros[index].command)
                 if self.current_macros.macros[index].icon_path and \
                         os.path.exists(self.current_macros.macros[index].icon_path):
-                    icon = QtGui.QIcon()
-                    icon.addPixmap(QtGui.QPixmap(self.current_macros.macros[index].icon_path))
-                    self.btn.setIcon(icon)
+                    icon = QtGui.QIcon(self.current_macros.macros[index].icon_path)
+                    btn.setIcon(icon)
                 btn.setEnabled(caption != '<Not used>')
         else:
             self.port_settings.last_macros_set = ""
             for (index, btn) in enumerate(self.macros_btns_list):
                 btn.setText('M%i' % (index+1))
                 btn.setEnabled(False)
-
+                btn.setIcon(QtGui.QIcon())
 
     def macro_btn_pressed(self):
         """
@@ -586,8 +585,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         :return:
         """
         btn = self.sender()
-        # self.TxtTransmit.setText(self.current_macros.macros[self.macros_btns_list.index(btn)].command)
-        # self.BtnSend.click()
         text_to_send = self.current_macros.macros[self.macros_btns_list.index(btn)].command
         if self.text_settings.CRLF:
             text_to_send += '\r\n'
