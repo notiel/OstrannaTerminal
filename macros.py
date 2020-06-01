@@ -17,6 +17,24 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
     def __init__(self, current_macros: data_types.MacroSet, all_macros: List[data_types.MacroSet], current_font):
         super().__init__()
         self.setupUi(self)
+        self.macros_names_list, self.macros_command_list, self.btn_send_list = list(), list(), list()
+        self.btn_icon_list, self.current_icon_paths = list(), list()
+        self.create_data_lists()
+        self.all_macros = all_macros
+        self.current_macros = current_macros
+        self.load_current_set()
+        self.BtnSave.clicked.connect(self.save_pressed)
+        self.BtnAll.clicked.connect(self.all_pressed)
+        self.BtnDelete.clicked.connect(self.delete_pressed)
+        self.CBMacros.currentTextChanged.connect(self.selected_changed)
+        for line in self.macros_command_list:
+            line.setFont(current_font)
+
+    def create_data_lists(self):
+        """
+        creates listif ob buttons and fields
+        :return:
+        """
         self.macros_names_list = [self.LineName1, self.LineName2, self.LineName3, self.LineName4, self.LineName5,
                                   self.LineName6, self.LineName7, self.LineName8, self.LineName9, self.LineName10,
                                   self.LineName11, self.LineName12, self.LineName13, self.LineName14, self.LineName15,
@@ -46,22 +64,11 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
                               self.BtnIcon16, self.BtnIcon17, self.BtnIcon18, self.BtnIcon19, self.BtnIcon20,
                               self.BtnIcon21, self.BtnIcon22, self.BtnIcon23, self.BtnIcon24, self.BtnIcon25,
                               self.BtnIcon26, self.BtnIcon27, self.BtnIcon28, self.BtnIcon29, self.BtnIcon30]
-
-        self.macros_dict = {i: (self.macros_names_list[i], self.macros_command_list[i])
-                            for i in range(data_types.max_macros)}
+        self.current_icon_paths = [""] * 30
         for btn in self.btn_send_list:
             btn.clicked.connect(self.btn_clicked)
         for btn in self.btn_icon_list:
             btn.clicked.connect(self.icon_clicked)
-        self.all_macros = all_macros
-        self.current_macros = current_macros
-        self.load_current_set()
-        self.BtnSave.clicked.connect(self.save_pressed)
-        self.BtnAll.clicked.connect(self.all_pressed)
-        self.BtnDelete.clicked.connect(self.delete_pressed)
-        self.CBMacros.currentTextChanged.connect(self.selected_changed)
-        for line in self.macros_command_list:
-            line.setFont(current_font)
 
     def load_current_set(self):
         """
@@ -82,8 +89,11 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         self.LineNameSet.setText(macros.name)
         self.CBMacros.setCurrentText(macros.name)
         for (index, macro) in enumerate(macros.macros):
-            self.macros_dict[index][0].setText(macro.name)
-            self.macros_dict[index][1].setText(macro.command)
+            self.macros_names_list[index].setText(macro.name)
+            self.macros_command_list[index].setText(macro.command)
+            icon = QtGui.QIcon(macro.icon_path) if macro.icon_path else QtGui.QIcon()
+            self.btn_send_list[index].setIcon(icon)
+        self.current_icon_paths = [macro.icon_path for macro in macros.macros]
 
     def selected_changed(self):
         """
@@ -106,26 +116,23 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         if not name:
             common_functions.error_message("Macros Set Name is empty")
             return None
-        new_macros_set = data_types.MacroSet(name=name, macros=list())
-        for key in self.macros_dict.keys():
-            new_macros_set.macros.append(data_types.Macro(
-                name=self.macros_dict[key][0].text(), command=self.macros_dict[key][1].text()))
-        if name in [macro.name for macro in self.all_macros]:
-            macros_used = data_types.get_macros_by_name(name, self.all_macros)
-            if macros_used != new_macros_set:
-                # reply = QtWidgets.QMessageBox.question(self, 'Message',
-                #                                        'Macros set "%s" already exists. Overwrite?' % name,
-                #                                        QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
-                # if reply == QtWidgets.QMessageBox.Yes:
-                ind = self.all_macros.index(macros_used)
-                self.all_macros.pop(ind)
-                self.all_macros.insert(ind, new_macros_set)
-            return macros_used
         if name not in [macro.name for macro in self.all_macros]:
+            new_macros_set = data_types.MacroSet(name=name, macros=list())
+            for key in self.macros_dict.keys():
+                new_macros_set.macros.append(data_types.Macro(name=self.macros_names_list[key].text(),
+                                                              command=self.macros_command_list[key].text(),
+                                                              icon_path=self.current_icon_paths[key]))
             self.all_macros.append(new_macros_set)
             self.CBMacros.addItem(name)
             self.CBMacros.setCurrentText(name)
-        return new_macros_set
+            return new_macros_set
+        else:
+            macros_used = data_types.get_macros_by_name(name, self.all_macros)
+            for key in self.macros_dict.keys():
+                macros_used.macros[key].name = self.macros_names_list[key].text()
+                macros_used.macros[key].command = self.macros_command_list[key].text()
+                macros_used.macros[key].command = self.current_icon_paths[key]
+            return macros_used
 
     def delete_pressed(self):
         name = self.LineNameSet.text()
@@ -152,6 +159,8 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
             field.clear()
         for field in self.macros_names_list:
             field.clear()
+        for btn in self.btn_send_list:
+            btn.setIcon(QtGui.QIcon())
 
     def save_pressed(self):
         """
@@ -199,7 +208,10 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         if icon_filename and os.path.splitext(icon_filename.lower())[1] in data_types.icon_exts:
             index = self.btn_icon_list.index(sender)
             icon = QtGui.QIcon()
-            icon.addPixmap(QtGui.QPixmap(icon_filename))
+            icon.addFile(icon_filename)
             self.btn_send_list[index].setIcon(icon)
+            self.current_macros.macros[index].icon_path = icon_filename
+            self.current_icon_paths[index] = icon_filename
+            self.save()
         elif icon_filename:
             common_functions.error_message("Wrong icon format")

@@ -20,7 +20,7 @@ error_codes = {0: 'No error',
 
 max_macros = 30
 
-icon_exts = ['.png', '.jpg', '.ico', '.jpeg', '.gif']
+icon_exts = ['.png', '.jpg', '.ico', '.jpeg', '.gif', '.bmp']
 
 
 databits_dict = {5: QtSerialPort.QSerialPort.Data5, 6: QtSerialPort.QSerialPort.Data6,
