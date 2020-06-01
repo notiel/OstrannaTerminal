@@ -20,6 +20,8 @@ error_codes = {0: 'No error',
 
 max_macros = 30
 
+icon_exts = ['.png', '.jpg', '.ico', '.jpeg', '.gif']
+
 
 databits_dict = {5: QtSerialPort.QSerialPort.Data5, 6: QtSerialPort.QSerialPort.Data6,
                  7: QtSerialPort.QSerialPort.Data7, 8: QtSerialPort.QSerialPort.Data8}
@@ -78,13 +80,11 @@ class TextSettings:
     crc_init: int = 0
 
 
-
-
-
 @dataclass
 class Macro:
     name: str
     command: str
+    icon_path: str = ""
 
 
 @dataclass

@@ -51,6 +51,15 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.load_settings()
         self.serial_port_ui()
 
+        self.time1 = 0
+        self.timer1 = QtCore.QTimer()
+        self.timer1.timeout.connect(self.timerEvent)
+        self.time2 = 0
+        self.timer2 = QtCore.QTimer()
+        self.timer2.timeout.connect(self.timerEvent)
+        self.text_repeat1 = ""
+        self.text_repeat2 = ""
+
     def create_connections(self):
         """
         connections created
@@ -80,6 +89,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnGraph.clicked.connect(self.graph_clicked)
         self.BtnHelp.clicked.connect(self.help_clicked)
         self.BtnVar.clicked.connect(self.var_pressed)
+        self.CBRepeat.stateChanged.connect(self.repeat_pressed)
+        self.CBRepeat2.stateChanged.connect(self.repeat_pressed)
 
     def serial_port_ui(self):
         """
@@ -367,7 +378,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                 read_to_show: str = common_functions.hexify(read) if self.CBHex.isChecked() else read.replace("\n", "")
             self.TxtBuffer.insertPlainText(read_to_show)
 
-
             if self.graph and self.graph_form:
                 lines = (self.tail + read).split('\r')
                 logger.debug(lines)
@@ -401,9 +411,20 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         sender = self.sender()
         source = self.TxtTransmit if sender in [self.TxtTransmit, self.BtnSend] else self.TxtTransmit2
+        cb_timer = self.CBRepeat if source == self.TxtTransmit else self.CBRepeat2
         text: str = source.text()
         if self.text_settings.CRLF:
             text += '\r\n'
+        # timer block
+        if cb_timer:
+            timer = self.timer1 if source == self.TxtTransmit else self.timer2
+            if not timer.isActive():
+                timeout = int(self.SpinRepeat.value()) if source == self.TxtTransmit else int(self.SpinRepeat2.value())
+                timer.start(timeout)
+                if source == self.TxtTransmit:
+                    self.text_repeat1 = text
+                else:
+                    self.text_repeat2 = text
         error: int = self.write_data(text, True, self.text_settings.bytecodes)
         if not error:
             if self.CBClear.isChecked():
@@ -683,7 +704,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.var_form.send_signal[str].connect(self.var_signal_send)
         self.var_form.show()
 
-
     def var_signal_send(self, command: str):
         """
         send signal from var form
@@ -692,6 +712,26 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         if self.text_settings.CRLF:
             command += '\r\n'
         self.write_data(command, True, False)
+
+    def repeat_pressed(self):
+        """
+        repeat checkbox pressed
+        :return:
+        """
+        sender = self.sender()
+        timer = self.timer1 if sender == self.CBRepeat else self.timer2
+        if timer.isActive():
+            timer.stop()
+
+    def timerEvent(self):
+        """
+        send text in serial port by timer
+        :return:
+        """
+        sender = self.sender()
+        text_to_send = self.text_repeat1 if sender == self.timer1 else self.text_repeat2
+        self.write_data(text_to_send)
+
 
 
 def initiate_exception_logging():
@@ -711,7 +751,7 @@ def initiate_exception_logging():
     sys.excepthook = my_exception_hook
 
 
-# @logger.catch
+@logger.catch
 def main():
     initiate_exception_logging()
     app = QtWidgets.QApplication(sys.argv)

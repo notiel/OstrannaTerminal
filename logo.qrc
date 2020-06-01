@@ -2,6 +2,9 @@
   <qresource prefix="newPrefix">
     <file>Q_my_variant_white_background.ico</file>
   </qresource>
+  <qresource prefix="icon">
+    <file>icon/ic_collections_black_24dp.png</file>
+  </qresource>
   <qresource prefix="ico_curved">
     <file>Q_curved_white_background.ico</file>
   </qresource>

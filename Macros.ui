@@ -6,14 +6,338 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>950</width>
-    <height>622</height>
+    <width>1030</width>
+    <height>637</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MacrosSet</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,0,0,0,0,0,0,0,0,0">
+  <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+   <item row="14" column="12">
+    <widget class="QPushButton" name="BtnSend27">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="6">
+    <widget class="QPushButton" name="BtnIcon10">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="12">
+    <widget class="QPushButton" name="BtnSend23">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="6">
+    <widget class="QPushButton" name="BtnIcon13">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="6">
+    <widget class="QPushButton" name="BtnIcon7">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="6">
+    <widget class="QPushButton" name="BtnIcon9">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="6">
+    <widget class="QPushButton" name="BtnIcon12">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="6">
+    <widget class="QPushButton" name="BtnIcon3">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="12">
+    <widget class="QPushButton" name="BtnSend22">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="17" column="6">
+    <widget class="QPushButton" name="BtnIcon15">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="6">
+    <widget class="QPushButton" name="BtnIcon2">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="6">
+    <widget class="QPushButton" name="BtnIcon1">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="6">
+    <widget class="QPushButton" name="BtnIcon6">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="6">
+    <widget class="QPushButton" name="BtnIcon11">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="6">
+    <widget class="QPushButton" name="BtnIcon8">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="12">
+    <widget class="QPushButton" name="BtnSend28">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="12">
+    <widget class="QPushButton" name="BtnSend19">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="6">
+    <widget class="QPushButton" name="BtnIcon5">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="6">
+    <widget class="QPushButton" name="BtnIcon4">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="6">
+    <widget class="QPushButton" name="BtnIcon14">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="12">
+    <widget class="QPushButton" name="BtnSend24">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLineEdit" name="LineName4">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand3"/>
+   </item>
+   <item row="10" column="1">
+    <widget class="QLineEdit" name="LineName8">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="LblMacro7">
+     <property name="text">
+      <string>Macro7</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="0">
+    <widget class="QLabel" name="LblMacro9">
+     <property name="text">
+      <string>Macro9</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="1">
+    <widget class="QLineEdit" name="LineName9">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand7"/>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="LblNameSet">
+     <property name="text">
+      <string>Name of Macros Set:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <widget class="QLabel" name="LblMacro8">
+     <property name="text">
+      <string>Macro8</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand2"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="LblMacro2">
+     <property name="text">
+      <string>Macro2</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="1">
+    <widget class="QLineEdit" name="LineName10">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand5"/>
+   </item>
+   <item row="3" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand1"/>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="LblMacro3">
+     <property name="text">
+      <string>Macro3</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="LblMacro5">
+     <property name="text">
+      <string>Macro5</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QLineEdit" name="LineName5">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand8"/>
+   </item>
    <item row="2" column="2">
     <widget class="QLabel" name="LblCommand2">
      <property name="text">
@@ -41,46 +365,6 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="1">
-    <widget class="QLineEdit" name="LineName4">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="1">
-    <widget class="QLineEdit" name="LineName9">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="1">
-    <widget class="QLineEdit" name="LineName8">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="1">
-    <widget class="QLineEdit" name="LineName5">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
    <item row="8" column="1">
     <widget class="QLineEdit" name="LineName6">
      <property name="maximumSize">
@@ -91,80 +375,12 @@
      </property>
     </widget>
    </item>
-   <item row="12" column="1">
-    <widget class="QLineEdit" name="LineName10">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="LblMacro3">
-     <property name="text">
-      <string>Macro3</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="LblMacro2">
-     <property name="text">
-      <string>Macro2</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="LblMacro5">
-     <property name="text">
-      <string>Macro5</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLabel" name="LblNameSet">
-     <property name="text">
-      <string>Name of Macros Set:</string>
-     </property>
-    </widget>
-   </item>
    <item row="8" column="0">
     <widget class="QLabel" name="LblMacro6">
      <property name="text">
       <string>Macro6</string>
      </property>
     </widget>
-   </item>
-   <item row="4" column="2" colspan="3">
-    <widget class="QLineEdit" name="LineCommand2"/>
-   </item>
-   <item row="11" column="0">
-    <widget class="QLabel" name="LblMacro9">
-     <property name="text">
-      <string>Macro9</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="2" colspan="3">
-    <widget class="QLineEdit" name="LineCommand5"/>
-   </item>
-   <item row="2" column="1">
-    <widget class="QLabel" name="LblBtnName1">
-     <property name="text">
-      <string>Name on Button:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0">
-    <widget class="QLabel" name="LblMacro7">
-     <property name="text">
-      <string>Macro7</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="2" colspan="3">
-    <widget class="QLineEdit" name="LineCommand8"/>
    </item>
    <item row="3" column="1">
     <widget class="QLineEdit" name="LineName1">
@@ -176,32 +392,55 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="2" colspan="3">
-    <widget class="QLineEdit" name="LineCommand1"/>
-   </item>
-   <item row="6" column="0">
-    <widget class="QLabel" name="LblMacro4">
+   <item row="2" column="1">
+    <widget class="QLabel" name="LblBtnName1">
      <property name="text">
-      <string>Macro4</string>
+      <string>Name on Button:</string>
      </property>
     </widget>
-   </item>
-   <item row="9" column="2" colspan="3">
-    <widget class="QLineEdit" name="LineCommand7"/>
-   </item>
-   <item row="0" column="2" colspan="2">
-    <widget class="QLineEdit" name="LineNameSet"/>
    </item>
    <item row="8" column="2" colspan="3">
     <widget class="QLineEdit" name="LineCommand6"/>
    </item>
-   <item row="6" column="2" colspan="3">
-    <widget class="QLineEdit" name="LineCommand4"/>
+   <item row="15" column="5">
+    <widget class="QPushButton" name="BtnSend13">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
    </item>
-   <item row="5" column="2" colspan="3">
-    <widget class="QLineEdit" name="LineCommand3"/>
+   <item row="14" column="5">
+    <widget class="QPushButton" name="BtnSend12">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
    </item>
-   <item row="2" column="9">
+   <item row="10" column="5">
+    <widget class="QPushButton" name="BtnSend8">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="0">
+    <widget class="QLabel" name="LblMacro10">
+     <property name="text">
+      <string>Macro10</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="8">
+    <widget class="QLabel" name="LblMacro21">
+     <property name="text">
+      <string>Macro21</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="4">
+    <widget class="QComboBox" name="CBMacros"/>
+   </item>
+   <item row="2" column="10">
     <widget class="QLabel" name="LblCommmand2">
      <property name="text">
       <string>Command:</string>
@@ -227,10 +466,40 @@
      </property>
     </widget>
    </item>
-   <item row="10" column="0">
-    <widget class="QLabel" name="LblMacro8">
+   <item row="16" column="5">
+    <widget class="QPushButton" name="BtnSend14">
      <property name="text">
-      <string>Macro8</string>
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="5">
+    <widget class="QPushButton" name="BtnSend9">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand10"/>
+   </item>
+   <item row="6" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand4"/>
+   </item>
+   <item row="0" column="2" colspan="2">
+    <widget class="QLineEdit" name="LineNameSet"/>
+   </item>
+   <item row="12" column="8">
+    <widget class="QLabel" name="LblMacro25">
+     <property name="text">
+      <string>Macro25</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="8">
+    <widget class="QLabel" name="LblMacro24">
+     <property name="text">
+      <string>Macro24</string>
      </property>
     </widget>
    </item>
@@ -244,114 +513,8 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="8">
-    <widget class="QLabel" name="LblName2">
-     <property name="text">
-      <string>Name on Button:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="0">
-    <widget class="QLabel" name="LblMacro10">
-     <property name="text">
-      <string>Macro10</string>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="2" colspan="3">
-    <widget class="QLineEdit" name="LineCommand10"/>
-   </item>
-   <item row="0" column="4">
-    <widget class="QComboBox" name="CBMacros"/>
-   </item>
-   <item row="19" column="0" colspan="3">
-    <widget class="QLabel" name="LblStatus">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="10">
-    <widget class="QPushButton" name="BtnDelete">
-     <property name="text">
-      <string>Delete</string>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="2" colspan="3">
-    <widget class="QLineEdit" name="LineCommand9"/>
-   </item>
-   <item row="8" column="9" colspan="2">
-    <widget class="QLineEdit" name="LineCommand21"/>
-   </item>
    <item row="4" column="5">
     <widget class="QPushButton" name="BtnSend2">
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="5">
-    <widget class="QPushButton" name="BtnSend3">
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="5">
-    <widget class="QPushButton" name="BtnSend4">
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="5">
-    <widget class="QPushButton" name="BtnSend5">
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="5">
-    <widget class="QPushButton" name="BtnSend10">
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="5">
-    <widget class="QPushButton" name="BtnSend9">
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="5">
-    <widget class="QPushButton" name="BtnSend7">
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="5">
-    <widget class="QPushButton" name="BtnSend6">
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
-   </item>
-   <item row="16" column="9" colspan="2">
-    <widget class="QLineEdit" name="LineCommand29"/>
-   </item>
-   <item row="10" column="5">
-    <widget class="QPushButton" name="BtnSend8">
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
-   </item>
-   <item row="16" column="5">
-    <widget class="QPushButton" name="BtnSend14">
      <property name="text">
       <string>Send</string>
      </property>
@@ -364,92 +527,131 @@
      </property>
     </widget>
    </item>
-   <item row="14" column="5">
-    <widget class="QPushButton" name="BtnSend12">
+   <item row="2" column="9">
+    <widget class="QLabel" name="LblName2">
      <property name="text">
-      <string>Send</string>
+      <string>Name on Button:</string>
      </property>
     </widget>
    </item>
-   <item row="15" column="5">
-    <widget class="QPushButton" name="BtnSend13">
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="7">
-    <widget class="QLabel" name="LblMacro25">
-     <property name="text">
-      <string>Macro25</string>
-     </property>
-    </widget>
-   </item>
-   <item row="14" column="7">
+   <item row="14" column="8">
     <widget class="QLabel" name="LblMacro27">
      <property name="text">
       <string>Macro27</string>
      </property>
     </widget>
    </item>
-   <item row="8" column="7">
-    <widget class="QLabel" name="LblMacro21">
+   <item row="6" column="5">
+    <widget class="QPushButton" name="BtnSend4">
      <property name="text">
-      <string>Macro21</string>
+      <string>Send</string>
      </property>
     </widget>
    </item>
-   <item row="9" column="7">
-    <widget class="QLabel" name="LblMacro22">
+   <item row="8" column="5">
+    <widget class="QPushButton" name="BtnSend6">
      <property name="text">
-      <string>Macro22</string>
+      <string>Send</string>
      </property>
     </widget>
    </item>
-   <item row="13" column="7">
+   <item row="6" column="0">
+    <widget class="QLabel" name="LblMacro4">
+     <property name="text">
+      <string>Macro4</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="5">
+    <widget class="QPushButton" name="BtnSend7">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="8">
     <widget class="QLabel" name="LblMacro26">
      <property name="text">
       <string>Macro26</string>
      </property>
     </widget>
    </item>
-   <item row="11" column="7">
-    <widget class="QLabel" name="LblMacro24">
+   <item row="9" column="8">
+    <widget class="QLabel" name="LblMacro22">
      <property name="text">
-      <string>Macro24</string>
+      <string>Macro22</string>
      </property>
     </widget>
    </item>
-   <item row="10" column="7">
-    <widget class="QLabel" name="LblMacro23">
+   <item row="0" column="11">
+    <widget class="QPushButton" name="BtnDelete">
      <property name="text">
-      <string>Macro23</string>
+      <string>Delete</string>
      </property>
     </widget>
    </item>
-   <item row="15" column="7">
-    <widget class="QLabel" name="LblMacro28">
+   <item row="8" column="10" colspan="2">
+    <widget class="QLineEdit" name="LineCommand21"/>
+   </item>
+   <item row="19" column="0" colspan="3">
+    <widget class="QLabel" name="LblStatus">
      <property name="text">
-      <string>Macro28</string>
+      <string/>
      </property>
     </widget>
    </item>
-   <item row="17" column="7">
+   <item row="11" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand9"/>
+   </item>
+   <item row="16" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand14"/>
+   </item>
+   <item row="16" column="0">
+    <widget class="QLabel" name="LblMacro14">
+     <property name="text">
+      <string>Macro14</string>
+     </property>
+    </widget>
+   </item>
+   <item row="17" column="10" colspan="2">
+    <widget class="QLineEdit" name="LineCommand30"/>
+   </item>
+   <item row="17" column="8">
     <widget class="QLabel" name="LblLabel30">
      <property name="text">
       <string>Macro30</string>
      </property>
     </widget>
    </item>
-   <item row="16" column="7">
-    <widget class="QLabel" name="LblMacro29">
-     <property name="text">
-      <string>Macro29</string>
+   <item row="14" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand12"/>
+   </item>
+   <item row="12" column="9">
+    <widget class="QLineEdit" name="LineName25">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
      </property>
     </widget>
    </item>
-   <item row="12" column="8">
-    <widget class="QLineEdit" name="LineName25">
+   <item row="12" column="5">
+    <widget class="QPushButton" name="BtnSend10">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="8">
+    <widget class="QLabel" name="LblMacro28">
+     <property name="text">
+      <string>Macro28</string>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="9">
+    <widget class="QLineEdit" name="LineName28">
      <property name="maximumSize">
       <size>
        <width>150</width>
@@ -465,27 +667,14 @@
      </property>
     </widget>
    </item>
-   <item row="11" column="8">
-    <widget class="QLineEdit" name="LineName24">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
+   <item row="17" column="0">
+    <widget class="QLabel" name="LblMacro15">
+     <property name="text">
+      <string>Macro15</string>
      </property>
     </widget>
    </item>
-   <item row="16" column="8">
-    <widget class="QLineEdit" name="LineName29">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="13" column="8">
+   <item row="13" column="9">
     <widget class="QLineEdit" name="LineName26">
      <property name="maximumSize">
       <size>
@@ -495,8 +684,15 @@
      </property>
     </widget>
    </item>
-   <item row="15" column="8">
-    <widget class="QLineEdit" name="LineName28">
+   <item row="5" column="5">
+    <widget class="QPushButton" name="BtnSend3">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="1">
+    <widget class="QLineEdit" name="LineName12">
      <property name="maximumSize">
       <size>
        <width>150</width>
@@ -505,8 +701,8 @@
      </property>
     </widget>
    </item>
-   <item row="17" column="8">
-    <widget class="QLineEdit" name="LineName30">
+   <item row="11" column="9">
+    <widget class="QLineEdit" name="LineName24">
      <property name="maximumSize">
       <size>
        <width>150</width>
@@ -515,7 +711,10 @@
      </property>
     </widget>
    </item>
-   <item row="14" column="8">
+   <item row="17" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand15"/>
+   </item>
+   <item row="14" column="9">
     <widget class="QLineEdit" name="LineName27">
      <property name="maximumSize">
       <size>
@@ -525,17 +724,37 @@
      </property>
     </widget>
    </item>
+   <item row="15" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand13"/>
+   </item>
+   <item row="15" column="1">
+    <widget class="QLineEdit" name="LineName13">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="8">
+    <widget class="QLabel" name="LblMacro20">
+     <property name="text">
+      <string>Macro20</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="8">
+    <widget class="QLabel" name="LblMacro23">
+     <property name="text">
+      <string>Macro23</string>
+     </property>
+    </widget>
+   </item>
    <item row="14" column="0">
     <widget class="QLabel" name="LblMacro12">
      <property name="text">
       <string>Macro12</string>
-     </property>
-    </widget>
-   </item>
-   <item row="17" column="0">
-    <widget class="QLabel" name="LblMacro15">
-     <property name="text">
-      <string>Macro15</string>
      </property>
     </widget>
    </item>
@@ -558,47 +777,23 @@
      </property>
     </widget>
    </item>
-   <item row="15" column="0">
-    <widget class="QLabel" name="LblMacro13">
+   <item row="17" column="1">
+    <widget class="QLineEdit" name="LineName15">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="2" colspan="3">
+    <widget class="QLineEdit" name="LineCommand11"/>
+   </item>
+   <item row="3" column="8">
+    <widget class="QLabel" name="LblMacro16">
      <property name="text">
-      <string>Macro13</string>
-     </property>
-    </widget>
-   </item>
-   <item row="15" column="1">
-    <widget class="QLineEdit" name="LineName13">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="16" column="1">
-    <widget class="QLineEdit" name="LineName14">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="14" column="1">
-    <widget class="QLineEdit" name="LineName12">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="16" column="0">
-    <widget class="QLabel" name="LblMacro14">
-     <property name="text">
-      <string>Macro14</string>
+      <string>Macro16</string>
      </property>
     </widget>
    </item>
@@ -612,157 +807,60 @@
      </property>
     </widget>
    </item>
-   <item row="17" column="1">
-    <widget class="QLineEdit" name="LineName15">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="17" column="9" colspan="2">
-    <widget class="QLineEdit" name="LineCommand30"/>
-   </item>
-   <item row="15" column="2" colspan="3">
-    <widget class="QLineEdit" name="LineCommand13"/>
-   </item>
-   <item row="17" column="2" colspan="3">
-    <widget class="QLineEdit" name="LineCommand15"/>
-   </item>
-   <item row="13" column="2" colspan="3">
-    <widget class="QLineEdit" name="LineCommand11"/>
-   </item>
-   <item row="16" column="2" colspan="3">
-    <widget class="QLineEdit" name="LineCommand14"/>
-   </item>
-   <item row="14" column="2" colspan="3">
-    <widget class="QLineEdit" name="LineCommand12"/>
-   </item>
-   <item row="3" column="7">
-    <widget class="QLabel" name="LblMacro16">
-     <property name="text">
-      <string>Macro16</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="7">
+   <item row="5" column="8">
     <widget class="QLabel" name="LblMacro18">
      <property name="text">
       <string>Macro18</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="7">
-    <widget class="QLabel" name="LblMacro20">
+   <item row="17" column="9">
+    <widget class="QLineEdit" name="LineName30">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="10" colspan="2">
+    <widget class="QLineEdit" name="LineCommand29"/>
+   </item>
+   <item row="7" column="5">
+    <widget class="QPushButton" name="BtnSend5">
      <property name="text">
-      <string>Macro20</string>
+      <string>Send</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="6" rowspan="16">
-    <widget class="Line" name="line">
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <property name="lineWidth">
-      <number>2</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
+   <item row="16" column="9">
+    <widget class="QLineEdit" name="LineName29">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
      </property>
     </widget>
    </item>
-   <item row="6" column="7">
+   <item row="11" column="10" colspan="2">
+    <widget class="QLineEdit" name="LineCommand24"/>
+   </item>
+   <item row="15" column="10" colspan="2">
+    <widget class="QLineEdit" name="LineCommand28"/>
+   </item>
+   <item row="6" column="8">
     <widget class="QLabel" name="LblMacro19">
      <property name="text">
       <string>Macro19</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="7">
-    <widget class="QLabel" name="LblMacro17">
-     <property name="text">
-      <string>Macro17</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="9" colspan="2">
-    <widget class="QLineEdit" name="LineCommand22"/>
-   </item>
-   <item row="11" column="9" colspan="2">
-    <widget class="QLineEdit" name="LineCommand24"/>
-   </item>
-   <item row="12" column="9" colspan="2">
-    <widget class="QLineEdit" name="LineCommand25"/>
-   </item>
-   <item row="10" column="9" colspan="2">
+   <item row="10" column="10" colspan="2">
     <widget class="QLineEdit" name="LineCommand23"/>
    </item>
-   <item row="14" column="9" colspan="2">
-    <widget class="QLineEdit" name="LineCommand27"/>
-   </item>
-   <item row="9" column="8">
-    <widget class="QLineEdit" name="LineName22">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="8">
-    <widget class="QLineEdit" name="LineName21">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="8">
-    <widget class="QLineEdit" name="LineName23">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="15" column="9" colspan="2">
-    <widget class="QLineEdit" name="LineCommand28"/>
-   </item>
-   <item row="13" column="9" colspan="2">
-    <widget class="QLineEdit" name="LineCommand26"/>
-   </item>
-   <item row="3" column="5">
-    <widget class="QPushButton" name="BtnSend1">
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="8">
-    <widget class="QLineEdit" name="LineName16">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="8">
+   <item row="4" column="9">
     <widget class="QLineEdit" name="LineName17">
      <property name="maximumSize">
       <size>
@@ -772,52 +870,7 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="8">
-    <widget class="QLineEdit" name="LineName20">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="9" colspan="2">
-    <widget class="QLineEdit" name="LineCommand17"/>
-   </item>
-   <item row="5" column="8">
-    <widget class="QLineEdit" name="LineName18">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="8">
-    <widget class="QLineEdit" name="LineName19">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="9" colspan="2">
-    <widget class="QLineEdit" name="LineCommand16"/>
-   </item>
-   <item row="5" column="9" colspan="2">
-    <widget class="QLineEdit" name="LineCommand18"/>
-   </item>
-   <item row="7" column="9" colspan="2">
-    <widget class="QLineEdit" name="LineCommand20"/>
-   </item>
-   <item row="6" column="9" colspan="2">
-    <widget class="QLineEdit" name="LineCommand19"/>
-   </item>
-   <item row="0" column="8">
+   <item row="0" column="9">
     <widget class="QPushButton" name="BtnAll">
      <property name="maximumSize">
       <size>
@@ -834,115 +887,392 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="9">
+   <item row="2" column="7" rowspan="16">
+    <widget class="Line" name="line">
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <property name="lineWidth">
+      <number>2</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="10">
     <widget class="QPushButton" name="BtnSave">
      <property name="text">
       <string>Save only</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="11">
-    <widget class="QPushButton" name="BtnSend17">
-     <property name="text">
-      <string>Send</string>
+   <item row="16" column="1">
+    <widget class="QLineEdit" name="LineName14">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
      </property>
     </widget>
    </item>
-   <item row="3" column="11">
+   <item row="15" column="0">
+    <widget class="QLabel" name="LblMacro13">
+     <property name="text">
+      <string>Macro13</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="10" colspan="2">
+    <widget class="QLineEdit" name="LineCommand19"/>
+   </item>
+   <item row="9" column="10" colspan="2">
+    <widget class="QLineEdit" name="LineCommand22"/>
+   </item>
+   <item row="14" column="10" colspan="2">
+    <widget class="QLineEdit" name="LineCommand27"/>
+   </item>
+   <item row="5" column="9">
+    <widget class="QLineEdit" name="LineName18">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="12">
     <widget class="QPushButton" name="BtnSend16">
      <property name="text">
       <string>Send</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="11">
-    <widget class="QPushButton" name="BtnSend18">
+   <item row="4" column="8">
+    <widget class="QLabel" name="LblMacro17">
+     <property name="text">
+      <string>Macro17</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="9">
+    <widget class="QLineEdit" name="LineName22">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="10" colspan="2">
+    <widget class="QLineEdit" name="LineCommand17"/>
+   </item>
+   <item row="3" column="9">
+    <widget class="QLineEdit" name="LineName16">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="9">
+    <widget class="QLineEdit" name="LineName21">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="9">
+    <widget class="QLineEdit" name="LineName20">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="10" colspan="2">
+    <widget class="QLineEdit" name="LineCommand25"/>
+   </item>
+   <item row="10" column="9">
+    <widget class="QLineEdit" name="LineName23">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="10" colspan="2">
+    <widget class="QLineEdit" name="LineCommand16"/>
+   </item>
+   <item row="6" column="9">
+    <widget class="QLineEdit" name="LineName19">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="12">
+    <widget class="QPushButton" name="BtnSend17">
      <property name="text">
       <string>Send</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="11">
-    <widget class="QPushButton" name="BtnSend19">
+   <item row="16" column="8">
+    <widget class="QLabel" name="LblMacro29">
      <property name="text">
-      <string>Send</string>
+      <string>Macro29</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="11">
-    <widget class="QPushButton" name="BtnSend20">
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
+   <item row="7" column="10" colspan="2">
+    <widget class="QLineEdit" name="LineCommand20"/>
    </item>
-   <item row="8" column="11">
+   <item row="13" column="10" colspan="2">
+    <widget class="QLineEdit" name="LineCommand26"/>
+   </item>
+   <item row="8" column="12">
     <widget class="QPushButton" name="BtnSend21">
      <property name="text">
       <string>Send</string>
      </property>
     </widget>
    </item>
-   <item row="9" column="11">
-    <widget class="QPushButton" name="BtnSend22">
+   <item row="7" column="12">
+    <widget class="QPushButton" name="BtnSend20">
      <property name="text">
       <string>Send</string>
      </property>
     </widget>
    </item>
-   <item row="10" column="11">
-    <widget class="QPushButton" name="BtnSend23">
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="11">
-    <widget class="QPushButton" name="BtnSend24">
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="11">
-    <widget class="QPushButton" name="BtnSend25">
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
-   </item>
-   <item row="13" column="11">
+   <item row="13" column="12">
     <widget class="QPushButton" name="BtnSend26">
      <property name="text">
       <string>Send</string>
      </property>
     </widget>
    </item>
-   <item row="14" column="11">
-    <widget class="QPushButton" name="BtnSend27">
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
-   </item>
-   <item row="15" column="11">
-    <widget class="QPushButton" name="BtnSend28">
-     <property name="text">
-      <string>Send</string>
-     </property>
-    </widget>
-   </item>
-   <item row="16" column="11">
+   <item row="16" column="12">
     <widget class="QPushButton" name="BtnSend29">
      <property name="text">
       <string>Send</string>
      </property>
     </widget>
    </item>
-   <item row="17" column="11">
+   <item row="17" column="12">
     <widget class="QPushButton" name="BtnSend30">
      <property name="text">
       <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="12">
+    <widget class="QPushButton" name="BtnSend18">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="10" colspan="2">
+    <widget class="QLineEdit" name="LineCommand18"/>
+   </item>
+   <item row="3" column="5">
+    <widget class="QPushButton" name="BtnSend1">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="12">
+    <widget class="QPushButton" name="BtnSend25">
+     <property name="text">
+      <string>Send</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="13">
+    <widget class="QPushButton" name="BtnIcon16">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="13">
+    <widget class="QPushButton" name="BtnIcon17">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="13">
+    <widget class="QPushButton" name="BtnIcon18">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="13">
+    <widget class="QPushButton" name="BtnIcon19">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="13">
+    <widget class="QPushButton" name="BtnIcon20">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="13">
+    <widget class="QPushButton" name="BtnIcon21">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="13">
+    <widget class="QPushButton" name="BtnIcon22">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="13">
+    <widget class="QPushButton" name="BtnIcon23">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="13">
+    <widget class="QPushButton" name="BtnIcon24">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="13">
+    <widget class="QPushButton" name="BtnIcon25">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="13">
+    <widget class="QPushButton" name="BtnIcon26">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="13">
+    <widget class="QPushButton" name="BtnIcon27">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="13">
+    <widget class="QPushButton" name="BtnIcon28">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="13">
+    <widget class="QPushButton" name="BtnIcon29">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="17" column="13">
+    <widget class="QPushButton" name="BtnIcon30">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/icon/icon/ic_collections_black_24dp.png</normaloff>:/icon/icon/ic_collections_black_24dp.png</iconset>
      </property>
     </widget>
    </item>

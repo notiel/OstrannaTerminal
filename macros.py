@@ -1,10 +1,11 @@
 import macros_design
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 import data_types
 from typing import List, Optional
 import common_functions
 from dataclasses import asdict
 import json
+import os
 
 
 class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
@@ -39,10 +40,19 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
                               self.BtnSend21, self.BtnSend22, self.BtnSend23, self.BtnSend24, self.BtnSend25,
                               self.BtnSend26, self.BtnSend27, self.BtnSend28, self.BtnSend29, self.BtnSend30]
 
+        self.btn_icon_list = [self.BtnIcon1, self.BtnIcon2, self.BtnIcon3, self.BtnIcon4, self.BtnIcon5,
+                              self.BtnIcon6, self.BtnIcon7, self.BtnIcon8, self.BtnIcon9, self.BtnIcon10,
+                              self.BtnIcon11, self.BtnIcon12, self.BtnIcon13, self.BtnIcon14, self.BtnIcon15,
+                              self.BtnIcon16, self.BtnIcon17, self.BtnIcon18, self.BtnIcon19, self.BtnIcon20,
+                              self.BtnIcon21, self.BtnIcon22, self.BtnIcon23, self.BtnIcon24, self.BtnIcon25,
+                              self.BtnIcon26, self.BtnIcon27, self.BtnIcon28, self.BtnIcon29, self.BtnIcon30]
+
         self.macros_dict = {i: (self.macros_names_list[i], self.macros_command_list[i])
                             for i in range(data_types.max_macros)}
         for btn in self.btn_send_list:
             btn.clicked.connect(self.btn_clicked)
+        for btn in self.btn_icon_list:
+            btn.clicked.connect(self.icon_clicked)
         self.all_macros = all_macros
         self.current_macros = current_macros
         self.load_current_set()
@@ -178,3 +188,18 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         """
         index = self.btn_send_list.index(self.sender())
         self.send_signal.emit(self.macros_command_list[index].text())
+
+    def icon_clicked(self):
+        """
+        selects icon for current macros.
+        :return:
+        """
+        sender = self.sender()
+        icon_filename = QtWidgets.QFileDialog.getOpenFileName(self, 'Select icon...', "")[0]
+        if icon_filename and os.path.splitext(icon_filename.lower())[1] in data_types.icon_exts:
+            index = self.btn_icon_list.index(sender)
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap(icon_filename))
+            self.btn_send_list[index].setIcon(icon)
+        elif icon_filename:
+            common_functions.error_message("Wrong icon format")

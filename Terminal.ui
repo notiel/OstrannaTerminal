@@ -719,32 +719,6 @@ p, li { white-space: pre-wrap; }
        <string>Transmit Command</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_8">
-       <item row="2" column="0">
-        <widget class="QLineEdit" name="TxtTransmit"/>
-       </item>
-       <item row="2" column="1">
-        <widget class="QPushButton" name="BtnSend">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Send&amp;2</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="BtnSend2">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Send&amp;1</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLineEdit" name="TxtTransmit2"/>
-       </item>
        <item row="0" column="0">
         <widget class="QCheckBox" name="CBClear">
          <property name="text">
@@ -754,6 +728,122 @@ p, li { white-space: pre-wrap; }
           <bool>false</bool>
          </property>
         </widget>
+       </item>
+       <item row="1" column="7">
+        <widget class="QPushButton" name="BtnSend">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Send&amp;1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="7">
+        <widget class="QPushButton" name="BtnSend2">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Send&amp;2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4">
+        <widget class="QCheckBox" name="CBRepeat">
+         <property name="maximumSize">
+          <size>
+           <width>65</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Repeat </string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="5">
+        <widget class="QSpinBox" name="SpinRepeat2">
+         <property name="minimum">
+          <number>10</number>
+         </property>
+         <property name="maximum">
+          <number>10000</number>
+         </property>
+         <property name="value">
+          <number>1000</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="4">
+        <widget class="QLineEdit" name="TxtTransmit"/>
+       </item>
+       <item row="1" column="5">
+        <widget class="QSpinBox" name="SpinRepeat">
+         <property name="maximumSize">
+          <size>
+           <width>61</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="minimum">
+          <number>10</number>
+         </property>
+         <property name="maximum">
+          <number>10000</number>
+         </property>
+         <property name="value">
+          <number>1000</number>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
+        <widget class="QCheckBox" name="CBRepeat2">
+         <property name="maximumSize">
+          <size>
+           <width>65</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Repeat</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="6">
+        <widget class="QLabel" name="LblMs2">
+         <property name="text">
+          <string>ms</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="6">
+        <widget class="QLabel" name="LblMs1">
+         <property name="maximumSize">
+          <size>
+           <width>20</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>ms</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="4">
+        <widget class="QLineEdit" name="TxtTransmit2"/>
        </item>
       </layout>
      </widget>
@@ -788,10 +878,10 @@ p, li { white-space: pre-wrap; }
   <tabstop>BtnDisconnect</tabstop>
   <tabstop>BtnClear</tabstop>
   <tabstop>BtnCounter</tabstop>
-  <tabstop>TxtTransmit2</tabstop>
-  <tabstop>BtnSend2</tabstop>
   <tabstop>TxtTransmit</tabstop>
   <tabstop>BtnSend</tabstop>
+  <tabstop>TxtTransmit2</tabstop>
+  <tabstop>BtnSend2</tabstop>
   <tabstop>BtnMacros1</tabstop>
   <tabstop>BtnMacros2</tabstop>
   <tabstop>BtnMacros3</tabstop>
