@@ -416,7 +416,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         if self.text_settings.CRLF:
             text += '\r\n'
         # timer block
-        if cb_timer:
+        if cb_timer.isChecked():
             timer = self.timer1 if source == self.TxtTransmit else self.timer2
             if not timer.isActive():
                 timeout = int(self.SpinRepeat.value()) if source == self.TxtTransmit else int(self.SpinRepeat2.value())

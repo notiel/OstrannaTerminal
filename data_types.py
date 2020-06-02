@@ -119,7 +119,10 @@ def create_macros_from_list(data: List[Dict[str, Any]]) -> Tuple[List[MacroSet],
         macros: List[Macro] = list()
         try:
             for macro in macroset['macros']:
-                macros.append(Macro(name=macro['name'], command=macro['command'], icon_path=macro['icon_path']))
+                new_macros = Macro(name=macro['name'], command=macro['command'])
+                if 'icon_path' in macro.keys() :
+                    new_macros.icon_path = macro['icon_path']
+                macros.append(new_macros)
         except KeyError:
             warning = "Some macros data is incorrect"
         if len(macros) < max_macros:
