@@ -131,7 +131,7 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
             for i in range(data_types.max_macros):
                 macros_used.macros[i].name = self.macros_names_list[i].text()
                 macros_used.macros[i].command = self.macros_command_list[i].text()
-                macros_used.macros[i].command = self.current_icon_paths[i]
+                macros_used.macros[i].icon_path = self.current_icon_paths[i]
             return macros_used
 
     def delete_pressed(self):
