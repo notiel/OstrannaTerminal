@@ -14,6 +14,7 @@ class Variables(QtWidgets.QWidget, variables_design.Ui_Form):
         self.SpinStep.valueChanged.connect(self.step_changed)
         self.SliderVar.valueChanged.connect(self.value_changed)
         self.BtnSend.clicked.connect(self.send_pressed)
+        self.current_var = self.SliderVar.value()
 
     def max_changed(self):
         """
@@ -43,7 +44,17 @@ class Variables(QtWidgets.QWidget, variables_design.Ui_Form):
         slider value changed
         :return:
         """
+        current = self.SliderVar.value()
+        delta = current - self.current_var if current > self.current_var else self.current_var - current
+        step = self.SliderVar.singleStep()
+        delta %= step
+        if delta > 0:
+            if current > self.current_var:
+                self.SliderVar.setValue(current - delta)
+            else:
+                self.SliderVar.setValue(current - step + delta)
         self.LineCurrent.setText(str(self.SliderVar.value()))
+        self.current_var = self.SliderVar.value()
         if self.CBAuto.isChecked():
             self.send_pressed()
 
