@@ -53,10 +53,11 @@ class Variables(QtWidgets.QWidget, variables_design.Ui_Form):
                 self.SliderVar.setValue(current - delta)
             else:
                 self.SliderVar.setValue(current - step + delta)
-        self.LineCurrent.setText(str(self.SliderVar.value()))
-        self.current_var = self.SliderVar.value()
-        if self.CBAuto.isChecked():
-            self.send_pressed()
+        if self.SliderVar.value() != self.current_var:
+            self.LineCurrent.setText(str(self.SliderVar.value()))
+            self.current_var = self.SliderVar.value()
+            if self.CBAuto.isChecked():
+                self.send_pressed()
 
     def send_pressed(self):
         """

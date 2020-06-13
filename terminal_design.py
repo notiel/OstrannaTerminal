@@ -249,6 +249,7 @@ class Ui_MainWindow(object):
         self.BtnSave.setObjectName("BtnSave")
         self.gridLayout.addWidget(self.BtnSave, 6, 13, 1, 1)
         self.TxtBuffer = QtWidgets.QTextBrowser(self.centralwidget)
+        self.TxtBuffer.setEnabled(True)
         self.TxtBuffer.setObjectName("TxtBuffer")
         self.gridLayout.addWidget(self.TxtBuffer, 9, 0, 1, 14)
         self.LblBaudrate = QtWidgets.QLabel(self.centralwidget)

@@ -91,6 +91,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnVar.clicked.connect(self.var_pressed)
         self.CBRepeat.stateChanged.connect(self.repeat_pressed)
         self.CBRepeat2.stateChanged.connect(self.repeat_pressed)
+        self.TxtBuffer.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
 
     def serial_port_ui(self):
         """
