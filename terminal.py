@@ -24,7 +24,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.create_connections()
         self.serial_port = QtSerialPort.QSerialPort()
         self.port_settings: data_types.ComSettings = data_types.ComSettings()
         self.text_settings: data_types.TextSettings = data_types.TextSettings()
@@ -50,6 +49,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.macros_ui()
         self.load_settings()
         self.serial_port_ui()
+        self.set_transmitzone_ui()
+        self.create_connections()
 
         self.time1 = 0
         self.timer1 = QtCore.QTimer()
@@ -92,6 +93,12 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.CBRepeat.stateChanged.connect(self.repeat_pressed)
         self.CBRepeat2.stateChanged.connect(self.repeat_pressed)
         self.TxtBuffer.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+        self.CBRepeat.stateChanged.connect(self.transmit_field_changed)
+        self.CBRepeat2.stateChanged.connect(self.transmit_field_changed)
+        self.TxtTransmit.textChanged.connect(self.transmit_field_changed)
+        self.TxtTransmit2.textChanged.connect(self.transmit_field_changed)
+        self.SpinRepeat.valueChanged.connect(self.transmit_field_changed)
+        self.SpinRepeat2.valueChanged.connect(self.transmit_field_changed)
 
     def serial_port_ui(self):
         """
@@ -102,6 +109,18 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.serial_port.errorOccurred.connect(self.serial_error)
         self.CBBaudrate.setCurrentText('115200')
         self.scan_ports()
+
+    def set_transmitzone_ui(self):
+        """
+        set UI for transmit zone
+        :return:
+        """
+        self.TxtTransmit.setText(self.text_settings.first_transmit)
+        self.TxtTransmit2.setText(self.text_settings.second_transmit)
+        self.CBRepeat.setChecked(self.text_settings.first_repeat)
+        self.CBRepeat2.setChecked(self.text_settings.second_repeat)
+        self.SpinRepeat.setValue(self.text_settings.first_period)
+        self.SpinRepeat2.setValue(self.text_settings.second_period)
 
     def macros_ui(self):
         """
@@ -168,6 +187,19 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                             self.text_settings.timestamps = settings_json['Text settings']['timestamps']
                         if 'decode' in settings_json['Text settings'].keys():
                             self.text_settings.decode = settings_json['Text settings']['decode']
+                        if 'first_transmit' in settings_json['Text settings'].keys():
+                            self.text_settings.first_transmit = settings_json['Text settings']['first_transmit']
+                        if 'second_transmit' in settings_json['Text settings'].keys():
+                            self.text_settings.second_transmit = settings_json['Text settings']['second_transmit']
+                        if 'first_repeat' in settings_json['Text settings'].keys():
+                            self.text_settings.first_repeat = settings_json['Text settings']['first_repeat']
+                        if 'second_repeat' in settings_json['Text settings'].keys():
+                            self.text_settings.second_repeat = settings_json['Text settings']['second_repeat']
+                        if 'first_period' in settings_json['Text settings'].keys():
+                            self.text_settings.first_period = settings_json['Text settings']['first_period']
+                        if 'second_period' in settings_json['Text settings'].keys():
+                            self.text_settings.second_period = settings_json['Text settings']['second_period']
+
                     if 'Filters' in settings_json.keys():
                         if 'STM' in settings_json['Filters'].keys():
                             self.port_settings.STMFilter = settings_json['Filters']['STM']
@@ -294,6 +326,9 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.scan_ports()
         self.BtnSend.setEnabled(False)
         self.BtnSend2.setEnabled(False)
+        self.serial_port.clear(QtSerialPort.QSerialPort.AllDirections)
+        self.serial_port.flush()
+        self.serial_port.clearError()
 
     def clear_pressed(self):
         """
@@ -439,6 +474,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         :param text: text to send
         :return: -1 if failed 0 if ok
         """
+        # saving settings before writing
+        self.settings_form = settings.Settings(self.port_settings, self.text_settings, self.colors, self.current_font)
+        self.settings_form.save_settings()
+
         commands = common_functions.split_with_bytes(text) if hexes and encode else [text]
         res_command = bytes()
         for command in commands:
@@ -727,6 +766,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         if timer.isActive():
             timer.stop()
 
+    # noinspection PyMethodOverriding
     def timerEvent(self):
         """
         send text in serial port by timer
@@ -736,6 +776,27 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         text_to_send = self.text_repeat1 if sender == self.timer1 else self.text_repeat2
         self.write_data(text_to_send)
 
+    def transmit_field_changed(self):
+        """
+        change settings for transmit
+        :return:
+        """
+        self.text_settings.first_transmit = self.TxtTransmit.text()
+        self.text_settings.second_transmit = self.TxtTransmit2.text()
+        self.text_settings.first_repeat = self.CBRepeat.isChecked()
+        self.text_settings.second_repeat = self.CBRepeat2.isChecked()
+        self.text_settings.first_period = self.SpinRepeat.value()
+        self.text_settings.second_period = self.SpinRepeat2.value()
+
+    def closeEvent(self, event):
+        """
+        saves settings to settings.json before exit
+        :param event:
+        :return:
+        """
+        self.settings_form = settings.Settings(self.port_settings, self.text_settings, self.colors, self.current_font)
+        self.settings_form.save_settings()
+        event.accept()
 
 
 def initiate_exception_logging():

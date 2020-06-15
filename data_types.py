@@ -68,6 +68,7 @@ class ComSettings:
     STMFilter: bool = True
     NRFFilter: bool = False
 
+
 @dataclass
 class TextSettings:
     CRLF: bool = True
@@ -78,6 +79,13 @@ class TextSettings:
     decode: int = 0
     crc_poly: int = 4129
     crc_init: int = 0
+    first_transmit = ""
+    second_transmit = ""
+    clear = False
+    first_repeat = False
+    second_repeat = False
+    first_period = 1000
+    second_period = 1000
 
 
 @dataclass
@@ -120,7 +128,7 @@ def create_macros_from_list(data: List[Dict[str, Any]]) -> Tuple[List[MacroSet],
         try:
             for macro in macroset['macros']:
                 new_macros = Macro(name=macro['name'], command=macro['command'])
-                if 'icon_path' in macro.keys() :
+                if 'icon_path' in macro.keys():
                     new_macros.icon_path = macro['icon_path']
                 macros.append(new_macros)
         except KeyError:
