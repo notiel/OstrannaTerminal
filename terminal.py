@@ -372,19 +372,19 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             read += data.decode('ascii')
             self.statusbar.clearMessage()
         except UnicodeDecodeError:
+            color = QtGui.QColor(*self.colors['font-receive'])
             if self.text_settings.decode == 1:
                 for byte in data:
                     try:
                         if byte < 128:
                             char = chr(byte)
-                            self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-receive']))
                         else:
                             char = '?'
-                            self.TxtBuffer.setTextColor(QtGui.QColor(255, 0, 0))
+                            color = QtGui.QColor(255, 0, 0)
                     except ValueError:
                         char = '?'
-                        self.TxtBuffer.setTextColor(QtGui.QColor(255, 0, 0))
-                    self.TxtBuffer.insertPlainText(char)
+                        color = QtGui.QColor(255, 0, 0)
+                    self.move_cursor_and_write(char, color)
                     self.counter += 1
             if self.text_settings.decode == 2:
                 try:
@@ -412,8 +412,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                 read_to_show = start + read_to_show
             else:
                 read_to_show: str = common_functions.hexify(read) if self.CBHex.isChecked() else read.replace("\n", "")
-            self.TxtBuffer.insertPlainText(read_to_show)
-
+            self.move_cursor_and_write(read_to_show, QtGui.QColor(*self.colors['font-transmit']))
             if self.graph and self.graph_form:
                 lines = (self.tail + read).split('\r')
                 logger.debug(lines)
@@ -466,6 +465,23 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             if self.CBClear.isChecked():
                 source.clear()
 
+    def move_cursor_and_write(self, command: str, color: QtGui.QColor):
+        """
+        moves cursor to the end before endint command to text field
+        :return:
+        """
+        # new_cursor = self.TxtBuffer.textCursor()
+        # new_cursor.movePosition(QtGui.QTextCursor.End)
+        # self.TxtBuffer.setTextCursor(new_cursor)
+        self.TxtBuffer.moveCursor(QtGui.QTextCursor.End)
+        self.TxtBuffer.setStyleSheet("background-color:rgb%s" % str(self.colors['background-color']))
+        self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
+        self.TxtBuffer.setTextColor(color)
+        self.TxtBuffer.insertPlainText(command)
+        if self.text_settings.scroll:
+            scroll = self.TxtBuffer.verticalScrollBar().maximum()
+            self.TxtBuffer.verticalScrollBar().setValue(scroll)
+
     def write_data(self, text: Union[str, bytes], encode=True, hexes=True) -> int:
         """
         writes data to comport
@@ -492,18 +508,14 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             common_functions.error_message('Data was not sent correctly')
             return -1
         if self.text_settings.show_sent and encode:
-            self.TxtBuffer.setStyleSheet("background-color:rgb%s" % str(self.colors['background-color']))
-            self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
             for command in commands:
                 if common_functions.is_byte(command):
-                    self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['bytes-color']))
+                    color = QtGui.QColor(*self.colors['bytes-color'])
                 else:
-                    self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-transmit']))
+                    color = QtGui.QColor(*self.colors['font-transmit'])
                 command_to_show: str = common_functions.hexify(command) if self.CBHex.isChecked() else command
-                self.TxtBuffer.insertPlainText(command_to_show)
-                if self.text_settings.scroll:
-                    scroll = self.TxtBuffer.verticalScrollBar().maximum()
-                    self.TxtBuffer.verticalScrollBar().setValue(scroll)
+                self.move_cursor_and_write(command_to_show, color)
+
         return 0
 
     def serial_error(self):

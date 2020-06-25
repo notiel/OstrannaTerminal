@@ -613,6 +613,9 @@ class Ui_Form(object):
         self.BtnIcon30.setIcon(icon)
         self.BtnIcon30.setObjectName("BtnIcon30")
         self.gridLayout.addWidget(self.BtnIcon30, 17, 13, 1, 1)
+        self.BtnAdd = QtWidgets.QPushButton(Form)
+        self.BtnAdd.setObjectName("BtnAdd")
+        self.gridLayout.addWidget(self.BtnAdd, 0, 12, 1, 1)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -710,5 +713,6 @@ class Ui_Form(object):
         self.BtnSend18.setText(_translate("Form", "Send"))
         self.BtnSend1.setText(_translate("Form", "Send"))
         self.BtnSend25.setText(_translate("Form", "Send"))
+        self.BtnAdd.setText(_translate("Form", "Add New"))
 
 import logo_rc

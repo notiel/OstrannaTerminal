@@ -1276,6 +1276,13 @@
      </property>
     </widget>
    </item>
+   <item row="0" column="12">
+    <widget class="QPushButton" name="BtnAdd">
+     <property name="text">
+      <string>Add New</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <tabstops>

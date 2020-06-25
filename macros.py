@@ -26,6 +26,7 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         self.BtnSave.clicked.connect(self.save_pressed)
         self.BtnAll.clicked.connect(self.all_pressed)
         self.BtnDelete.clicked.connect(self.delete_pressed)
+        self.BtnAdd.clicked.connect(self.add_pressed)
         self.CBMacros.currentTextChanged.connect(self.selected_changed)
         for line in self.macros_command_list:
             line.setFont(current_font)
@@ -118,10 +119,10 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
             return None
         if name not in [macro.name for macro in self.all_macros]:
             new_macros_set = data_types.MacroSet(name=name, macros=list())
-            for key in self.macros_dict.keys():
-                new_macros_set.macros.append(data_types.Macro(name=self.macros_names_list[key].text(),
-                                                              command=self.macros_command_list[key].text(),
-                                                              icon_path=self.current_icon_paths[key]))
+            for i in range(data_types.max_macros):
+                new_macros_set.macros.append(data_types.Macro(name=self.macros_names_list[i].text(),
+                                                              command=self.macros_command_list[i].text(),
+                                                              icon_path=self.current_icon_paths[i]))
             self.all_macros.append(new_macros_set)
             self.CBMacros.addItem(name)
             self.CBMacros.setCurrentText(name)
@@ -215,3 +216,10 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
             self.save()
         elif icon_filename:
             common_functions.error_message("Wrong icon format")
+
+    def add_pressed(self):
+        """
+        for adding new macros
+        :return:
+        """
+        self.CBMacros.setCurrentText('None')
