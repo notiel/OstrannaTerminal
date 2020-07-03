@@ -3,6 +3,8 @@ from enum import Enum
 from PyQt5 import QtSerialPort
 from typing import List, Optional, Dict, Any, Tuple
 
+endpoint = 64
+
 error_codes = {0: 'No error',
                1: 'Device not found',
                2: 'Permission error',

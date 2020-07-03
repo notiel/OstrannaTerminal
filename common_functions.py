@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QMessageBox
 import re
-from typing import List
+from typing import List, Dict, Any
 hex_symbols = '1234567890abcdef'
 
 
@@ -83,3 +83,15 @@ def calculate_crc16(crc_table: List[int], data: bytes, crc_init_value: int = 0) 
     for ch in data:
         crc = ((crc << 8 & 0xFFFF) ^ crc_table[crc >> 8 ^ (0xff & ch)])
     return crc
+
+
+def replace_variables(text: str, variables: Dict[str, Any]):
+    """
+    finds variables and replaces them
+    :param text: text to replace
+    :param variables: list of replacement
+    :return: new text
+    """
+    for key in variables.keys():
+        text = text.replace("$%s" % key, variables[key])
+    return text

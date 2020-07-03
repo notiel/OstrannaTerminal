@@ -42,7 +42,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.macros_form: Optional[macros.Macros] = None
         self.ascii_form: Optional[ASCII_table.ASCIITable] = None
         self.help_form: Optional[help.Help] = None
-        self.var_form: Optional[variables.Variables] = None
+        self.var_form: Optional[variables.Variables] = variables.Variables()
+        self.var_form.send_signal[str].connect(self.var_signal_send)
         self.current_font = QtGui.QFont("Consolas", 10)
         self.apply_styles()
         self.macros_btns_list = list()
@@ -51,15 +52,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.serial_port_ui()
         self.set_transmitzone_ui()
         self.create_connections()
-
-        self.time1 = 0
-        self.timer1 = QtCore.QTimer()
-        self.timer1.timeout.connect(self.timerEvent)
-        self.time2 = 0
-        self.timer2 = QtCore.QTimer()
-        self.timer2.timeout.connect(self.timerEvent)
-        self.text_repeat1 = ""
-        self.text_repeat2 = ""
+        self.init_timer_data()
 
     def create_connections(self):
         """
@@ -153,6 +146,21 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
         self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-transmit']))
 
+    # noinspection PyAttributeOutsideInit
+    def init_timer_data(self):
+        """
+        inits timer data
+        :return:
+        """
+        self.time1 = 0
+        self.timer1 = QtCore.QTimer()
+        self.timer1.timeout.connect(self.timerEvent)
+        self.time2 = 0
+        self.timer2 = QtCore.QTimer()
+        self.timer2.timeout.connect(self.timerEvent)
+        self.text_repeat1 = ""
+        self.text_repeat2 = ""
+
     def load_settings(self):
         """
         loads settings from file if any and overwrites default
@@ -162,82 +170,129 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             with open("settings.json") as f:
                 try:
                     settings_json = json.load(f)
-                    if 'COM settings' in settings_json.keys():
-                        if 'baudrate' in settings_json['COM settings'].keys():
-                            self.port_settings.baudrate = settings_json['COM settings']['baudrate']
-                            if self.port_settings.baudrate not in data_types.baudrates:
-                                self.CBBaudrate.addItem(str(self.port_settings.baudrate))
-                            self.CBBaudrate.setCurrentText(str(self.port_settings.baudrate))
-                        if 'stopbits' in settings_json['COM settings'].keys():
-                            self.port_settings.stopbits = settings_json['COM settings']['stopbits']
-                        if 'parity' in settings_json['COM settings'].keys():
-                            self.port_settings.parity = data_types.Parity(settings_json['COM settings']['parity'])
-                        if 'databits' in settings_json['COM settings'].keys():
-                            self.port_settings.databits = settings_json['COM settings']['databits']
-                    if 'Text settings' in settings_json.keys():
-                        if 'CRLF' in settings_json['Text settings'].keys():
-                            self.text_settings.CRLF = settings_json['Text settings']['CRLF']
-                        if 'bytecodes' in settings_json['Text settings'].keys():
-                            self.text_settings.bytecodes = settings_json['Text settings']['bytecodes']
-                        if 'scroll' in settings_json['Text settings'].keys():
-                            self.text_settings.scroll = settings_json['Text settings']['scroll']
-                        if 'show sent' in settings_json['Text settings'].keys():
-                            self.text_settings.show_sent = settings_json['Text settings']['show sent']
-                        if 'timestamps' in settings_json['Text settings'].keys():
-                            self.text_settings.timestamps = settings_json['Text settings']['timestamps']
-                        if 'decode' in settings_json['Text settings'].keys():
-                            self.text_settings.decode = settings_json['Text settings']['decode']
-                        if 'first_transmit' in settings_json['Text settings'].keys():
-                            self.text_settings.first_transmit = settings_json['Text settings']['first_transmit']
-                        if 'second_transmit' in settings_json['Text settings'].keys():
-                            self.text_settings.second_transmit = settings_json['Text settings']['second_transmit']
-                        if 'first_repeat' in settings_json['Text settings'].keys():
-                            self.text_settings.first_repeat = settings_json['Text settings']['first_repeat']
-                        if 'second_repeat' in settings_json['Text settings'].keys():
-                            self.text_settings.second_repeat = settings_json['Text settings']['second_repeat']
-                        if 'first_period' in settings_json['Text settings'].keys():
-                            self.text_settings.first_period = settings_json['Text settings']['first_period']
-                        if 'second_period' in settings_json['Text settings'].keys():
-                            self.text_settings.second_period = settings_json['Text settings']['second_period']
-
-                    if 'Filters' in settings_json.keys():
-                        if 'STM' in settings_json['Filters'].keys():
-                            self.port_settings.STMFilter = settings_json['Filters']['STM']
-                            self.CBSTM.setChecked(self.port_settings.STMFilter)
-                        if 'NRF' in settings_json['Filters'].keys():
-                            self.port_settings.NRFFilter = settings_json['Filters']['NRF']
-                            self.CBNRF.setChecked(self.port_settings.NRFFilter)
-                    if 'CRC' in settings_json.keys():
-                        if 'polynom' in settings_json['CRC'].keys():
-                            self.text_settings.crc_poly = settings_json['CRC']['polynom']
-                            if 'init value' in settings_json['CRC'].keys():
-                                self.text_settings.crc_init = settings_json['CRC']['init value']
-                    if 'Colors' in settings_json.keys():
-                        if 'background-color' in settings_json['Colors'].keys():
-                            self.colors['background-color'] = tuple(settings_json['Colors']['background-color'])
-                            self.back_color_changed()
-                        if 'font-transmit' in settings_json['Colors'].keys():
-                            self.colors['font-transmit'] = tuple(settings_json['Colors']['font-transmit'])
-                        if 'font-receive' in settings_json['Colors'].keys():
-                            self.colors['font-receive'] = tuple(settings_json['Colors']['font-receive'])
-                        if 'bytes-color' in settings_json['Colors'].keys():
-                            self.colors['bytes-color'] = tuple(settings_json['Colors']['bytes-color'])
-                    if 'Font' in settings_json.keys():
-                        font_family = settings_json['Font']['family'] if 'family' in settings_json['Font'].keys() \
-                            else 'Consolas'
-                        font_size = settings_json['Font']['size'] if 'size' in settings_json['Font'].keys() else 10
-                        self.current_font = QtGui.QFont(font_family, font_size)
-                        self.TxtBuffer.setFont(self.current_font)
-                        self.TxtTransmit.setFont(self.current_font)
-                        self.TxtTransmit2.setFont(self.current_font)
-                    if 'Macros set' in settings_json.keys():
-                        self.current_macros = data_types.get_macros_by_name(settings_json['Macros set'],
-                                                                            self.all_macros)
-                        if self.current_macros:
-                            self.port_settings.last_macros_set = settings_json['Macros set']
-                            self.CBMacros.setCurrentText(self.port_settings.last_macros_set)
+                    self.load_port_settings(settings_json)
+                    self.load_text_settings(settings_json)
+                    self.load_filter_settings(settings_json)
+                    self.load_crc_settings(settings_json)
+                    self.load_style_settings(settings_json)
+                    self.load_macros_settings(settings_json)
                 except (json.JSONDecodeError, AttributeError, KeyError, ValueError):
                     common_functions.error_message("Settings file is incorrect, default settings used")
+
+    def load_port_settings(self, settings_json):
+        """
+        load port settings from json data
+        :param settings_json: data with settingsg
+        :return:
+        """
+        if 'COM settings' in settings_json.keys():
+            if 'baudrate' in settings_json['COM settings'].keys():
+                self.port_settings.baudrate = settings_json['COM settings']['baudrate']
+                if self.port_settings.baudrate not in data_types.baudrates:
+                    self.CBBaudrate.addItem(str(self.port_settings.baudrate))
+                self.CBBaudrate.setCurrentText(str(self.port_settings.baudrate))
+            if 'stopbits' in settings_json['COM settings'].keys():
+                self.port_settings.stopbits = settings_json['COM settings']['stopbits']
+            if 'parity' in settings_json['COM settings'].keys():
+                self.port_settings.parity = data_types.Parity(settings_json['COM settings']['parity'])
+            if 'databits' in settings_json['COM settings'].keys():
+                self.port_settings.databits = settings_json['COM settings']['databits']
+
+    def load_text_settings(self, settings_json):
+        """
+        load text settings from json
+        :param settings_json: data with settings
+        :return:
+        """
+        if 'Text settings' in settings_json.keys():
+            if 'CRLF' in settings_json['Text settings'].keys():
+                self.text_settings.CRLF = settings_json['Text settings']['CRLF']
+            if 'bytecodes' in settings_json['Text settings'].keys():
+                self.text_settings.bytecodes = settings_json['Text settings']['bytecodes']
+            if 'scroll' in settings_json['Text settings'].keys():
+                self.text_settings.scroll = settings_json['Text settings']['scroll']
+            if 'show sent' in settings_json['Text settings'].keys():
+                self.text_settings.show_sent = settings_json['Text settings']['show sent']
+            if 'timestamps' in settings_json['Text settings'].keys():
+                self.text_settings.timestamps = settings_json['Text settings']['timestamps']
+            if 'decode' in settings_json['Text settings'].keys():
+                self.text_settings.decode = settings_json['Text settings']['decode']
+            if 'first_transmit' in settings_json['Text settings'].keys():
+                self.text_settings.first_transmit = settings_json['Text settings']['first_transmit']
+            if 'second_transmit' in settings_json['Text settings'].keys():
+                self.text_settings.second_transmit = settings_json['Text settings']['second_transmit']
+            if 'first_repeat' in settings_json['Text settings'].keys():
+                self.text_settings.first_repeat = settings_json['Text settings']['first_repeat']
+            if 'second_repeat' in settings_json['Text settings'].keys():
+                self.text_settings.second_repeat = settings_json['Text settings']['second_repeat']
+            if 'first_period' in settings_json['Text settings'].keys():
+                self.text_settings.first_period = settings_json['Text settings']['first_period']
+            if 'second_period' in settings_json['Text settings'].keys():
+                self.text_settings.second_period = settings_json['Text settings']['second_period']
+
+    def load_filter_settings(self, settings_json):
+        """
+        load filter settings from json
+        :param settings_json: data with settings
+        :return:
+        """
+        if 'Filters' in settings_json.keys():
+            if 'STM' in settings_json['Filters'].keys():
+                self.port_settings.STMFilter = settings_json['Filters']['STM']
+                self.CBSTM.setChecked(self.port_settings.STMFilter)
+            if 'NRF' in settings_json['Filters'].keys():
+                self.port_settings.NRFFilter = settings_json['Filters']['NRF']
+                self.CBNRF.setChecked(self.port_settings.NRFFilter)
+
+    def load_crc_settings(self, settings_json):
+        """
+        load crc settings from json
+        :param settings_json: data with settings
+        :return:
+        """
+        if 'CRC' in settings_json.keys():
+            if 'polynom' in settings_json['CRC'].keys():
+                self.text_settings.crc_poly = settings_json['CRC']['polynom']
+                if 'init value' in settings_json['CRC'].keys():
+                    self.text_settings.crc_init = settings_json['CRC']['init value']
+
+    def load_style_settings(self, settings_json):
+        """
+        load text font and color settings from json
+        :param settings_json: data with settings
+        :return:
+        """
+        if 'Colors' in settings_json.keys():
+            if 'background-color' in settings_json['Colors'].keys():
+                self.colors['background-color'] = tuple(settings_json['Colors']['background-color'])
+                self.back_color_changed()
+            if 'font-transmit' in settings_json['Colors'].keys():
+                self.colors['font-transmit'] = tuple(settings_json['Colors']['font-transmit'])
+            if 'font-receive' in settings_json['Colors'].keys():
+                self.colors['font-receive'] = tuple(settings_json['Colors']['font-receive'])
+            if 'bytes-color' in settings_json['Colors'].keys():
+                self.colors['bytes-color'] = tuple(settings_json['Colors']['bytes-color'])
+        if 'Font' in settings_json.keys():
+            font_family = settings_json['Font']['family'] if 'family' in settings_json['Font'].keys() \
+                else 'Consolas'
+            font_size = settings_json['Font']['size'] if 'size' in settings_json['Font'].keys() else 10
+            self.current_font = QtGui.QFont(font_family, font_size)
+            self.TxtBuffer.setFont(self.current_font)
+            self.TxtTransmit.setFont(self.current_font)
+            self.TxtTransmit2.setFont(self.current_font)
+
+    def load_macros_settings(self, settings_json):
+        """
+        load last macro set settings from json
+        :param settings_json: data with settings
+        :return:
+        """
+        if 'Macros set' in settings_json.keys():
+            self.current_macros = data_types.get_macros_by_name(settings_json['Macros set'],
+                                                                self.all_macros)
+            if self.current_macros:
+                self.port_settings.last_macros_set = settings_json['Macros set']
+                self.CBMacros.setCurrentText(self.port_settings.last_macros_set)
 
     def scan_ports(self):
         """
@@ -394,7 +449,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.statusbar.showMessage("Unicode decode error")
 
         if read:
-            self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-receive']))
             self.counter += len(read)
             # if timestamps
             if self.text_settings.timestamps:
@@ -412,7 +466,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                 read_to_show = start + read_to_show
             else:
                 read_to_show: str = common_functions.hexify(read) if self.CBHex.isChecked() else read.replace("\n", "")
-            self.move_cursor_and_write(read_to_show, QtGui.QColor(*self.colors['font-transmit']))
+            self.move_cursor_and_write(read_to_show, QtGui.QColor(*self.colors['font-receive']))
             if self.graph and self.graph_form:
                 lines = (self.tail + read).split('\r')
                 logger.debug(lines)
@@ -457,8 +511,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                 timeout = int(self.SpinRepeat.value()) if source == self.TxtTransmit else int(self.SpinRepeat2.value())
                 timer.start(timeout)
                 if source == self.TxtTransmit:
+                    # noinspection PyAttributeOutsideInit
                     self.text_repeat1 = text
                 else:
+                    # noinspection PyAttributeOutsideInit
                     self.text_repeat2 = text
         error: int = self.write_data(text, True, self.text_settings.bytecodes)
         if not error:
@@ -470,9 +526,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         moves cursor to the end before endint command to text field
         :return:
         """
-        # new_cursor = self.TxtBuffer.textCursor()
-        # new_cursor.movePosition(QtGui.QTextCursor.End)
-        # self.TxtBuffer.setTextCursor(new_cursor)
         self.TxtBuffer.moveCursor(QtGui.QTextCursor.End)
         self.TxtBuffer.setStyleSheet("background-color:rgb%s" % str(self.colors['background-color']))
         self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
@@ -481,6 +534,20 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         if self.text_settings.scroll:
             scroll = self.TxtBuffer.verticalScrollBar().maximum()
             self.TxtBuffer.verticalScrollBar().setValue(scroll)
+
+    def write_to_port(self, command) -> int:
+        """
+        writes command to port, checks for error
+        :param command: command to write
+        :return: 0 if OK, -1 if error
+        """
+        res = self.serial_port.write(command)
+        self.serial_port.flush()
+        self.serial_port.waitForBytesWritten()
+        if res != len(command):
+            common_functions.error_message('Data was not sent correctly')
+            return -1
+        return 0
 
     def write_data(self, text: Union[str, bytes], encode=True, hexes=True) -> int:
         """
@@ -493,7 +560,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         # saving settings before writing
         self.settings_form = settings.Settings(self.port_settings, self.text_settings, self.colors, self.current_font)
         self.settings_form.save_settings()
-
+        text = common_functions.replace_variables(text, self.var_form.var_dict)
         commands = common_functions.split_with_bytes(text) if hexes and encode else [text]
         res_command = bytes()
         for command in commands:
@@ -502,11 +569,16 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             else:
                 add_command = bytes(command, encoding='utf-8') if encode else command
             res_command += add_command
-        res = self.serial_port.write(res_command)
-        self.serial_port.flush()
-        if res != len(res_command):
-            common_functions.error_message('Data was not sent correctly')
-            return -1
+        if len(res_command) % data_types.endpoint != 0:
+           res_write = self.write_to_port(res_command)
+           if res_write == -1:
+               return -1
+        else:
+            # last packet is lost if its lendth is even to endpoint
+            res_first = self.write_to_port(res_command[:-data_types.endpoint//2])
+            res_second = self.write_to_port(res_command[-data_types.endpoint//2:])
+            if res_first == -1 or res_second == -1:
+                return -1
         if self.text_settings.show_sent and encode:
             for command in commands:
                 if common_functions.is_byte(command):
@@ -692,7 +764,16 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             if os.path.exists(self.file_to_send) and not os.path.isdir(self.file_to_send):
                 with open(self.file_to_send, "rb") as f:
                     data = f.read()
-                    self.write_data(data, False, self.text_settings.bytecodes)
+                    res = self.write_data(data, False, self.text_settings.bytecodes)
+                    if res != -1:
+                        error = QtWidgets.QMessageBox()
+                        error.setIcon(QtWidgets.QMessageBox.Information)
+                        error.setText("File transmitted")
+                        error.setWindowTitle('Success')
+                        error.setStandardButtons(QtWidgets.QMessageBox.Ok)
+                        error.exec_()
+        else:
+            common_functions.error_message("Check file or port")
 
     def ascii_show(self):
         """
@@ -719,10 +800,15 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         :return:
         """
         if self.file_to_send and os.path.exists(self.file_to_send):
-            self.LblLength.setText("Length: %i" % os.path.getsize(self.file_to_send))
-            self.LblCrc.setText("CRC: " + hex(common_functions.calculate_crc16(
+            file_length = os.path.getsize(self.file_to_send)
+            crc = hex(common_functions.calculate_crc16(
                 common_functions.get_crc16_table(self.text_settings.crc_poly), open(self.file_to_send, "rb").read(),
-                self.text_settings.crc_init)))
+                self.text_settings.crc_init))
+            self.LblLength.setText("Length: %i" % file_length)
+            self.LblCrc.setText("CRC: " + crc)
+            self.var_form.var_dict['length'] = str(file_length)
+            self.var_form.var_dict['crc'] = crc
+            self.var_form.var_dict['filedata'] = open(self.file_to_send).read()
         else:
             self.LblLength.setText("Length: None")
             self.LblCrc.setText('Crc: None')
@@ -755,8 +841,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         var form show
         :return:
         """
-        self.var_form = variables.Variables()
-        self.var_form.send_signal[str].connect(self.var_signal_send)
         self.var_form.show()
 
     def var_signal_send(self, command: str):
