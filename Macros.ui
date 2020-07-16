@@ -870,23 +870,6 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="9">
-    <widget class="QPushButton" name="BtnAll">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>Save and Apply</string>
-     </property>
-     <property name="icon">
-      <iconset resource="logo.qrc">
-       <normaloff>:/Save/icon/floppy.ico</normaloff>:/Save/icon/floppy.ico</iconset>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="7" rowspan="16">
     <widget class="Line" name="line">
      <property name="frameShadow">
@@ -897,13 +880,6 @@
      </property>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="10">
-    <widget class="QPushButton" name="BtnSave">
-     <property name="text">
-      <string>Save only</string>
      </property>
     </widget>
    </item>
@@ -1283,6 +1259,44 @@
      </property>
     </widget>
    </item>
+   <item row="0" column="5">
+    <widget class="QPushButton" name="BtnAll">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Save and Apply</string>
+     </property>
+     <property name="icon">
+      <iconset resource="logo.qrc">
+       <normaloff>:/Save/icon/floppy.ico</normaloff>:/Save/icon/floppy.ico</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="6" colspan="3">
+    <widget class="QPushButton" name="BtnSave">
+     <property name="text">
+      <string>Save only</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="9">
+    <widget class="QPushButton" name="BtnExport">
+     <property name="text">
+      <string>Export</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="10">
+    <widget class="QPushButton" name="BtnImport">
+     <property name="text">
+      <string>Import</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <tabstops>
@@ -1307,8 +1321,6 @@
   <tabstop>LineCommand9</tabstop>
   <tabstop>LineName10</tabstop>
   <tabstop>LineCommand10</tabstop>
-  <tabstop>BtnAll</tabstop>
-  <tabstop>BtnSave</tabstop>
  </tabstops>
  <resources>
   <include location="logo.qrc"/>

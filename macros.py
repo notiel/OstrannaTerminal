@@ -30,6 +30,8 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         self.CBMacros.currentTextChanged.connect(self.selected_changed)
         for line in self.macros_command_list:
             line.setFont(current_font)
+        self.BtnImport.clicked.connect(self.append_pressed)
+        self.BtnExport.clicked.connect(self.export_pressed)
 
     def create_data_lists(self):
         """
@@ -87,6 +89,7 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         :param macros: macros to load
         :return:
         """
+        self.current_macros = macros
         self.LineNameSet.setText(macros.name)
         self.CBMacros.setCurrentText(macros.name)
         for (index, macro) in enumerate(macros.macros):
@@ -149,6 +152,7 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
                 self.CBMacros.addItems([macrosset.name for macrosset in self.all_macros])
                 self.save()
         self.CBMacros.setCurrentText('None')
+        self.edited_signal.emit()
 
     def clear(self):
         """
@@ -223,3 +227,26 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         :return:
         """
         self.CBMacros.setCurrentText('None')
+
+    def append_pressed(self):
+        """
+        adds macroses from selected file.
+        :return:
+        """
+        new_filename = QtWidgets.QFileDialog.getOpenFileName(self, 'Select macro file', "")[0]
+        if new_filename:
+            with open(new_filename) as f:
+                macros_data = json.load(f)
+                new_macros, warning = data_types.create_macros_from_list(macros_data['Macros'])
+                if new_macros:
+                    self.all_macros.extend(new_macros)
+                    self.save()
+                    self.edited_signal.emit()
+
+    def export_pressed(self):
+        new_filename = QtWidgets.QFileDialog.getSaveFileName(self, 'Select export file', "")[0]
+        if new_filename:
+            with open(new_filename, "w") as f:
+                dump = {'Macros': [asdict(self.current_macros)]}
+                json.dump(dump, f, indent=4)
+
