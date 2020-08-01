@@ -549,9 +549,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             return -1
         return 0
 
-    def write_data(self, text: Union[str, bytes], encode=True, hexes=True) -> int:
+    def write_data(self, text: Union[str, bytes], encode=True, hexes=True, use_variables=True) -> int:
         """
         writes data to comport
+        :param use_variables: use variables replace or not
         :param hexes: convert hexes or not
         :param encode: True if we need to encode
         :param text: text to send
@@ -560,7 +561,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         # saving settings before writing
         self.settings_form = settings.Settings(self.port_settings, self.text_settings, self.colors, self.current_font)
         self.settings_form.save_settings()
-        text = common_functions.replace_variables(text, self.var_form.var_dict)
+        if use_variables:
+            text = common_functions.replace_variables(text, self.var_form.var_dict)
         commands = common_functions.split_with_bytes(text) if hexes and encode else [text]
         res_command = bytes()
         for command in commands:
@@ -570,9 +572,9 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                 add_command = bytes(command, encoding='utf-8') if encode else command
             res_command += add_command
         if len(res_command) % data_types.endpoint != 0:
-           res_write = self.write_to_port(res_command)
-           if res_write == -1:
-               return -1
+            res_write = self.write_to_port(res_command)
+            if res_write == -1:
+                return -1
         else:
             # last packet is lost if its lendth is even to endpoint
             res_first = self.write_to_port(res_command[:-data_types.endpoint//2])
@@ -764,7 +766,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             if os.path.exists(self.file_to_send) and not os.path.isdir(self.file_to_send):
                 with open(self.file_to_send, "rb") as f:
                     data = f.read()
-                    res = self.write_data(data, False, self.text_settings.bytecodes)
+                    res = self.write_data(data, False, False, False)
                     if res != -1:
                         error = QtWidgets.QMessageBox()
                         error.setIcon(QtWidgets.QMessageBox.Information)
