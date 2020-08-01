@@ -81,13 +81,13 @@ class TextSettings:
     decode: int = 0
     crc_poly: int = 4129
     crc_init: int = 0
-    first_transmit = ""
-    second_transmit = ""
-    clear = False
-    first_repeat = False
-    second_repeat = False
-    first_period = 1000
-    second_period = 1000
+    first_transmit: str = ""
+    second_transmit: str = ""
+    clear: bool = False
+    first_repeat: bool = False
+    second_repeat: bool = False
+    first_period: int = 1000
+    second_period: int = 1000
 
 
 @dataclass

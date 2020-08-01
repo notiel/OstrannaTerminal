@@ -33,7 +33,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.counter: int = 0
         self.time_shown = False
         self.tail = ""
-        self.count = 0
         self.file_to_send = ""
         self.graph_form = Optional[terminal_graph.MainWindow]
         self.graph = False
@@ -161,13 +160,13 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.text_repeat1 = ""
         self.text_repeat2 = ""
 
-    def load_settings(self):
+    def load_settings(self, filename='settings.json'):
         """
         loads settings from file if any and overwrites default
         :return:
         """
-        if os.path.exists("settings.json"):
-            with open("settings.json") as f:
+        if os.path.exists(filename):
+            with open(filename) as f:
                 try:
                     settings_json = json.load(f)
                     self.load_port_settings(settings_json)
@@ -322,13 +321,13 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                 if self.CBPorts.itemText(i).startswith(self.port_settings.last_name):
                     self.CBPorts.setCurrentIndex(i)
 
-    def load_macros(self):
+    def load_macros(self, filename='macros.json'):
         """
         loads macros sets from "macros.json"
         :return:
         """
-        if os.path.exists("macros.json"):
-            with open("macros.json") as f:
+        if os.path.exists(filename):
+            with open(filename) as f:
                 macros_data = json.load(f)
                 self.all_macros, warning = data_types.create_macros_from_list(macros_data['Macros'])
                 if warning:
