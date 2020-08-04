@@ -64,11 +64,11 @@ class TestMainFunctions(unittest.TestCase):
         self.assertGreater(self.terminal_example.CBPorts.count(), 0)
         self.assertIn('COM3', self.terminal_example.CBPorts.currentText())
 
-    def testConnectAndSisconnect(self):
+    def testConnectAndDisconnect(self):
         self.terminal_example.CBSTM.setChecked(False)
         self.terminal_example.CBNRF.setChecked(False)
         self.terminal_example.show()
-        self.terminal_example.connect()
+        self.terminal_example.BtnConnect.click()
         self.assertTrue(self.terminal_example.BtnDisconnect.isEnabled())
         self.assertEqual(self.terminal_example.port_settings.name, 'COM3')
         self.terminal_example.disconnect()
@@ -78,6 +78,7 @@ class TestMainFunctions(unittest.TestCase):
     def tearDown(self):
         self.terminal_example.destroy()
         self.app.quit()
+
 
 class TestMainUI(unittest.TestCase):
 
@@ -92,5 +93,60 @@ class TestMainUI(unittest.TestCase):
         self.assertEqual(self.terminal_example.counter, 0)
         self.assertEqual(self.terminal_example.TxtBuffer.toPlainText(), "")
 
+    def testBaudrateChange(self):
+        self.terminal_example.CBBaudrate.setCurrentIndex(2)
+        self.assertEqual(self.terminal_example.port_settings.baudrate, 256000)
+
+    def testTitle(self):
+        self.terminal_example.LineName.setText("My new terminal")
+        self.assertEqual(self.terminal_example.windowTitle(), "My new terminal")
+
+    def tearDown(self):
+        self.terminal_example.destroy()
+        self.app.quit()
 
 
+class TestSubForm(unittest.TestCase):
+
+    def setUp(self):
+        self.app = QtWidgets.QApplication(sys.argv)
+        self.terminal_example = terminal.OstrannaTerminal()
+
+    def testSettings(self):
+        self.terminal_example.BtnSettings.click()
+        self.assertIsNotNone(self.terminal_example.settings_form)
+        self.terminal_example.settings_form.destroy()
+
+    def testHelp(self):
+        self.terminal_example.BtnHelp.click()
+        self.assertIsNotNone(self.terminal_example.help_form)
+        self.terminal_example.help_form.destroy()
+
+    def testMacros(self):
+        self.terminal_example.BtnCreateMacros.click()
+        self.assertIsNotNone(self.terminal_example.macros_form)
+        self.terminal_example.macros_form.destroy()
+
+    def testVariables(self):
+        self.terminal_example.BtnVar.click()
+        self.assertIsNotNone(self.terminal_example.var_form)
+        self.terminal_example.var_form.destroy()
+
+    def testASCII(self):
+        self.terminal_example.BtnAscii.click()
+        self.assertIsNotNone(self.terminal_example.ascii_form)
+        self.terminal_example.ascii_form.destroy()
+
+class TestFiles(unittest.TestCase):
+
+    def setUp(self) -> None:
+        self.app = QtWidgets.QApplication(sys.argv)
+        self.terminal_example = terminal.OstrannaTerminal()
+        self.terminal_example.file_to_send = \
+            r'C:\Users\juice\Downloads\PycharmProjects\OstrannaTerminal\Ostranna_Logo.ico'
+
+    def testRefresh(self):
+        self.terminal_example.BtnRefresh.setEnabled(True)
+        self.terminal_example.BtnRefresh.click()
+        self.assertEqual(self.terminal_example.LblCrc.text(), "CRC: 0x9e02")
+        self.assertEqual(self.terminal_example.LblLength.text(), "Length: 69235")

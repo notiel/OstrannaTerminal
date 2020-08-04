@@ -14,12 +14,14 @@ import macros
 import ASCII_table
 import help
 import variables
-
+from data_types import TextSettings
 
 logger.start("logfile.log", rotation="1 week", format="{time} {level} {message}", level="DEBUG", enqueue=True)
 
 
 class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
+
+    text_settings: TextSettings
 
     def __init__(self):
         super().__init__()
@@ -58,7 +60,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         connections created
         :return:
         """
-        self.CBBaudrate.activated.connect(self.baudrate_changed)
+        self.CBBaudrate.currentIndexChanged.connect(self.baudrate_changed)
         self.BtnReScan.clicked.connect(self.scan_ports)
         self.BtnConnect.clicked.connect(self.connect)
         self.BtnDisconnect.clicked.connect(self.disconnect_stub)
@@ -767,12 +769,13 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                     data = f.read()
                     res = self.write_data(data, False, False, False)
                     if res != -1:
-                        error = QtWidgets.QMessageBox()
-                        error.setIcon(QtWidgets.QMessageBox.Information)
-                        error.setText("File transmitted")
-                        error.setWindowTitle('Success')
-                        error.setStandardButtons(QtWidgets.QMessageBox.Ok)
-                        error.exec_()
+                        #error = QtWidgets.QMessageBox()
+                        #error.setIcon(QtWidgets.QMessageBox.Information)
+                        #error.setText("File transmitted")
+                        #error.setWindowTitle('Success')
+                        #error.setStandardButtons(QtWidgets.QMessageBox.Ok)
+                        #error.exec_()
+                        self.statusbar.showMessage("File sent")
         else:
             common_functions.error_message("Check file or port")
 
@@ -802,14 +805,16 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         if self.file_to_send and os.path.exists(self.file_to_send):
             file_length = os.path.getsize(self.file_to_send)
-            crc = hex(common_functions.calculate_crc16(
-                common_functions.get_crc16_table(self.text_settings.crc_poly), open(self.file_to_send, "rb").read(),
-                self.text_settings.crc_init))
             self.LblLength.setText("Length: %i" % file_length)
-            self.LblCrc.setText("CRC: " + crc)
             self.var_form.var_dict['length'] = str(file_length)
-            self.var_form.var_dict['crc'] = crc
-            self.var_form.var_dict['filedata'] = open(self.file_to_send).read()
+            with open(self.file_to_send, "rb") as f:
+                data = f.read()
+                self.var_form.var_dict['filedata'] = data
+                crc = hex(common_functions.calculate_crc16(
+                    common_functions.get_crc16_table(self.text_settings.crc_poly), data, self.text_settings.crc_init))
+                self.LblCrc.setText("CRC: " + crc)
+                self.var_form.var_dict['crc'] = crc
+
         else:
             self.LblLength.setText("Length: None")
             self.LblCrc.setText('Crc: None')
