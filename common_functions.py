@@ -25,7 +25,7 @@ def split_with_bytes(text: str):
     :return: result
     """
     # (.*?)(&\w+|$) - regexp to get them all, but the way below is better
-    res = re.split(r'(\$*[0-9a-fA-F][0-9a-fA-F])', text)
+    res = re.split(r'(\$[0-9a-fA-F][0-9a-fA-F])', text)
     return res
 
 
@@ -93,5 +93,7 @@ def replace_variables(text: str, variables: Dict[str, Any]):
     :return: new text
     """
     for key in variables.keys():
-        text = text.replace("$%s" % key, variables[key])
+        if not isinstance(variables[key], bytes):
+            text = text.replace("$%s" % key, variables[key])
     return text
+

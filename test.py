@@ -3,6 +3,8 @@ import terminal
 import data_types
 from PyQt5 import QtWidgets, QtGui
 import sys
+import time
+import common_functions
 
 
 class TestLoadSettings(unittest.TestCase):
@@ -65,15 +67,27 @@ class TestMainFunctions(unittest.TestCase):
         self.assertIn('COM3', self.terminal_example.CBPorts.currentText())
 
     def testConnectAndDisconnect(self):
+        self.terminal_example.disconnect()
         self.terminal_example.CBSTM.setChecked(False)
         self.terminal_example.CBNRF.setChecked(False)
-        self.terminal_example.show()
+        self.terminal_example.CBPorts.setCurrentIndex(1)
         self.terminal_example.BtnConnect.click()
         self.assertTrue(self.terminal_example.BtnDisconnect.isEnabled())
-        self.assertEqual(self.terminal_example.port_settings.name, 'COM3')
-        self.terminal_example.disconnect()
+        self.assertEqual(self.terminal_example.port_settings.name, 'COM6')
+        self.terminal_example.BtnDisconnect.click()
         self.assertTrue(self.terminal_example.BtnConnect.isEnabled())
         self.assertEqual(self.terminal_example.port_settings.name, '')
+
+    def testSendCommandAndReceiveAnswer(self):
+        self.terminal_example.CBPorts.setCurrentIndex(1)
+        self.terminal_example.BtnConnect.click()
+        self.terminal_example.text_settings.CRLF = True
+        self.terminal_example.TxtTransmit.setText('Ping')
+        self.terminal_example.TxtBuffer.clear()
+        self.terminal_example.BtnSend.click()
+        self.terminal_example.serial_port.waitForReadyRead(1000)
+        self.assertIn("Ack 0", self.terminal_example.TxtBuffer.toPlainText())
+        self.terminal_example.BtnDisconnect.click()
 
     def tearDown(self):
         self.terminal_example.destroy()
@@ -100,6 +114,13 @@ class TestMainUI(unittest.TestCase):
     def testTitle(self):
         self.terminal_example.LineName.setText("My new terminal")
         self.assertEqual(self.terminal_example.windowTitle(), "My new terminal")
+
+    def testChangeFont(self):
+        new_font = QtGui.QFont("Arial", 12)
+        self.terminal_example.font_changed(new_font)
+        self.assertEqual(self.terminal_example.TxtBuffer.currentFont(), new_font)
+        self.assertEqual(self.terminal_example.TxtTransmit.font(), new_font)
+        self.assertEqual(self.terminal_example.TxtTransmit2.font(), new_font)
 
     def tearDown(self):
         self.terminal_example.destroy()
@@ -137,6 +158,11 @@ class TestSubForm(unittest.TestCase):
         self.assertIsNotNone(self.terminal_example.ascii_form)
         self.terminal_example.ascii_form.destroy()
 
+    def tearDown(self):
+        self.terminal_example.destroy()
+        self.app.quit()
+
+
 class TestFiles(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -146,7 +172,135 @@ class TestFiles(unittest.TestCase):
             r'C:\Users\juice\Downloads\PycharmProjects\OstrannaTerminal\Ostranna_Logo.ico'
 
     def testRefresh(self):
+        self.terminal_example.file_to_send = \
+            r'C:\Users\juice\Downloads\PycharmProjects\OstrannaTerminal\Ostranna_Logo.ico'
+        self.terminal_example.text_settings.crc_poly = 4129
+        self.terminal_example.text_settings.crc_init = 0
         self.terminal_example.BtnRefresh.setEnabled(True)
         self.terminal_example.BtnRefresh.click()
         self.assertEqual(self.terminal_example.LblCrc.text(), "CRC: 0x9e02")
         self.assertEqual(self.terminal_example.LblLength.text(), "Length: 69235")
+        self.assertEqual(self.terminal_example.var_form.var_dict['length'], "69235")
+        self.assertEqual(self.terminal_example.var_form.var_dict['crc'], '0x9e02')
+        self.assertTrue(self.terminal_example.var_form.var_dict['filedata'])
+
+    def testSendFile(self):
+        self.terminal_example.CBSTM.setChecked(False)
+        self.terminal_example.CBNRF.setChecked(False)
+        self.terminal_example.CBPorts.setCurrentIndex(1)
+        self.terminal_example.BtnConnect.click()
+        self.terminal_example.BtnSendFile.setEnabled(True)
+        self.terminal_example.BtnSendFile.click()
+        self.assertEqual(self.terminal_example.statusbar.currentMessage(), "File sent")
+        self.terminal_example.serial_port.waitForReadyRead(1000)
+        self.terminal_example.TxtBuffer.clear()
+        self.terminal_example.BtnDisconnect.click()
+
+    def  testSendFileAndCommand(self):
+        self.terminal_example.CBSTM.setChecked(False)
+        self.terminal_example.CBNRF.setChecked(False)
+        self.terminal_example.CBPorts.setCurrentIndex(1)
+        self.terminal_example.BtnConnect.click()
+        self.terminal_example.BtnSendFile.setEnabled(True)
+        self.terminal_example.BtnSendFile.click()
+        self.assertEqual(self.terminal_example.statusbar.currentMessage(), "File sent")
+        self.terminal_example.serial_port.waitForReadyRead(1000)
+        self.terminal_example.TxtBuffer.clear()
+        time.sleep(1)
+        self.terminal_example.text_settings.CRLF = True
+        self.terminal_example.TxtTransmit.setText('Ping')
+        self.terminal_example.TxtBuffer.clear()
+        self.terminal_example.text_settings.show_sent = True
+        self.terminal_example.BtnSend.click()
+        self.assertIn("Ping", self.terminal_example.TxtBuffer.toPlainText())
+        self.terminal_example.BtnDisconnect.click()
+
+    def tearDown(self):
+        self.terminal_example.destroy()
+        self.app.quit()
+
+
+class TestMacroses(unittest.TestCase):
+
+    def setUp(self) -> None:
+        self.app = QtWidgets.QApplication(sys.argv)
+        self.terminal_example = terminal.OstrannaTerminal()
+        self.terminal_example.load_macros("Macros_test.json")
+
+    def testSendMacros(self):
+        self.terminal_example.CBSTM.setChecked(False)
+        self.terminal_example.CBNRF.setChecked(False)
+        self.terminal_example.text_settings.CRLF = True
+        self.terminal_example.text_settings.show_sent = True
+        self.terminal_example.CBPorts.setCurrentIndex(1)
+        self.terminal_example.BtnConnect.click()
+        self.terminal_example.CBMacros.setCurrentText('locket')
+        self.terminal_example.BtnMacros2.click()
+        self.assertIn('setid 5', self.terminal_example.TxtBuffer.toPlainText())
+        self.terminal_example.TxtBuffer.clear()
+
+    def testMacrosChanged(self):
+        self.terminal_example.CBMacros.setCurrentText("test2")
+        self.assertEqual(self.terminal_example.BtnMacros1.text(), '1')
+        self.terminal_example.CBMacros.setCurrentText("locket")
+        self.assertEqual(self.terminal_example.BtnMacros1.text(), 'ping')
+
+    def testUnavailableBtn(self):
+        self.terminal_example.CBMacros.setCurrentText("test2")
+        self.assertEqual(self.terminal_example.BtnMacros4.text(), '<Not used>')
+        self.assertFalse(self.terminal_example.BtnMacros4.isEnabled())
+
+    def testTooltipMacros(self):
+        self.terminal_example.CBMacros.setCurrentText("locket")
+        self.assertEqual(self.terminal_example.BtnMacros2.toolTip(), 'setid 5')
+
+    def tearDown(self):
+        self.terminal_example.destroy()
+        self.app.quit()
+
+
+class testCommonFunctions(unittest.TestCase):
+
+    def testSplitWithBytesSimple(self):
+        teststr1 = "qwer$1Aqwer"
+        expected = ["qwer", "$1A", "qwer"]
+        self.assertEqual(common_functions.split_with_bytes(teststr1), expected)
+
+    def testSplitWithBytesTwice(self):
+        teststr2 = "$1Aqwer$23"
+        expected = ["", "$1A", "qwer", "$23", ""]
+        self.assertEqual(common_functions.split_with_bytes(teststr2), expected)
+
+    def testSplitWithBytesNo(self):
+        teststr3 = "&12qwer$1qwer"
+        self.assertEqual(common_functions.split_with_bytes(teststr3), [teststr3])
+
+    def testIsByteFalse1(self):
+        teststr = '&12'
+        self.assertFalse(common_functions.is_byte(teststr))
+
+    def testIsByteFalse2(self):
+        teststr = '$1'
+        self.assertFalse(common_functions.is_byte(teststr))
+
+    def testIsByteFalse3(self):
+        teststr = '$1G'
+        self.assertFalse(common_functions.is_byte(teststr))
+
+    def testIsByteTrue(self):
+        teststr = '$F1'
+        self.assertTrue(common_functions.is_byte(teststr))
+
+    def testHexify(self):
+        self.assertTrue(common_functions.hexify('ping\r\n'), '0x700x690x6e0x67')
+
+    def testDefaultVariable(self):
+        test_text = "File length is $length, crc $crc, filedata: $filedata"
+        var_dict = {'length': '100', 'crc': '0x1212', 'filedata': "sometestdata"}
+        self.assertEqual(common_functions.replace_variables(test_text, var_dict),
+                         "File length is 100, crc 0x1212, filedata: sometestdata")
+
+
+
+
+

@@ -753,7 +753,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         new_filename = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file to send...', "")[0]
         if new_filename:
             self.file_to_send = new_filename
-            self.LblFile.setText("File: %s" % self.file_to_send)
+            self.LblFile.setText("File: %s" % os.path.basename(self.file_to_send))
+            self.LblFile.setToolTip(self.file_to_send)
             self.BtnSendFile.setEnabled(True)
             self.BtnRefresh.setEnabled(True)
             self.refresh_length()
@@ -769,12 +770,12 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                     data = f.read()
                     res = self.write_data(data, False, False, False)
                     if res != -1:
-                        #error = QtWidgets.QMessageBox()
-                        #error.setIcon(QtWidgets.QMessageBox.Information)
-                        #error.setText("File transmitted")
-                        #error.setWindowTitle('Success')
-                        #error.setStandardButtons(QtWidgets.QMessageBox.Ok)
-                        #error.exec_()
+                        # error = QtWidgets.QMessageBox()
+                        # error.setIcon(QtWidgets.QMessageBox.Information)
+                        # error.setText("File transmitted")
+                        # error.setWindowTitle('Success')
+                        # error.setStandardButtons(QtWidgets.QMessageBox.Ok)
+                        # error.exec_()
                         self.statusbar.showMessage("File sent")
         else:
             common_functions.error_message("Check file or port")

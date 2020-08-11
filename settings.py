@@ -278,7 +278,7 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         """
         sender = self.sender()
         setattr(self.text_settings, self.crc_dict[sender], sender.value())
-        print(self.text_settings.crc_init)
+        # print(self.text_settings.crc_init)
 
     def closeEvent(self, event):
         """
