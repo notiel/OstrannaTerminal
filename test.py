@@ -4,6 +4,7 @@ import data_types
 from PyQt5 import QtWidgets, QtGui
 import sys
 import time
+import datetime
 import common_functions
 
 
@@ -20,6 +21,8 @@ class TestLoadSettings(unittest.TestCase):
                                                 handshaking=data_types.Handshaking.NONE, last_macros_set="test2",
                                                 STMFilter=False, NRFFilter=True)
         self.assertEqual(self.terminal_example.port_settings, right_settings)
+        self.assertFalse(self.terminal_example.CBSTM.isChecked())
+        self.assertTrue(self.terminal_example.CBNRF.isChecked())
 
     def testTextSettings(self):
         right_settings = data_types.TextSettings(CRLF=False, bytecodes=False, scroll=False, timestamps=False,
@@ -73,7 +76,7 @@ class TestMainFunctions(unittest.TestCase):
         self.terminal_example.CBPorts.setCurrentIndex(1)
         self.terminal_example.BtnConnect.click()
         self.assertTrue(self.terminal_example.BtnDisconnect.isEnabled())
-        self.assertEqual(self.terminal_example.port_settings.name, 'COM6')
+        self.assertEqual(self.terminal_example.port_settings.name, 'COM22')
         self.terminal_example.BtnDisconnect.click()
         self.assertTrue(self.terminal_example.BtnConnect.isEnabled())
         self.assertEqual(self.terminal_example.port_settings.name, '')
@@ -179,7 +182,7 @@ class TestFiles(unittest.TestCase):
         self.terminal_example.BtnRefresh.setEnabled(True)
         self.terminal_example.BtnRefresh.click()
         self.assertEqual(self.terminal_example.LblCrc.text(), "CRC: 0x9e02")
-        self.assertEqual(self.terminal_example.LblLength.text(), "Length: 69235")
+        self.assertEqual(self.terminal_example.LblLength.text(), "Length: 69235\n            10e73")
         self.assertEqual(self.terminal_example.var_form.var_dict['length'], "69235")
         self.assertEqual(self.terminal_example.var_form.var_dict['crc'], '0x9e02')
         self.assertTrue(self.terminal_example.var_form.var_dict['filedata'])
@@ -196,7 +199,7 @@ class TestFiles(unittest.TestCase):
         self.terminal_example.TxtBuffer.clear()
         self.terminal_example.BtnDisconnect.click()
 
-    def  testSendFileAndCommand(self):
+    '''def testSendFileAndCommand(self):
         self.terminal_example.CBSTM.setChecked(False)
         self.terminal_example.CBNRF.setChecked(False)
         self.terminal_example.CBPorts.setCurrentIndex(1)
@@ -213,7 +216,7 @@ class TestFiles(unittest.TestCase):
         self.terminal_example.text_settings.show_sent = True
         self.terminal_example.BtnSend.click()
         self.assertIn("Ping", self.terminal_example.TxtBuffer.toPlainText())
-        self.terminal_example.BtnDisconnect.click()
+        self.terminal_example.BtnDisconnect.click()'''
 
     def tearDown(self):
         self.terminal_example.destroy()
@@ -253,6 +256,16 @@ class TestMacroses(unittest.TestCase):
     def testTooltipMacros(self):
         self.terminal_example.CBMacros.setCurrentText("locket")
         self.assertEqual(self.terminal_example.BtnMacros2.toolTip(), 'setid 5')
+
+    def testMacroFormButton(self):
+        self.terminal_example.BtnCreateMacros.click()
+        self.terminal_example.macros_form.show()
+        self.terminal_example.text_settings.show_sent = True
+        self.terminal_example.CBPorts.setCurrentIndex(1)
+        self.terminal_example.BtnConnect.click()
+        self.terminal_example.macros_form.CBMacros.setCurrentText("locket")
+        self.terminal_example.macros_form.BtnSend2.click()
+        self.assertIn("setid 5", self.terminal_example.TxtBuffer.toPlainText())
 
     def tearDown(self):
         self.terminal_example.destroy()
@@ -301,6 +314,148 @@ class testCommonFunctions(unittest.TestCase):
                          "File length is 100, crc 0x1212, filedata: sometestdata")
 
 
+class testEncoding(unittest.TestCase):
+
+    def setUp(self):
+        self.app = QtWidgets.QApplication(sys.argv)
+        self.terminal_example = terminal.OstrannaTerminal()
+        self.terminal_example.load_settings("Settings_for_test.json")
+
+    def testNoEncodingASCII(self):
+        test_string = "".join([chr(x) for x in range(0, 128)])
+        self.assertEqual(test_string, self.terminal_example.decode_input(bytes(test_string, encoding='ascii')))
+
+    def testNoEncodingUTF8(self):
+        test_string = "".join([chr(x) for x in range(0, 128)])
+        self.assertEqual(test_string, self.terminal_example.decode_input(bytes(test_string, encoding='utf-8')))
+
+    def testNoEncodingCP1251(self):
+        test_string = "".join([chr(x) for x in range(0, 128)])
+        self.assertEqual(test_string, self.terminal_example.decode_input(bytes(test_string, encoding='cp1251')))
+
+    def testQuestion(self):
+        test_string = "".join([chr(x) for x in range(0, 64)]) + "йцукенгшщзхъ" + \
+                      "".join([chr(x) for x in range(64, 128)])
+        expected = "".join([chr(x) for x in range(0, 64)]) + "????????????" + \
+                   "".join([chr(x) for x in range(64, 128)])
+        self.terminal_example.text_settings.decode = 1
+        self.assertEqual(expected, self.terminal_example.decode_input(bytes(test_string, encoding='cp1251')))
+
+    def testCP1251(self):
+        test_string = "".join([chr(x) for x in range(0, 64)]) + "йцукенгшщзхъ" + \
+                      "".join([chr(x) for x in range(64, 128)])
+        self.terminal_example.text_settings.decode = 2
+        self.assertEqual(test_string, self.terminal_example.decode_input(bytes(test_string, encoding='cp1251')))
+
+    def testNoEncoding(self):
+        test_string = "".join([chr(x) for x in range(0, 64)]) + "йцукенгшщзхъ" + \
+                      "".join([chr(x) for x in range(64, 128)])
+        self.terminal_example.text_settings.decode = 0
+        self.assertEqual("".join([chr(x) for x in range(0, 128)]),
+                         self.terminal_example.decode_input(bytes(test_string, encoding='cp1251')))
+
+    def tearDown(self):
+        self.terminal_example.destroy()
+        self.app.quit()
 
 
+class testTextBuffer(unittest.TestCase):
+    def setUp(self):
+        self.app = QtWidgets.QApplication(sys.argv)
+        self.terminal_example = terminal.OstrannaTerminal()
+        self.terminal_example.load_settings("Settings_for_test.json")
 
+    def test_simple(self):
+        data = bytes("Ack 0\r\n", "utf-8")
+        self.terminal_example.counter = 0
+        self.terminal_example.process_read_data(data)
+        self.assertEqual(self.terminal_example.TxtBuffer.toPlainText(), "Ack 0\n")
+        self.assertEqual(self.terminal_example.counter, 7)
+
+    def test_hexify(self):
+        data = bytes("1234\r\n", "utf-8")
+        self.terminal_example.counter = 0
+        self.terminal_example.CBHex.setChecked(True)
+        self.terminal_example.process_read_data(data)
+        self.assertEqual(self.terminal_example.TxtBuffer.toPlainText(), "31 32 33 34 0d 0a ")
+        self.assertEqual(self.terminal_example.counter, 6)
+        self.terminal_example.CBHex.setChecked(False)
+
+    def test_timestamps(self):
+        delta = datetime.datetime.now() - self.terminal_example.start_time
+        data = "Ack 5"
+        self.terminal_example.counter = 0
+        self.terminal_example.text_settings.timestamps = True
+        self.terminal_example.process_read_data(bytes(data, encoding='ascii'))
+        self.assertEqual(self.terminal_example.TxtBuffer.toPlainText(), str(delta)+': '+'Ack 5')
+        self.terminal_example.text_settings.timestamps = False
+        self.assertEqual(self.terminal_example.counter, 5)
+
+    def test_timestamps_2strings(self):
+        delta = datetime.datetime.now() - self.terminal_example.start_time
+        data = "Ack 5\r\nId 6"
+        self.terminal_example.counter = 0
+        self.terminal_example.text_settings.timestamps = True
+        self.terminal_example.process_read_data(bytes(data, encoding='ascii'))
+        self.assertEqual(self.terminal_example.TxtBuffer.toPlainText(), str(delta) + ': ' + 'Ack 5' + '\n' +
+                         str(delta) + ': ' + 'Id 6')
+        self.terminal_example.text_settings.timestamps = False
+        self.assertEqual(self.terminal_example.counter, 11)
+
+    def testScrollOn(self):
+        data = "Ack 5\r\nId 6"
+        self.terminal_example.text_settings.scroll = True
+        self.terminal_example.process_read_data(bytes(data, encoding='ascii'))
+        self.assertEqual(self.terminal_example.TxtBuffer.verticalScrollBar().value(),
+                         self.terminal_example.TxtBuffer.verticalScrollBar().maximum())
+
+    def testScrollOff(self):
+        data = "Ack 5\r\nId 6"
+        self.terminal_example.text_settings.scroll = False
+        self.terminal_example.process_read_data(bytes(data, encoding='ascii'))
+        self.assertEqual(self.terminal_example.TxtBuffer.verticalScrollBar().value(), 0)
+
+    def tearDown(self):
+        self.terminal_example.destroy()
+        self.app.quit()
+
+
+class testSending(unittest.TestCase):
+
+    def setUp(self):
+        self.app = QtWidgets.QApplication(sys.argv)
+        self.terminal_example = terminal.OstrannaTerminal()
+        self.terminal_example.load_settings("Settings_for_test.json")
+        self.terminal_example.CBSTM.setChecked(False)
+        self.terminal_example.CBNRF.setChecked(False)
+        self.terminal_example.CBPorts.setCurrentIndex(1)
+        self.terminal_example.BtnConnect.click()
+
+    def testNoSendInTxtBuffer(self):
+        self.terminal_example.text_settings.show_sent = False
+        self.terminal_example.TxtTransmit.setText("Test")
+        self.terminal_example.TxtTransmit.setText("Test")
+        self.terminal_example.BtnSend.click()
+        self.terminal_example.BtnSend2.click()
+        self.assertEqual(self.terminal_example.TxtBuffer.toPlainText(), "")
+
+    def testSendInTxtBufferAndScroll(self):
+        self.terminal_example.text_settings.show_sent = True
+        self.terminal_example.text_settings.scroll = True
+        self.terminal_example.TxtTransmit.setText("Test")
+        self.terminal_example.TxtTransmit.setText("Test2")
+        self.terminal_example.BtnSend.click()
+        self.terminal_example.BtnSend2.click()
+        self.assertEqual(self.terminal_example.TxtBuffer.toPlainText(), "Test\nTest2")
+        self.assertEqual(self.terminal_example.TxtBuffer.verticalScrollBar().value(),
+                         self.terminal_example.TxtBuffer.verticalScrollBar().maximum())
+
+    def testSendInTxtBufferAndNoScroll(self):
+        self.terminal_example.text_settings.show_sent = True
+        self.terminal_example.text_settings.scroll = True
+        self.terminal_example.TxtTransmit.setText("Test")
+        self.terminal_example.TxtTransmit.setText("Test2")
+        self.terminal_example.BtnSend.click()
+        self.terminal_example.BtnSend2.click()
+        self.assertEqual(self.terminal_example.TxtBuffer.toPlainText(), "Test\nTest2")
+        self.assertEqual(self.terminal_example.TxtBuffer.verticalScrollBar().value(), 0)

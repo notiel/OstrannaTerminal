@@ -99,10 +99,20 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         set UI for serial port
         :return:
         """
+        # noinspection PyAttributeOutsideInit
+        self.timer_read = QtCore.QTimer()
+        self.timer_read.timeout.connect(self.timer_read_event)
         self.serial_port.readyRead.connect(self.read_data)
         self.serial_port.errorOccurred.connect(self.serial_error)
         self.CBBaudrate.setCurrentText('115200')
         self.scan_ports()
+
+    def timer_read_event(self):
+        """
+
+        :return:
+        """
+        # self.serial_port.waitForReadyRead(1000)
 
     def set_transmitzone_ui(self):
         """
@@ -364,6 +374,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.statusbar.clearMessage()
             self.TxtBuffer.clear()
             self.clear_counter()
+            self.timer_read.start(1000)
 
     def disconnect_stub(self):
         self.disconnect(True)
@@ -385,6 +396,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.serial_port.clear(QtSerialPort.QSerialPort.AllDirections)
         self.serial_port.flush()
         self.serial_port.clearError()
+        self.timer_read.stop()
 
     def clear_pressed(self):
         """
@@ -420,37 +432,19 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         reads data from comport
         :return:
         """
-        read: str = ""
         data: bytes = self.serial_port.readAll().data()
         self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
-        # decoding block
-        try:
-            read += data.decode('ascii')
-            self.statusbar.clearMessage()
-        except UnicodeDecodeError:
-            color = QtGui.QColor(*self.colors['font-receive'])
-            if self.text_settings.decode == 1:
-                for byte in data:
-                    try:
-                        if byte < 128:
-                            char = chr(byte)
-                        else:
-                            char = '?'
-                            color = QtGui.QColor(255, 0, 0)
-                    except ValueError:
-                        char = '?'
-                        color = QtGui.QColor(255, 0, 0)
-                    self.move_cursor_and_write(char, color)
-                    self.counter += 1
-            if self.text_settings.decode == 2:
-                try:
-                    read = data.decode('cp1251')
-                except UnicodeDecodeError:
-                    self.counter += len(data)
-            self.statusbar.showMessage("Unicode decode error")
+        self.process_read_data(data)
 
+    def process_read_data(self, data: bytes):
+        """
+        functions to process byte data and show it
+        :param data: byte data from comport
+        :return:
+        """
+        self.counter += len(data)
+        read = self.decode_input(data)
         if read:
-            self.counter += len(read)
             # if timestamps
             if self.text_settings.timestamps:
                 delta = datetime.datetime.now() - self.start_time
@@ -468,31 +462,75 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             else:
                 read_to_show: str = common_functions.hexify(read) if self.CBHex.isChecked() else read.replace("\n", "")
             self.move_cursor_and_write(read_to_show, QtGui.QColor(*self.colors['font-receive']))
-            if self.graph and self.graph_form:
-                lines = (self.tail + read).split('\r')
-                logger.debug(lines)
-                self.tail = lines[-1]
-                # lines = (self.tail + stub[self.count]).split('\r')
-                # self.count += 1
-                if len(lines) > 1:
-                    for line in lines[:-1]:
-                        logger.debug(line)
-                        if line.strip():
-                            try:
-                                data_graph = line.strip().split(';')
-                                data_x = float(data_graph[0].strip())
-                                data_y = [float(value) for value in data_graph[1:] if value.strip()]
-                                if self.graph_form.data_x:
-                                    self.graph_form.update_plot_data(data_x, data_y)
-                                else:
-                                    self.graph_form.create_graph(data_x, data_y)
-                                    self.graph_form.show()
-                            except (ValueError, IndexError):
-                                pass
+            self.show_graph_data(read)
+
         self.LblCounterData.setText(str(self.counter))
         if self.text_settings.scroll:
             scroll = self.TxtBuffer.verticalScrollBar().maximum()
             self.TxtBuffer.verticalScrollBar().setValue(scroll)
+
+    def decode_input(self, data: bytes):
+        """
+        function for decoding
+        :param: bytes for decoding
+        :return: decoded input
+        """
+        read = ""
+        try:
+            read += data.decode('ascii')
+            self.statusbar.clearMessage()
+        except UnicodeDecodeError:
+            # noinspection PyUnusedLocal
+            color = QtGui.QColor(*self.colors['font-receive'])
+            if self.text_settings.decode in [0, 1]:
+                for byte in data:
+                    try:
+                        if byte < 128:
+                            char = chr(byte)
+                        elif self.text_settings.decode == 1:
+                            char = '?'
+                            color = QtGui.QColor(255, 0, 0)
+                            self.move_cursor_and_write(char, color)
+                        else:
+                            char = ""
+                    except ValueError:
+                        char = '?'
+                        color = QtGui.QColor(255, 0, 0)
+                        self.move_cursor_and_write(char, color)
+                    read += char
+            if self.text_settings.decode == 2:
+                try:
+                    read = data.decode('cp1251')
+                except UnicodeDecodeError:
+                    pass
+            self.statusbar.showMessage("Unicode decode error")
+        return read
+
+    # uncovered
+    def show_graph_data(self, read: str):
+        """
+        add new data to graph
+        :return:
+        """
+        if self.graph and self.graph_form:
+            lines = (self.tail + read).split('\r')
+            logger.debug(lines)
+            self.tail = lines[-1]
+            if len(lines) > 1:
+                for line in lines[:-1]:
+                    logger.debug(line)
+                    if line.strip():
+                        try:
+                            data_graph = line.strip().split(';')
+                            data_x = float(data_graph[0].strip())
+                            data_y = [float(value) for value in data_graph[1:] if value.strip()]
+                            if self.graph_form.data_x:
+                                self.graph_form.update_plot_data(data_x, data_y)
+                            else:
+                                self.graph_form.create_graph(data_x, data_y)
+                                self.graph_form.show()
+                        except (ValueError, IndexError):
+                            pass
 
     def send_clicked(self):
         """
@@ -806,7 +844,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         if self.file_to_send and os.path.exists(self.file_to_send):
             file_length = os.path.getsize(self.file_to_send)
-            self.LblLength.setText("Length: %i" % file_length)
+            self.LblLength.setText("Length: %i" % file_length + '\n' + '            %x' % file_length)
             self.var_form.var_dict['length'] = str(file_length)
             with open(self.file_to_send, "rb") as f:
                 data = f.read()
