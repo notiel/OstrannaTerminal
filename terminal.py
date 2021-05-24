@@ -99,20 +99,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         set UI for serial port
         :return:
         """
-        # noinspection PyAttributeOutsideInit
-        self.timer_read = QtCore.QTimer()
-        self.timer_read.timeout.connect(self.timer_read_event)
         self.serial_port.readyRead.connect(self.read_data)
         self.serial_port.errorOccurred.connect(self.serial_error)
-        self.CBBaudrate.setCurrentText('115200')
+        self.CBBaudrate.setCurrentText(str(self.port_settings.baudrate))
         self.scan_ports()
-
-    def timer_read_event(self):
-        """
-
-        :return:
-        """
-        # self.serial_port.waitForReadyRead(1000)
 
     def set_transmitzone_ui(self):
         """
@@ -374,7 +364,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.statusbar.clearMessage()
             self.TxtBuffer.clear()
             self.clear_counter()
-            self.timer_read.start(1000)
 
     def disconnect_stub(self):
         self.disconnect(True)
@@ -389,6 +378,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnDisconnect.setEnabled(False)
         self.port_settings.name = ""
         self.counter = 0
+        if self.timer1.isActive():
+            self.timer1.stop()
+        if self.timer2.isActive():
+            self.timer2.stop()
         if rescan:
             self.scan_ports()
         self.BtnSend.setEnabled(False)
@@ -396,7 +389,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.serial_port.clear(QtSerialPort.QSerialPort.AllDirections)
         self.serial_port.flush()
         self.serial_port.clearError()
-        self.timer_read.stop()
 
     def clear_pressed(self):
         """
@@ -416,7 +408,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.port_settings.baudrate = int(self.CBBaudrate.currentText())
         else:
             # noinspection PyCallByClass,PyArgumentList
-            text, ok = QtWidgets.QInputDialog.getText(self, 'Custom baudrate', 'Enter baudrate')
+            text, ok = QtWidgets.QInputDialog.getText(self, 'Baudrate', 'Enter baudrate')
             if ok:
                 try:
                     new_baudrate: Optional[int] = int(text)
@@ -426,6 +418,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                     common_functions.error_message("Baudrate must be positive number")
                 else:
                     self.port_settings.baudrate = new_baudrate
+                    self.CBBaudrate.addItem(str(self.port_settings.baudrate))
+                    self.CBBaudrate.setCurrentText(text)
 
     def read_data(self):
         """
@@ -582,7 +576,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         res = self.serial_port.write(command)
         self.serial_port.flush()
-        self.serial_port.waitForBytesWritten()
         if res != len(command):
             common_functions.error_message('Data was not sent correctly')
             return -1
@@ -628,7 +621,6 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                     color = QtGui.QColor(*self.colors['font-transmit'])
                 command_to_show: str = common_functions.hexify(command) if self.CBHex.isChecked() else command
                 self.move_cursor_and_write(command_to_show, color)
-
         return 0
 
     def serial_error(self):
@@ -681,7 +673,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         self.macros_form = macros.Macros(self.current_macros, self.all_macros, self.current_font)
         self.load_macros()
-        self.CBMacros.setCurrentText(self.current_macros.name)
+        if self.current_macros:
+            self.CBMacros.setCurrentText(self.current_macros.name)
         self.macros_form.show()
         self.macros_form.edited_signal.connect(self.macros_edited)
         self.macros_form.applied_signal[str].connect(self.macros_applied)
@@ -837,6 +830,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         else:
             self.setWindowTitle('Quetima')
 
+    # test written
     def refresh_length(self):
         """
         recalculates length of selected file
@@ -858,6 +852,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.LblLength.setText("Length: None")
             self.LblCrc.setText('Crc: None')
 
+    # ToDo write test
     def graph_clicked(self):
         """
         starts or stops showing graphs
@@ -873,6 +868,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.BtnGraph.setText("StopGraph")
             self.graph_form = terminal_graph.MainWindow()
 
+    # test written
     def help_clicked(self):
         """
         help window opened
@@ -881,6 +877,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.help_form = help.Help()
         self.help_form.show()
 
+    # test written
     def var_pressed(self):
         """
         var form show
@@ -888,6 +885,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         self.var_form.show()
 
+    # ToDo write test
     def var_signal_send(self, command: str):
         """
         send signal from var form
@@ -897,6 +895,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             command += '\r\n'
         self.write_data(command, True, False)
 
+    # test written
     def repeat_pressed(self):
         """
         repeat checkbox pressed
@@ -907,6 +906,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         if timer.isActive():
             timer.stop()
 
+    # ToDo write tests in pytests
     # noinspection PyMethodOverriding
     def timerEvent(self):
         """
@@ -917,6 +917,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         text_to_send = self.text_repeat1 if sender == self.timer1 else self.text_repeat2
         self.write_data(text_to_send)
 
+    # tests written
     def transmit_field_changed(self):
         """
         change settings for transmit
@@ -929,6 +930,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.text_settings.first_period = self.SpinRepeat.value()
         self.text_settings.second_period = self.SpinRepeat2.value()
 
+    # no tests
     def closeEvent(self, event):
         """
         saves settings to settings.json before exit

@@ -80,7 +80,7 @@ class Macros(QtWidgets.QWidget, macros_design.Ui_Form):
         """
         self.CBMacros.addItem('None')
         self.CBMacros.addItems([macrosset.name for macrosset in self.all_macros])
-        if self.current_macros.macros:
+        if self.current_macros and self.current_macros.macros:
             self.load_macros(self.current_macros)
 
     def load_macros(self, macros: data_types.MacroSet):

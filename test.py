@@ -1,11 +1,11 @@
 import unittest
 import terminal
 import data_types
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets, QtGui, QtTest
 import sys
-import time
 import datetime
 import common_functions
+from random import random
 
 
 class TestLoadSettings(unittest.TestCase):
@@ -51,7 +51,23 @@ class TestLoadSettings(unittest.TestCase):
                          r'C:/Users/juice/Downloads/PycharmProjects/OstrannaTerminal/icon/conn.ico')
         self.assertEqual(self.terminal_example.all_macros[0].macros[5], data_types.Macro("", "", ""))
 
+    def checkFinalUI(self):
+        self.assertFalse(self.terminal_example.CBSTM.isChecked())
+        self.assertTrue(self.terminal_example.CBNRF.isChecked())
+        self.assertTrue(self.terminal_example.CBBaudrate.currentText(), '9100')
+        self.assertEqual(self.terminal_example.TxtBuffer.textBackgroundColor(), QtGui.QColor(100, 100, 100))
+        self.assertEqual(self.terminal_example.TxtBuffer.textColor(), QtGui.QColor(255, 0, 100))
+        self.assertEqual(self.terminal_example.TxtBuffer.font(), QtGui.QFont("Arial", 14))
+        self.assertEqual(self.terminal_example.TxtTransmit.font(), QtGui.QFont("Arial", 14))
+        self.assertEqual(self.terminal_example.TxtTransmit2.font(), QtGui.QFont("Arial", 14))
+
     def tearDown(self):
+        self.terminal_example.text_settings = data_types.TextSettings()
+        self.terminal_example.port_settings = data_types.ComSettings()
+        self.terminal_example.settings_form.save_settings()
+        self.terminal_example.colors = {'background-color': (255, 255, 255), 'font-transmit': (50, 250, 00),
+                                        'font-receive': (0, 0, 0), 'bytes-color': (255, 0, 0)}
+        self.terminal_example.current_font = QtGui.QFont("Consolas", 10)
         self.terminal_example.destroy()
         self.app.quit()
 
@@ -61,6 +77,8 @@ class TestMainFunctions(unittest.TestCase):
     def setUp(self):
         self.app = QtWidgets.QApplication(sys.argv)
         self.terminal_example = terminal.OstrannaTerminal()
+        self.terminal_example.text_settings = data_types.TextSettings()
+        self.terminal_example.port_settings = data_types.ComSettings()
 
     def testScanPorts(self):
         self.terminal_example.CBSTM.setChecked(False)
@@ -71,9 +89,9 @@ class TestMainFunctions(unittest.TestCase):
 
     def testConnectAndDisconnect(self):
         self.terminal_example.disconnect()
-        self.terminal_example.CBSTM.setChecked(False)
+        self.terminal_example.CBSTM.setChecked(True)
         self.terminal_example.CBNRF.setChecked(False)
-        self.terminal_example.CBPorts.setCurrentIndex(1)
+        self.terminal_example.CBPorts.setCurrentIndex(0)
         self.terminal_example.BtnConnect.click()
         self.assertTrue(self.terminal_example.BtnDisconnect.isEnabled())
         self.assertEqual(self.terminal_example.port_settings.name, 'COM22')
@@ -82,14 +100,15 @@ class TestMainFunctions(unittest.TestCase):
         self.assertEqual(self.terminal_example.port_settings.name, '')
 
     def testSendCommandAndReceiveAnswer(self):
-        self.terminal_example.CBPorts.setCurrentIndex(1)
+        self.terminal_example.CBSTM.setChecked(True)
+        self.terminal_example.CBPorts.setCurrentIndex(0)
         self.terminal_example.BtnConnect.click()
         self.terminal_example.text_settings.CRLF = True
         self.terminal_example.TxtTransmit.setText('Ping')
         self.terminal_example.TxtBuffer.clear()
         self.terminal_example.BtnSend.click()
-        self.terminal_example.serial_port.waitForReadyRead(1000)
-        self.assertIn("Ack 0", self.terminal_example.TxtBuffer.toPlainText())
+        # we can not really check answer receiving
+        self.assertIn("Ping\n", self.terminal_example.TxtBuffer.toPlainText())
         self.terminal_example.BtnDisconnect.click()
 
     def tearDown(self):
@@ -102,6 +121,8 @@ class TestMainUI(unittest.TestCase):
     def setUp(self):
         self.app = QtWidgets.QApplication(sys.argv)
         self.terminal_example = terminal.OstrannaTerminal()
+        self.terminal_example.text_settings = data_types.TextSettings()
+        self.terminal_example.port_settings = data_types.ComSettings()
 
     def testClearButton(self):
         self.terminal_example.TxtBuffer.setPlainText("Котики")
@@ -135,6 +156,8 @@ class TestSubForm(unittest.TestCase):
     def setUp(self):
         self.app = QtWidgets.QApplication(sys.argv)
         self.terminal_example = terminal.OstrannaTerminal()
+        self.terminal_example.text_settings = data_types.TextSettings()
+        self.terminal_example.port_settings = data_types.ComSettings()
 
     def testSettings(self):
         self.terminal_example.BtnSettings.click()
@@ -173,6 +196,8 @@ class TestFiles(unittest.TestCase):
         self.terminal_example = terminal.OstrannaTerminal()
         self.terminal_example.file_to_send = \
             r'C:\Users\juice\Downloads\PycharmProjects\OstrannaTerminal\Ostranna_Logo.ico'
+        self.terminal_example.text_settings = data_types.TextSettings()
+        self.terminal_example.port_settings = data_types.ComSettings()
 
     def testRefresh(self):
         self.terminal_example.file_to_send = \
@@ -195,28 +220,8 @@ class TestFiles(unittest.TestCase):
         self.terminal_example.BtnSendFile.setEnabled(True)
         self.terminal_example.BtnSendFile.click()
         self.assertEqual(self.terminal_example.statusbar.currentMessage(), "File sent")
-        self.terminal_example.serial_port.waitForReadyRead(1000)
         self.terminal_example.TxtBuffer.clear()
         self.terminal_example.BtnDisconnect.click()
-
-    '''def testSendFileAndCommand(self):
-        self.terminal_example.CBSTM.setChecked(False)
-        self.terminal_example.CBNRF.setChecked(False)
-        self.terminal_example.CBPorts.setCurrentIndex(1)
-        self.terminal_example.BtnConnect.click()
-        self.terminal_example.BtnSendFile.setEnabled(True)
-        self.terminal_example.BtnSendFile.click()
-        self.assertEqual(self.terminal_example.statusbar.currentMessage(), "File sent")
-        self.terminal_example.serial_port.waitForReadyRead(1000)
-        self.terminal_example.TxtBuffer.clear()
-        time.sleep(1)
-        self.terminal_example.text_settings.CRLF = True
-        self.terminal_example.TxtTransmit.setText('Ping')
-        self.terminal_example.TxtBuffer.clear()
-        self.terminal_example.text_settings.show_sent = True
-        self.terminal_example.BtnSend.click()
-        self.assertIn("Ping", self.terminal_example.TxtBuffer.toPlainText())
-        self.terminal_example.BtnDisconnect.click()'''
 
     def tearDown(self):
         self.terminal_example.destroy()
@@ -231,11 +236,10 @@ class TestMacroses(unittest.TestCase):
         self.terminal_example.load_macros("Macros_test.json")
 
     def testSendMacros(self):
-        self.terminal_example.CBSTM.setChecked(False)
+        self.terminal_example.CBSTM.setChecked(True)
         self.terminal_example.CBNRF.setChecked(False)
         self.terminal_example.text_settings.CRLF = True
         self.terminal_example.text_settings.show_sent = True
-        self.terminal_example.CBPorts.setCurrentIndex(1)
         self.terminal_example.BtnConnect.click()
         self.terminal_example.CBMacros.setCurrentText('locket')
         self.terminal_example.BtnMacros2.click()
@@ -261,7 +265,8 @@ class TestMacroses(unittest.TestCase):
         self.terminal_example.BtnCreateMacros.click()
         self.terminal_example.macros_form.show()
         self.terminal_example.text_settings.show_sent = True
-        self.terminal_example.CBPorts.setCurrentIndex(1)
+        self.terminal_example.CBSTM.setChecked(True)
+        self.terminal_example.CBNRF.setChecked(False)
         self.terminal_example.BtnConnect.click()
         self.terminal_example.macros_form.CBMacros.setCurrentText("locket")
         self.terminal_example.macros_form.BtnSend2.click()
@@ -319,7 +324,6 @@ class testEncoding(unittest.TestCase):
     def setUp(self):
         self.app = QtWidgets.QApplication(sys.argv)
         self.terminal_example = terminal.OstrannaTerminal()
-        self.terminal_example.load_settings("Settings_for_test.json")
 
     def testNoEncodingASCII(self):
         test_string = "".join([chr(x) for x in range(0, 128)])
@@ -425,37 +429,107 @@ class testSending(unittest.TestCase):
     def setUp(self):
         self.app = QtWidgets.QApplication(sys.argv)
         self.terminal_example = terminal.OstrannaTerminal()
-        self.terminal_example.load_settings("Settings_for_test.json")
-        self.terminal_example.CBSTM.setChecked(False)
+        self.terminal_example.CBSTM.setChecked(True)
         self.terminal_example.CBNRF.setChecked(False)
-        self.terminal_example.CBPorts.setCurrentIndex(1)
-        self.terminal_example.BtnConnect.click()
+
+    def testTextFields(self):
+        self.terminal_example.TxtTransmit.setText("Ping")
+        self.terminal_example.TxtTransmit2.setText('GetId')
+        self.assertEqual(self.terminal_example.text_settings.first_transmit, "Ping")
+        self.assertEqual(self.terminal_example.text_settings.second_transmit, "GetId")
 
     def testNoSendInTxtBuffer(self):
         self.terminal_example.text_settings.show_sent = False
         self.terminal_example.TxtTransmit.setText("Test")
         self.terminal_example.TxtTransmit.setText("Test")
+        self.terminal_example.CBRepeat.setChecked(False)
+        self.terminal_example.CBRepeat2.setChecked(False)
+        self.terminal_example.BtnConnect.click()
         self.terminal_example.BtnSend.click()
         self.terminal_example.BtnSend2.click()
         self.assertEqual(self.terminal_example.TxtBuffer.toPlainText(), "")
+        self.terminal_example.BtnDisconnect.click()
 
     def testSendInTxtBufferAndScroll(self):
         self.terminal_example.text_settings.show_sent = True
         self.terminal_example.text_settings.scroll = True
         self.terminal_example.TxtTransmit.setText("Test")
-        self.terminal_example.TxtTransmit.setText("Test2")
+        self.terminal_example.TxtTransmit2.setText("Test2")
+        self.terminal_example.BtnConnect.click()
         self.terminal_example.BtnSend.click()
         self.terminal_example.BtnSend2.click()
-        self.assertEqual(self.terminal_example.TxtBuffer.toPlainText(), "Test\nTest2")
+        self.assertEqual(self.terminal_example.TxtBuffer.toPlainText(), "Test\nTest2\n")
         self.assertEqual(self.terminal_example.TxtBuffer.verticalScrollBar().value(),
                          self.terminal_example.TxtBuffer.verticalScrollBar().maximum())
+        self.terminal_example.BtnDisconnect.click()
 
     def testSendInTxtBufferAndNoScroll(self):
         self.terminal_example.text_settings.show_sent = True
         self.terminal_example.text_settings.scroll = True
         self.terminal_example.TxtTransmit.setText("Test")
-        self.terminal_example.TxtTransmit.setText("Test2")
+        self.terminal_example.TxtTransmit2.setText("Test2")
+        self.terminal_example.BtnConnect.click()
         self.terminal_example.BtnSend.click()
         self.terminal_example.BtnSend2.click()
-        self.assertEqual(self.terminal_example.TxtBuffer.toPlainText(), "Test\nTest2")
+        self.assertEqual(self.terminal_example.TxtBuffer.toPlainText(), "Test\nTest2\n")
         self.assertEqual(self.terminal_example.TxtBuffer.verticalScrollBar().value(), 0)
+        self.terminal_example.BtnDisconnect.click()
+
+
+    def tearDown(self):
+        self.terminal_example.destroy()
+        self.app.quit()
+
+
+class testRepeat(unittest.TestCase):
+
+    def setUp(self):
+        self.app = QtWidgets.QApplication(sys.argv)
+        self.terminal_example = terminal.OstrannaTerminal()
+        self.terminal_example.CBSTM.setChecked(True)
+        self.terminal_example.CBNRF.setChecked(False)
+        self.terminal_example.text_settings.show_sent = True
+        self.terminal_example.CBRepeat.setChecked(False)
+        self.terminal_example.CBRepeat.setChecked(False)
+
+    def testRepeatCheckboxTrue(self):
+        self.terminal_example.CBRepeat.setChecked(True)
+        self.terminal_example.CBRepeat2.setChecked(True)
+        self.assertTrue(self.terminal_example.text_settings.first_repeat)
+        self.assertTrue(self.terminal_example.text_settings.second_repeat)
+
+    def testRepeatCheckboxFalse(self):
+        self.terminal_example.CBRepeat.setChecked(False)
+        self.terminal_example.CBRepeat2.setChecked(False)
+        self.assertFalse(self.terminal_example.text_settings.first_repeat)
+        self.assertFalse(self.terminal_example.text_settings.second_repeat)
+
+    def testRepeatPeriod(self):
+        self.terminal_example.SpinRepeat.setValue(100)
+        self.terminal_example.SpinRepeat2.setValue(200)
+        self.assertEqual(self.terminal_example.text_settings.first_period, 100)
+        self.assertEqual(self.terminal_example.text_settings.second_period, 200)
+
+    def testRepeatCheck(self):
+        self.terminal_example.CBRepeat.setChecked(True)
+        self.terminal_example.CBRepeat2.setChecked(True)
+        self.terminal_example.timer1.start()
+        self.terminal_example.timer2.start()
+        self.terminal_example.CBRepeat.setChecked(False)
+        self.terminal_example.CBRepeat2.setChecked(False)
+        self.assertFalse(self.terminal_example.timer1.isActive())
+        self.assertFalse(self.terminal_example.timer2.isActive())
+
+
+class testMinorGui(unittest.TestCase):
+
+    def setUp(self):
+        self.app = QtWidgets.QApplication(sys.argv)
+        self.terminal_example = terminal.OstrannaTerminal()
+
+    def testTitle(self):
+        rand = round(100*random())
+        test_title = "Notiel test title %i" % rand
+        self.terminal_example.LineName.setText(test_title)
+        print(test_title)
+        self.assertEqual(self.terminal_example.windowTitle(), test_title)
