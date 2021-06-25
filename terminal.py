@@ -775,6 +775,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.TxtTransmit.setFont(self.current_font)
         self.TxtTransmit2.setFont(self.current_font)
 
+    # no test
     def select_file(self):
         """
         selects file for sending
@@ -790,6 +791,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.BtnRefresh.setEnabled(True)
             self.refresh_length()
 
+    # test written
     def send_file(self):
         """
         sends selected file data to serial port
@@ -801,16 +803,11 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                     data = f.read()
                     res = self.write_data(data, False, False, False)
                     if res != -1:
-                        # error = QtWidgets.QMessageBox()
-                        # error.setIcon(QtWidgets.QMessageBox.Information)
-                        # error.setText("File transmitted")
-                        # error.setWindowTitle('Success')
-                        # error.setStandardButtons(QtWidgets.QMessageBox.Ok)
-                        # error.exec_()
                         self.statusbar.showMessage("File sent")
         else:
             common_functions.error_message("Check file or port")
 
+    # test written
     def ascii_show(self):
         """
         shows window with ASCII table
@@ -819,6 +816,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.ascii_form = ASCII_table.ASCIITable()
         self.ascii_form.show()
 
+    # test written
     def title_changed(self):
         """
         changes title

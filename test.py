@@ -520,6 +520,10 @@ class testRepeat(unittest.TestCase):
         self.assertFalse(self.terminal_example.timer1.isActive())
         self.assertFalse(self.terminal_example.timer2.isActive())
 
+    def tearDown(self):
+        self.terminal_example.destroy()
+        self.app.quit()
+
 
 class testMinorGui(unittest.TestCase):
 
@@ -533,3 +537,57 @@ class testMinorGui(unittest.TestCase):
         self.terminal_example.LineName.setText(test_title)
         print(test_title)
         self.assertEqual(self.terminal_example.windowTitle(), test_title)
+
+    def tearDown(self):
+        self.terminal_example.destroy()
+        self.app.quit()
+
+
+class testSettingsForm(unittest.TestCase):
+
+    def setUp(self):
+        self.app = QtWidgets.QApplication(sys.argv)
+        self.terminal_example = terminal.OstrannaTerminal()
+        self.terminal_example.BtnSettings.click()
+
+    def testDataBitsChanged(self):
+        self.terminal_example.settings_form.RBDatabits5.click()
+        self.assertEqual(self.terminal_example.port_settings.databits, 5)
+        self.terminal_example.settings_form.RBDatabits6.click()
+        self.assertEqual(self.terminal_example.port_settings.databits, 6)
+        self.terminal_example.settings_form.RBDatabits7.click()
+        self.assertEqual(self.terminal_example.port_settings.databits, 7)
+        self.terminal_example.settings_form.RBDatabits8.click()
+        self.assertEqual(self.terminal_example.port_settings.databits, 8)
+
+    def testParityChanged(self):
+        self.terminal_example.settings_form.RBParityOdd.click()
+        self.assertEqual(self.terminal_example.port_settings.parity, data_types.Parity.ODD)
+        self.terminal_example.settings_form.RBParityEven.click()
+        self.assertEqual(self.terminal_example.port_settings.parity, data_types.Parity.EVEN)
+        self.terminal_example.settings_form.RBParityMark.click()
+        self.assertEqual(self.terminal_example.port_settings.parity, data_types.Parity.MARK)
+        self.terminal_example.settings_form.RBParitySpace.click()
+        self.assertEqual(self.terminal_example.port_settings.parity, data_types.Parity.SPACE)
+        self.terminal_example.settings_form.RBParityNone.click()
+        self.assertEqual(self.terminal_example.port_settings.parity, data_types.Parity.NONE)
+
+    def testStopBitsChanged(self):
+        self.terminal_example.settings_form.RBStopbits2.click()
+        self.assertEqual(self.terminal_example.port_settings.stopbits, 2)
+        self.terminal_example.settings_form.RBStopbits15.click()
+        self.assertEqual(self.terminal_example.port_settings.stopbits, 1.5)
+        self.terminal_example.settings_form.RBStopbits1.click()
+        self.assertEqual(self.terminal_example.port_settings.stopbits, 1)
+
+    def testHandshakingChanged(self):
+        self.terminal_example.settings_form.RBHandRts.click()
+        self.assertEqual(self.terminal_example.port_settings.handshaking, data_types.Handshaking.RTSCTS)
+        self.terminal_example.settings_form.RBHandNone.click()
+        self.assertEqual(self.terminal_example.port_settings.handshaking, data_types.Handshaking.NONE)
+
+    def tearDown(self):
+        self.terminal_example.destroy()
+        self.app.quit()
+
+# ToDo осознать, проведяется ли утсановка этих полей 
