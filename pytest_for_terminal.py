@@ -78,7 +78,7 @@ def test_send_file_and_command(qtbot, terminal_example):
 
     def check_txt_buffer():
         assert 'Ping' in terminal_example.TxtBuffer.toPlainText() \
-               and 'Ack 0' in terminal_example.TxtBuffer.toPlainText()
+               and 'Ack' in terminal_example.TxtBuffer.toPlainText()
 
     qtbot.waitUntil(check_txt_buffer, timeout=3000)
 

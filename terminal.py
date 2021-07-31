@@ -20,7 +20,6 @@ logger.start("logfile.log", rotation="1 week", format="{time} {level} {message}"
 
 
 class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
-
     text_settings: TextSettings
 
     def __init__(self):
@@ -84,8 +83,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnGraph.clicked.connect(self.graph_clicked)
         self.BtnHelp.clicked.connect(self.help_clicked)
         self.BtnVar.clicked.connect(self.var_pressed)
-        self.CBRepeat.stateChanged.connect(self.repeat_pressed)
-        self.CBRepeat2.stateChanged.connect(self.repeat_pressed)
+        # self.CBRepeat.stateChanged.connect(self.repeat_pressed)
+        # self.CBRepeat2.stateChanged.connect(self.repeat_pressed)
         self.TxtBuffer.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
         self.CBRepeat.stateChanged.connect(self.transmit_field_changed)
         self.CBRepeat2.stateChanged.connect(self.transmit_field_changed)
@@ -380,8 +379,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.counter = 0
         if self.timer1.isActive():
             self.timer1.stop()
+            self.BtnSend.setText("Send")
         if self.timer2.isActive():
             self.timer2.stop()
+            self.BtnSend2.setText("Send")
         if rescan:
             self.scan_ports()
         self.BtnSend.setEnabled(False)
@@ -534,13 +535,20 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         sender = self.sender()
         source = self.TxtTransmit if sender in [self.TxtTransmit, self.BtnSend] else self.TxtTransmit2
         cb_timer = self.CBRepeat if source == self.TxtTransmit else self.CBRepeat2
-        text: str = source.text()
-        if self.text_settings.CRLF:
-            text += '\r\n'
-        # timer block
-        if cb_timer.isChecked():
-            timer = self.timer1 if source == self.TxtTransmit else self.timer2
-            if not timer.isActive():
+        timer = self.timer1 if source == self.TxtTransmit else self.timer2
+
+        # stop repeat sending
+        if isinstance(sender, QtWidgets.QPushButton) and sender.text() == "Stop":
+            sender.setText("Send")
+            timer.stop()
+        # send data
+        else:
+            text: str = source.text()
+            if self.text_settings.CRLF:
+                text += '\r\n'
+            # timer block
+            if cb_timer.isChecked():
+                sender.setText("Stop")
                 timeout = int(self.SpinRepeat.value()) if source == self.TxtTransmit else int(self.SpinRepeat2.value())
                 timer.start(timeout)
                 if source == self.TxtTransmit:
@@ -549,10 +557,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                 else:
                     # noinspection PyAttributeOutsideInit
                     self.text_repeat2 = text
-        error: int = self.write_data(text, True, self.text_settings.bytecodes)
-        if not error:
-            if self.CBClear.isChecked():
-                source.clear()
+            error: int = self.write_data(text, True, self.text_settings.bytecodes)
+            if not error:
+                if self.CBClear.isChecked():
+                    source.clear()
 
     def move_cursor_and_write(self, command: str, color: QtGui.QColor):
         """
@@ -609,8 +617,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                 return -1
         else:
             # last packet is lost if its lendth is even to endpoint
-            res_first = self.write_to_port(res_command[:-data_types.endpoint//2])
-            res_second = self.write_to_port(res_command[-data_types.endpoint//2:])
+            res_first = self.write_to_port(res_command[:-data_types.endpoint // 2])
+            res_second = self.write_to_port(res_command[-data_types.endpoint // 2:])
             if res_first == -1 or res_second == -1:
                 return -1
         if self.text_settings.show_sent and encode:
@@ -636,7 +644,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.serial_port.clearError()
             self.BtnConnect.setEnabled(True)
             self.disconnect(False)
-            
+
     def clear_counter(self):
         """
         clear counter
@@ -733,7 +741,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         else:
             self.port_settings.last_macros_set = ""
             for (index, btn) in enumerate(self.macros_btns_list):
-                btn.setText('M%i' % (index+1))
+                btn.setText('M%i' % (index + 1))
                 btn.setEnabled(False)
                 btn.setIcon(QtGui.QIcon())
 
@@ -894,15 +902,15 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.write_data(command, True, False)
 
     # test written
-    def repeat_pressed(self):
-        """
-        repeat checkbox pressed
-        :return:
-        """
-        sender = self.sender()
-        timer = self.timer1 if sender == self.CBRepeat else self.timer2
-        if timer.isActive():
-            timer.stop()
+    # def repeat_pressed(self):
+    #    """
+    #    repeat checkbox pressed
+    #    :return:
+    #    """
+    #    sender = self.sender()
+    #    timer = self.timer1 if sender == self.CBRepeat else self.timer2
+    #    if timer.isActive():
+    #        timer.stop()
 
     # ToDo write tests in pytests
     # noinspection PyMethodOverriding
