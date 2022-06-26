@@ -24,7 +24,7 @@ max_macros = 30
 
 icon_exts = ['.png', '.jpg', '.ico', '.jpeg', '.gif', '.bmp']
 
-
+# noinspection PyUnresolvedReferences
 databits_dict = {5: QtSerialPort.QSerialPort.Data5, 6: QtSerialPort.QSerialPort.Data6,
                  7: QtSerialPort.QSerialPort.Data7, 8: QtSerialPort.QSerialPort.Data8}
 
@@ -39,12 +39,14 @@ class Parity(Enum):
     SPACE = 4
 
 
+# noinspection PyUnresolvedReferences
 parity_dict = {Parity.NONE: QtSerialPort.QSerialPort.NoParity,
                Parity.ODD: QtSerialPort.QSerialPort.OddParity,
                Parity.EVEN: QtSerialPort.QSerialPort.EvenParity,
                Parity.MARK: QtSerialPort.QSerialPort.MarkParity,
                Parity.SPACE: QtSerialPort.QSerialPort.SpaceParity}
 
+# noinspection PyUnresolvedReferences
 stopbits_dict = {1: QtSerialPort.QSerialPort.OneStop, 2: QtSerialPort.QSerialPort.TwoStop,
                  1.5: QtSerialPort.QSerialPort.OneAndHalfStop}
 
@@ -52,9 +54,13 @@ stopbits_dict = {1: QtSerialPort.QSerialPort.OneStop, 2: QtSerialPort.QSerialPor
 class Handshaking(Enum):
     NONE = 0
     RTSCTS = 1
+    XONOFF = 2
 
 
-hs_dict = {Handshaking.NONE: QtSerialPort.QSerialPort}
+# noinspection PyUnresolvedReferences
+hs_dict = {Handshaking.NONE: QtSerialPort.QSerialPort.NoFlowControl,
+           Handshaking.RTSCTS: QtSerialPort.QSerialPort.HardwareControl,
+           Handshaking.XONOFF: QtSerialPort.QSerialPort.SoftwareControl}
 
 
 @dataclass

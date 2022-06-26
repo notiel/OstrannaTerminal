@@ -251,7 +251,8 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         :return:
         """
         settings_save = {'COM settings': {'baudrate': self.settings.baudrate, 'databits': self.settings.databits,
-                                          'parity': self.settings.parity.value, 'stopbits': self.settings.stopbits},
+                                          'parity': self.settings.parity.value, 'stopbits': self.settings.stopbits,
+                                          'handshaking': self.settings.handshaking.value},
                          'Text settings': {'CRLF': self.text_settings.CRLF, 'bytecodes': self.text_settings.bytecodes,
                                            'scroll': self.text_settings.scroll,
                                            'timestamps': self.text_settings.timestamps,

@@ -93,6 +93,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.SpinRepeat.valueChanged.connect(self.transmit_field_changed)
         self.SpinRepeat2.valueChanged.connect(self.transmit_field_changed)
 
+    # noinspection PyUnresolvedReferences
     def serial_port_ui(self):
         """
         set UI for serial port
@@ -146,7 +147,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
         self.TxtBuffer.setTextColor(QtGui.QColor(*self.colors['font-transmit']))
 
-    # noinspection PyAttributeOutsideInit
+    # noinspection PyAttributeOutsideInit,PyUnresolvedReferences
     def init_timer_data(self):
         """
         inits timer data
@@ -197,6 +198,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                 self.port_settings.parity = data_types.Parity(settings_json['COM settings']['parity'])
             if 'databits' in settings_json['COM settings'].keys():
                 self.port_settings.databits = settings_json['COM settings']['databits']
+            if 'handshaking' in settings_json['COM settings'].keys():
+                self.port_settings.handshaking = data_types.Handshaking(settings_json['COM settings']['handshaking'])
 
     def load_text_settings(self, settings_json):
         """
@@ -308,6 +311,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         # noinspection PyArgumentList
         for port in QtSerialPort.QSerialPortInfo.availablePorts():
             if self.CBSTM.isChecked():
+                print(port.manufacturer().lower())
                 if port.manufacturer().lower().startswith('stmicroelectronics'):
                     self.CBPorts.addItem("%s: (%s)" % (port.portName(), (port.description())))
             if self.CBNRF.isChecked():
@@ -349,6 +353,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.serial_port.setDataBits(data_types.databits_dict[self.port_settings.databits])
         self.serial_port.setParity(data_types.parity_dict[self.port_settings.parity])
         self.serial_port.setStopBits(data_types.stopbits_dict[self.port_settings.stopbits])
+        self.serial_port.setFlowControl(data_types.hs_dict[self.port_settings.handshaking])
+        # noinspection PyUnresolvedReferences
         if not self.serial_port.open(QtCore.QIODevice.ReadWrite):
             common_functions.error_message("Unable to open port %s" % name)
         else:
@@ -387,6 +393,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.scan_ports()
         self.BtnSend.setEnabled(False)
         self.BtnSend2.setEnabled(False)
+        # noinspection PyUnresolvedReferences
         self.serial_port.clear(QtSerialPort.QSerialPort.AllDirections)
         self.serial_port.flush()
         self.serial_port.clearError()
@@ -407,6 +414,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         if self.CBBaudrate.currentText() != 'Custom':
             self.port_settings.baudrate = int(self.CBBaudrate.currentText())
+            self.serial_port.setBaudRate(int(self.CBBaudrate.currentText()))
+            print("Baudrate is now %i" % int(self.CBBaudrate.currentText()))
         else:
             # noinspection PyCallByClass,PyArgumentList
             text, ok = QtWidgets.QInputDialog.getText(self, 'Baudrate', 'Enter baudrate')
@@ -420,6 +429,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
                 else:
                     self.port_settings.baudrate = new_baudrate
                     self.CBBaudrate.addItem(str(self.port_settings.baudrate))
+                    self.serial_port.setBaudRate(int(self.CBBaudrate.currentText()))
                     self.CBBaudrate.setCurrentText(text)
 
     def read_data(self):
@@ -957,7 +967,7 @@ def initiate_exception_logging():
         # Print the error and traceback
         logger.exception(f"{exctype}, {value}, {traceback}")
         # Call the normal Exception hook after
-        # noinspection PyProtectedMember
+        # noinspection PyProtectedMember,PyUnresolvedReferences
         sys._excepthook(exctype, value, traceback)
         # sys.exit(1)
 
