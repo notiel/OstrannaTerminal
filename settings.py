@@ -45,7 +45,9 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
                             self.RBParityNone: data_types.Parity.NONE, self.RBParitySpace: data_types.Parity.SPACE,
                             self.RBParityOdd: data_types.Parity.ODD}
         self.stopbits_dict = {self.RBStopbits1: 1, self.RBStopbits2: 2, self.RBStopbits15: 1.5}
-        self.hs_dict = {self.RBHandNone: data_types.Handshaking.NONE, self.RBHandRts: data_types.Handshaking.RTSCTS}
+        self.hs_dict = {self.RBHandNone: data_types.Handshaking.NONE,
+                        self.RBHandRts: data_types.Handshaking.RTSCTS,
+                        self.RBHandXOnOFf: data_types.Handshaking.XONOFF}
         self.crc_dict = {self.SpinPoly: 'crc_poly', self.SpinStart: 'crc_init'}
 
     def create_groups(self):
@@ -74,6 +76,7 @@ class Settings(QtWidgets.QWidget, settings_design.Ui_Form):
         hs_group = QtWidgets.QButtonGroup(self)
         hs_group.addButton(self.RBHandNone)
         hs_group.addButton(self.RBHandRts)
+        hs_group.addButton(self.RBHandXOnOFf)
 
     def create_rb_connections(self):
         """
