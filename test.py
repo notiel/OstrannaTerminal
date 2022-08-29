@@ -1,13 +1,14 @@
 import unittest
 import terminal
 import data_types
-from PyQt5 import QtWidgets, QtGui, QtTest
+from PyQt5 import QtWidgets, QtGui
 import sys
 import datetime
 import common_functions
 from random import random
 
 
+#ok
 class TestLoadSettings(unittest.TestCase):
 
     def setUp(self):
@@ -72,6 +73,7 @@ class TestLoadSettings(unittest.TestCase):
         self.app.quit()
 
 
+# ок
 class TestMainFunctions(unittest.TestCase):
 
     def setUp(self):
@@ -94,7 +96,7 @@ class TestMainFunctions(unittest.TestCase):
         self.terminal_example.CBPorts.setCurrentIndex(0)
         self.terminal_example.BtnConnect.click()
         self.assertTrue(self.terminal_example.BtnDisconnect.isEnabled())
-        self.assertEqual(self.terminal_example.port_settings.name, 'COM23')
+        self.assertEqual(self.terminal_example.port_settings.name, 'COM6')
         self.terminal_example.BtnDisconnect.click()
         self.assertTrue(self.terminal_example.BtnConnect.isEnabled())
         self.assertEqual(self.terminal_example.port_settings.name, '')
@@ -116,6 +118,7 @@ class TestMainFunctions(unittest.TestCase):
         self.app.quit()
 
 
+# ок
 class TestMainUI(unittest.TestCase):
 
     def setUp(self):
@@ -140,17 +143,21 @@ class TestMainUI(unittest.TestCase):
         self.assertEqual(self.terminal_example.windowTitle(), "My new terminal")
 
     def testChangeFont(self):
-        new_font = QtGui.QFont("Arial", 12)
+        new_font = QtGui.QFont("Book Antiqua", 18)
         self.terminal_example.font_changed(new_font)
-        self.assertEqual(self.terminal_example.TxtBuffer.currentFont(), new_font)
-        self.assertEqual(self.terminal_example.TxtTransmit.font(), new_font)
-        self.assertEqual(self.terminal_example.TxtTransmit2.font(), new_font)
+        self.assertEqual(self.terminal_example.TxtBuffer.currentFont().family(), "Book Antiqua")
+        self.assertEqual(self.terminal_example.TxtBuffer.currentFont().pointSize(), 18)
+        self.assertEqual(self.terminal_example.TxtTransmit.font().family(), "Book Antiqua")
+        self.assertEqual(self.terminal_example.TxtTransmit.font().pointSize(), 18)
+        self.assertEqual(self.terminal_example.TxtTransmit2.font().family(), "Book Antiqua")
+        self.assertEqual(self.terminal_example.TxtTransmit2.font().pointSize(), 18)
 
     def tearDown(self):
         self.terminal_example.destroy()
         self.app.quit()
 
 
+# ок
 class TestSubForm(unittest.TestCase):
 
     def setUp(self):
@@ -189,19 +196,20 @@ class TestSubForm(unittest.TestCase):
         self.app.quit()
 
 
+# ок
 class TestFiles(unittest.TestCase):
 
     def setUp(self) -> None:
         self.app = QtWidgets.QApplication(sys.argv)
         self.terminal_example = terminal.OstrannaTerminal()
         self.terminal_example.file_to_send = \
-            r'C:\Users\juice\Downloads\PycharmProjects\OstrannaTerminal\Ostranna_Logo.ico'
+            r'Ostranna_Logo.ico'
         self.terminal_example.text_settings = data_types.TextSettings()
         self.terminal_example.port_settings = data_types.ComSettings()
 
     def testRefresh(self):
         self.terminal_example.file_to_send = \
-            r'C:\Users\juice\Downloads\PycharmProjects\OstrannaTerminal\Ostranna_Logo.ico'
+            r'Ostranna_Logo.ico'
         self.terminal_example.text_settings.crc_poly = 4129
         self.terminal_example.text_settings.crc_init = 0
         self.terminal_example.BtnRefresh.setEnabled(True)
@@ -228,6 +236,7 @@ class TestFiles(unittest.TestCase):
         self.app.quit()
 
 
+# ok
 class TestMacroses(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -276,7 +285,8 @@ class TestMacroses(unittest.TestCase):
         self.terminal_example.destroy()
         self.app.quit()
 
-
+# ок
+# noinspection PyPep8Naming
 class testCommonFunctions(unittest.TestCase):
 
     def testSplitWithBytesSimple(self):
@@ -318,7 +328,8 @@ class testCommonFunctions(unittest.TestCase):
         self.assertEqual(common_functions.replace_variables(test_text, var_dict),
                          "File length is 100, crc 0x1212, filedata: sometestdata")
 
-
+#ок
+# noinspection PyPep8Naming
 class testEncoding(unittest.TestCase):
 
     def setUp(self):
@@ -363,6 +374,8 @@ class testEncoding(unittest.TestCase):
         self.app.quit()
 
 
+# todo fix
+# noinspection PyPep8Naming
 class testTextBuffer(unittest.TestCase):
     def setUp(self):
         self.app = QtWidgets.QApplication(sys.argv)
@@ -424,6 +437,8 @@ class testTextBuffer(unittest.TestCase):
         self.app.quit()
 
 
+# ok
+# noinspection PyPep8Naming
 class testSending(unittest.TestCase):
 
     def setUp(self):
@@ -475,12 +490,13 @@ class testSending(unittest.TestCase):
         self.assertEqual(self.terminal_example.TxtBuffer.verticalScrollBar().value(), 0)
         self.terminal_example.BtnDisconnect.click()
 
-
     def tearDown(self):
         self.terminal_example.destroy()
         self.app.quit()
 
 
+# ок
+# noinspection PyPep8Naming
 class testRepeat(unittest.TestCase):
 
     def setUp(self):
@@ -532,6 +548,8 @@ class testRepeat(unittest.TestCase):
         self.app.quit()
 
 
+# ок
+# noinspection PyPep8Naming
 class testMinorGui(unittest.TestCase):
 
     def setUp(self):
@@ -550,6 +568,8 @@ class testMinorGui(unittest.TestCase):
         self.app.quit()
 
 
+# ok
+# noinspection PyPep8Naming
 class testSettingsForm(unittest.TestCase):
 
     def setUp(self):
@@ -592,9 +612,11 @@ class testSettingsForm(unittest.TestCase):
         self.assertEqual(self.terminal_example.port_settings.handshaking, data_types.Handshaking.RTSCTS)
         self.terminal_example.settings_form.RBHandNone.click()
         self.assertEqual(self.terminal_example.port_settings.handshaking, data_types.Handshaking.NONE)
+        self.terminal_example.settings_form.RBHandXOnOFf.click()
+        self.assertEqual(self.terminal_example.port_settings.handshaking, data_types.Handshaking.XONOFF)
 
     def tearDown(self):
         self.terminal_example.destroy()
         self.app.quit()
 
-# ToDo осознать, проведяется ли утсановка этих полей 
+# ToDo осознать, проведяется ли утсановка этих полей

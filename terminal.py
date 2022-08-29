@@ -8,13 +8,17 @@ import json
 import terminal_design
 import data_types
 import common_functions
-import terminal_graph
+# import terminal_graph
 import settings
 import macros
 import ASCII_table
 import help
 import variables
+import re
 from data_types import TextSettings
+# import pyqtgraph.graphicsItems.ViewBox.axisCtrlTemplate_pyqt5
+# import pyqtgraph.graphicsItems.PlotItem.plotConfigTemplate_pyqt5
+# import pyqtgraph.imageview.ImageViewTemplate_pyqt5
 
 logger.start("logfile.log", rotation="1 week", format="{time} {level} {message}", level="DEBUG", enqueue=True)
 
@@ -35,7 +39,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.time_shown = False
         self.tail = ""
         self.file_to_send = ""
-        self.graph_form = Optional[terminal_graph.MainWindow]
+        # self.graph_form = Optional[terminal_graph.MainWindow]
         self.graph = False
         self.start_time = datetime.datetime.now()
         self.settings_form: Optional[settings.Settings] = None
@@ -69,6 +73,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnClear.setShortcut('Esc')
         self.BtnSend.clicked.connect(self.send_clicked)
         self.BtnSend2.clicked.connect(self.send_clicked)
+        self.BtnIncrement.clicked.connect(self.increment_clicked)
         self.BtnCounter.clicked.connect(self.clear_counter)
         self.BtnSave.clicked.connect(self.save_to_file)
         self.BtnCreateMacros.clicked.connect(self.macros_pressed)
@@ -92,6 +97,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.TxtTransmit2.textChanged.connect(self.transmit_field_changed)
         self.SpinRepeat.valueChanged.connect(self.transmit_field_changed)
         self.SpinRepeat2.valueChanged.connect(self.transmit_field_changed)
+        self.TxtIncrement.textChanged.connect(self.increment_field_changed)
 
     # noinspection PyUnresolvedReferences
     def serial_port_ui(self):
@@ -309,9 +315,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.settings_form.save_settings()
         self.CBPorts.clear()
         # noinspection PyArgumentList
-        for port in QtSerialPort.QSerialPortInfo.availablePorts():
+        for port in sorted(QtSerialPort.QSerialPortInfo.availablePorts(), key=lambda p: p.portName()):
             if self.CBSTM.isChecked():
-                print(port.manufacturer().lower())
                 if port.manufacturer().lower().startswith('stmicroelectronics'):
                     self.CBPorts.addItem("%s: (%s)" % (port.portName(), (port.description())))
             if self.CBNRF.isChecked():
@@ -571,6 +576,23 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             if not error:
                 if self.CBClear.isChecked():
                     source.clear()
+
+    def increment_clicked(self):
+        """
+        send data to comport and increment last digital part
+        :return:
+        """
+        text: str = self.TxtIncrement.text()
+        last_number_list = re.findall('\d+', text)
+        if last_number_list:
+            last_number_str = last_number_list[-1]
+            last_number = int(last_number_str)
+            text = text.replace(last_number_str, str(last_number+1))
+            self.TxtIncrement.setText(text)
+
+        if self.text_settings.CRLF:
+            text += '\r\n'
+            error: int = self.write_data(text, True, self.text_settings.bytecodes)
 
     def move_cursor_and_write(self, command: str, color: QtGui.QColor):
         """
@@ -945,6 +967,15 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.text_settings.second_repeat = self.CBRepeat2.isChecked()
         self.text_settings.first_period = self.SpinRepeat.value()
         self.text_settings.second_period = self.SpinRepeat2.value()
+
+    # no tests
+    def increment_field_changed(self):
+        """
+        enable and disable transmit and increment button
+        :return:
+        """
+        print(self.TxtIncrement.text().strip())
+        self.BtnIncrement.setEnabled(self.TxtIncrement.text().strip() != "")
 
     # no tests
     def closeEvent(self, event):

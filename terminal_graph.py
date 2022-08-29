@@ -1,6 +1,6 @@
 from typing import List
 from PyQt5 import QtWidgets, QtGui
-import pyqtgraph
+#i mport pyqtgraph
 import common_functions
 
 colors = ['green', 'red', 'blue', 'magenta', 'yellow', 'darkGreen', 'darkMagenta', 'darkRed', 'black', 'cyan',
