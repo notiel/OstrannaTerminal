@@ -85,7 +85,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.BtnAscii.clicked.connect(self.ascii_show)
         self.LineName.textChanged.connect(self.title_changed)
         self.BtnRefresh.clicked.connect(self.refresh_length)
-        self.BtnGraph.clicked.connect(self.graph_clicked)
+        # self.BtnGraph.clicked.connect(self.graph_clicked)
         self.BtnHelp.clicked.connect(self.help_clicked)
         self.BtnVar.clicked.connect(self.var_pressed)
         # self.CBRepeat.stateChanged.connect(self.repeat_pressed)
@@ -98,6 +98,8 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         self.SpinRepeat.valueChanged.connect(self.transmit_field_changed)
         self.SpinRepeat2.valueChanged.connect(self.transmit_field_changed)
         self.TxtIncrement.textChanged.connect(self.increment_field_changed)
+        self.CBSlashR.stateChanged.connect(self.cb_slashr_changed)
+        self.CBSlashN.stateChanged.connect(self.cb_slashn_changed)
 
     # noinspection PyUnresolvedReferences
     def serial_port_ui(self):
@@ -216,6 +218,10 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         if 'Text settings' in settings_json.keys():
             if 'CRLF' in settings_json['Text settings'].keys():
                 self.text_settings.CRLF = settings_json['Text settings']['CRLF']
+            if 'SlashR' in settings_json['Text settings'].keys():
+                self.text_settings.slashr = settings_json['Text settings']['SlashR']
+            if 'SlashN' in settings_json['Text settings'].keys():
+                self.text_settings.slashn = settings_json['Text settings']['SlashN']
             if 'bytecodes' in settings_json['Text settings'].keys():
                 self.text_settings.bytecodes = settings_json['Text settings']['bytecodes']
             if 'scroll' in settings_json['Text settings'].keys():
@@ -472,7 +478,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             else:
                 read_to_show: str = common_functions.hexify(read) if self.CBHex.isChecked() else read.replace("\n", "")
             self.move_cursor_and_write(read_to_show, QtGui.QColor(*self.colors['font-receive']))
-            self.show_graph_data(read)
+            # self.show_graph_data(read)
 
         self.LblCounterData.setText(str(self.counter))
         if self.text_settings.scroll:
@@ -517,30 +523,30 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         return read
 
     # uncovered
-    def show_graph_data(self, read: str):
-        """
-        add new data to graph
-        :return:
-        """
-        if self.graph and self.graph_form:
-            lines = (self.tail + read).split('\r')
-            logger.debug(lines)
-            self.tail = lines[-1]
-            if len(lines) > 1:
-                for line in lines[:-1]:
-                    logger.debug(line)
-                    if line.strip():
-                        try:
-                            data_graph = line.strip().split(';')
-                            data_x = float(data_graph[0].strip())
-                            data_y = [float(value) for value in data_graph[1:] if value.strip()]
-                            if self.graph_form.data_x:
-                                self.graph_form.update_plot_data(data_x, data_y)
-                            else:
-                                self.graph_form.create_graph(data_x, data_y)
-                                self.graph_form.show()
-                        except (ValueError, IndexError):
-                            pass
+    # def show_graph_data(self, read: str):
+    #    """
+    #    add new data to graph
+    #    :return:
+    #    """
+    #    if self.graph and self.graph_form:
+    #        lines = (self.tail + read).split('\r')
+    #        logger.debug(lines)
+    #        self.tail = lines[-1]
+    #        if len(lines) > 1:
+    #            for line in lines[:-1]:
+    #                logger.debug(line)
+    #                if line.strip():
+    #                    try:
+    #                        data_graph = line.strip().split(';')
+    #                        data_x = float(data_graph[0].strip())
+    #                        data_y = [float(value) for value in data_graph[1:] if value.strip()]
+    #                        if self.graph_form.data_x:
+    #                            self.graph_form.update_plot_data(data_x, data_y)
+    #                        else:
+    #                            self.graph_form.create_graph(data_x, data_y)
+    #                            self.graph_form.show()
+    #                    except (ValueError, IndexError):
+    #                        pass
 
     def send_clicked(self):
         """
@@ -559,10 +565,15 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         # send data
         else:
             text: str = source.text()
-            if self.text_settings.CRLF:
-                text += '\r\n'
+            # if self.text_settings.CRLF:
+            #    text += '\r\n'
+            if self.text_settings.slashr:
+                text += '\r'
+            if self.text_settings.slashn:
+                text += '\n'
             # timer block
             if cb_timer.isChecked():
+                # noinspection PyUnresolvedReferences
                 sender.setText("Stop")
                 timeout = int(self.SpinRepeat.value()) if source == self.TxtTransmit else int(self.SpinRepeat2.value())
                 timer.start(timeout)
@@ -583,22 +594,27 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         :return:
         """
         text: str = self.TxtIncrement.text()
-        last_number_list = re.findall('\d+', text)
+        last_number_list = re.findall("\d+", text)
         if last_number_list:
             last_number_str = last_number_list[-1]
             last_number = int(last_number_str)
             text = text.replace(last_number_str, str(last_number+1))
             self.TxtIncrement.setText(text)
 
-        if self.text_settings.CRLF:
-            text += '\r\n'
-            error: int = self.write_data(text, True, self.text_settings.bytecodes)
+        # if self.text_settings.CRLF:
+        #    text += '\r\n'
+        if self.text_settings.slashr:
+            text += '\r'
+        if self.text_settings.slashn:
+            text += '\n'
+        self.write_data(text, True, self.text_settings.bytecodes)
 
     def move_cursor_and_write(self, command: str, color: QtGui.QColor):
         """
         moves cursor to the end before endint command to text field
         :return:
         """
+        # noinspection PyUnresolvedReferences
         self.TxtBuffer.moveCursor(QtGui.QTextCursor.End)
         self.TxtBuffer.setStyleSheet("background-color:rgb%s" % str(self.colors['background-color']))
         self.TxtBuffer.setTextBackgroundColor(QtGui.QColor(*self.colors['background-color']))
@@ -876,7 +892,7 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         if self.file_to_send and os.path.exists(self.file_to_send):
             file_length = os.path.getsize(self.file_to_send)
-            self.LblLength.setText("Length: %i" % file_length + '\n' + '            %x' % file_length)
+            self.LblLength.setText("Length: %i" % file_length + '\n' + '          0х%x' % file_length)
             self.var_form.var_dict['length'] = str(file_length)
             with open(self.file_to_send, "rb") as f:
                 data = f.read()
@@ -891,21 +907,21 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
             self.LblCrc.setText('Crc: None')
 
     # ToDo write test
-    def graph_clicked(self):
-        """
-        starts or stops showing graphs
-        :return:
-        """
-        if self.graph:
-            self.graph = False
-            self.BtnGraph.setText("ShowGraph")
-            self.graph_form.destroy()
-            self.graph_form = terminal_graph.MainWindow()
-        else:
-            self.graph = True
-            self.BtnGraph.setText("StopGraph")
-            self.graph_form = terminal_graph.MainWindow()
-
+    # def graph_clicked(self):
+    #     """
+    #     starts or stops showing graphs
+    #     :return:
+    #     """
+    #     if self.graph:
+    #         self.graph = False
+    #         self.BtnGraph.setText("ShowGraph")
+    #         self.graph_form.destroy()
+    #         # self.graph_form = terminal_graph.MainWindow()
+    #     else:
+    #         self.graph = True
+    #         self.BtnGraph.setText("StopGraph")
+    #         # self.graph_form = terminal_graph.MainWindow()
+#
     # test written
     def help_clicked(self):
         """
@@ -929,8 +945,13 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         send signal from var form
         :return:
         """
-        if self.text_settings.CRLF:
-            command += '\r\n'
+        # if self.text_settings.CRLF:
+        #    command += '\r\n'
+        if self.text_settings.slashr:
+            command += '\r'
+        if self.text_settings.slashn:
+            command += '\n'
+
         self.write_data(command, True, False)
 
     # test written
@@ -976,6 +997,26 @@ class OstrannaTerminal(QtWidgets.QMainWindow, terminal_design.Ui_MainWindow):
         """
         print(self.TxtIncrement.text().strip())
         self.BtnIncrement.setEnabled(self.TxtIncrement.text().strip() != "")
+
+    # no tests
+    def cb_slashr_changed(self):
+        """
+        append or not append \r
+        :return:
+        """
+        self.text_settings.slashr = self.CBSlashR.isChecked()
+        self.settings_form = settings.Settings(self.port_settings, self.text_settings, self.colors, self.current_font)
+        self.settings_form.save_settings()
+
+    # no tests
+    def cb_slashn_changed(self):
+        """
+        append or not append \n
+        :return:
+        """
+        self.text_settings.slashn = self.CBSlashN.isChecked()
+        self.settings_form = settings.Settings(self.port_settings, self.text_settings, self.colors, self.current_font)
+        self.settings_form.save_settings()
 
     # no tests
     def closeEvent(self, event):

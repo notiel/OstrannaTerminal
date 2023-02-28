@@ -80,6 +80,8 @@ class ComSettings:
 @dataclass
 class TextSettings:
     CRLF: bool = True
+    slashr: bool = True
+    slashn: bool = True
     bytecodes: bool = True
     scroll: bool = True
     timestamps: bool = False
