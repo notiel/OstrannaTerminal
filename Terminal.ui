@@ -655,6 +655,35 @@ p, li { white-space: pre-wrap; }
        <string>Transmit Command</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_8">
+       <item row="1" column="0" colspan="4">
+        <widget class="QLineEdit" name="TxtTransmit">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="5">
+        <widget class="QSpinBox" name="SpinRepeat2">
+         <property name="maximumSize">
+          <size>
+           <width>65</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="minimum">
+          <number>10</number>
+         </property>
+         <property name="maximum">
+          <number>10000</number>
+         </property>
+         <property name="value">
+          <number>1000</number>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="5" colspan="3">
         <widget class="QPushButton" name="BtnIncrement">
          <property name="enabled">
@@ -665,39 +694,42 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="2" column="6">
-        <widget class="QLabel" name="LblMs2">
+       <item row="0" column="4">
+        <widget class="QLineEdit" name="TxtIncrement">
          <property name="maximumSize">
           <size>
-           <width>25</width>
+           <width>120</width>
            <height>16777215</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>ms</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="4">
-        <widget class="QLineEdit" name="TxtTransmit2">
-         <property name="minimumSize">
-          <size>
-           <width>500</width>
-           <height>0</height>
           </size>
          </property>
         </widget>
        </item>
-       <item row="1" column="6">
-        <widget class="QLabel" name="LblMs1">
+       <item row="1" column="4">
+        <widget class="QCheckBox" name="CBRepeat">
          <property name="maximumSize">
           <size>
-           <width>25</width>
+           <width>80</width>
            <height>16777215</height>
           </size>
          </property>
          <property name="text">
-          <string>ms</string>
+          <string>Repeat </string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2" alignment="Qt::AlignRight">
+        <widget class="QCheckBox" name="CBSlashN">
+         <property name="maximumSize">
+          <size>
+           <width>110</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Append \n</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -733,16 +765,6 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QCheckBox" name="CBClear">
-         <property name="text">
-          <string>Clear aft&amp;er sending</string>
-         </property>
-         <property name="checked">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="5">
         <widget class="QSpinBox" name="SpinRepeat">
          <property name="maximumSize">
@@ -762,68 +784,16 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="4">
-        <widget class="QLineEdit" name="TxtTransmit">
-         <property name="minimumSize">
-          <size>
-           <width>500</width>
-           <height>0</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="5">
-        <widget class="QSpinBox" name="SpinRepeat2">
+       <item row="2" column="6">
+        <widget class="QLabel" name="LblMs2">
          <property name="maximumSize">
           <size>
-           <width>65</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="minimum">
-          <number>10</number>
-         </property>
-         <property name="maximum">
-          <number>10000</number>
-         </property>
-         <property name="value">
-          <number>1000</number>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="4">
-        <widget class="QCheckBox" name="CBRepeat2">
-         <property name="maximumSize">
-          <size>
-           <width>80</width>
+           <width>25</width>
            <height>16777215</height>
           </size>
          </property>
          <property name="text">
-          <string>Repeat</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="4">
-        <widget class="QLineEdit" name="TxtIncrement">
-         <property name="maximumSize">
-          <size>
-           <width>120</width>
-           <height>16777215</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="4">
-        <widget class="QCheckBox" name="CBRepeat">
-         <property name="maximumSize">
-          <size>
-           <width>80</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Repeat </string>
+          <string>ms</string>
          </property>
         </widget>
        </item>
@@ -843,19 +813,49 @@ p, li { white-space: pre-wrap; }
          </property>
         </widget>
        </item>
-       <item row="0" column="2" alignment="Qt::AlignRight">
-        <widget class="QCheckBox" name="CBSlashN">
+       <item row="1" column="6">
+        <widget class="QLabel" name="LblMs1">
          <property name="maximumSize">
           <size>
-           <width>110</width>
+           <width>25</width>
            <height>16777215</height>
           </size>
          </property>
          <property name="text">
-          <string>Append \n</string>
+          <string>ms</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="CBClear">
+         <property name="text">
+          <string>Clear aft&amp;er sending</string>
          </property>
          <property name="checked">
-          <bool>true</bool>
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
+        <widget class="QCheckBox" name="CBRepeat2">
+         <property name="maximumSize">
+          <size>
+           <width>80</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Repeat</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="4">
+        <widget class="QLineEdit" name="TxtTransmit2">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
          </property>
         </widget>
        </item>
